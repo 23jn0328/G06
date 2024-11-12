@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<p id="id1">吾輩は猫である</p>
+<input type="button" value="犬に変更" onclick="change()">
+<input type="button" value="猫に戻す" onclick="change1()">
+
+<script>
+    function change(){
+        document.getElementById('id1').innerHTML="吾輩は<strong>犬</strong>である"
+        
+
+    }
+    function change1(){
+        document.getElementById('id1').innerHTML="吾輩は<strong>猫</strong>である"
+    }
+</script>
