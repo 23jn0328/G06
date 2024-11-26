@@ -122,3 +122,17 @@ hr {
     margin: 20px 0;
     border: 1px solid #eee;
 }
+#main-container{
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    border: 1px solid #ccc;
+}

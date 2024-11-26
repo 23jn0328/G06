@@ -72,3 +72,14 @@ input[type="text"], input[type="number"], select, .checkbox-group {
 .button-back {
     background-color: #7a7a7a;
 }
+#main-container{
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
