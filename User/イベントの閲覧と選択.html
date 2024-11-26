@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,15 +7,15 @@
     <link rel="stylesheet" href="イベントの閲覧と選択.css">
 </head>
 <body>
-    <div id="main-container">
     <div class="container">
+        <!-- タイトル -->
+        <h1 class="main-title">WARIPAY</h1>
         <!-- イベント作成ボタン -->
-        <button class="gradient-btn" onclick="goToCreateEvent()" type="button">イベント作成</button>
+        <button class="gradient-btn" onclick="goToCreateEvent()">イベント作成</button>
 
-        <h1>イベント一覧</h1>
+        <!-- イベントリスト表示 -->
         <div id="eventsContainer"></div>
     </div>
-    
 
     <script>
         function goToCreateEvent() {
@@ -123,6 +123,5 @@
 
         window.onload = displayEvents;
     </script>
-    </div>
 </body>
 </html>
