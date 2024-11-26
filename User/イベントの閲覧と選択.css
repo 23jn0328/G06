@@ -124,3 +124,19 @@ h1 {
       background-color: #b0b0b0; /* スマホ画面の背景をさらに濃いグレーに設定 */
   }
 }
+
+#main-container{
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  height:auto;
+  background-color: white;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  border: 1px solid #ccc;
+  background-color: #d8f4fc;
+}
