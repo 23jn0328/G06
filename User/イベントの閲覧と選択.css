@@ -19,12 +19,12 @@ body {
   background-color: #b0b0b0;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 /* タイトルのスタイル */
 .main-title {
-  font-size: 32px;
+  font-size: 50px;
   font-weight: bold;
   margin-bottom: 20px;
   color: white;
@@ -37,7 +37,7 @@ body {
   max-width: 300px;
   margin: 0 auto 20px;
   padding: 15px;
-  background-color: #555555;
+  background-color: #607d8b;
   color: white;
   font-size: 16px;
   font-weight: bold;
@@ -49,7 +49,7 @@ body {
 
 /* ボタンホバー時のスタイルを変更しない */
 .gradient-btn:hover {
-  background-color: #555555; /* ホバー時も色を変更しない */
+  background-color: #767f8d; /* ホバー時も色を変更しない */
 }
 
 /* イベントアイテムのスタイル */
