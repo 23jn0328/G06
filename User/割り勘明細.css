@@ -1,0 +1,142 @@
+/* 基本スタイル */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff; /* 背景色を白に設定 */
+    color: #333; /* テキスト色をダークグレーに設定 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#main-container {
+    width: 90%;
+    max-width: 500px;
+    background-color: #f9f9f9; /* 明るいグレー */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+h1 {
+    text-align: center;
+    color: #444; /* タイトルの色 */
+}
+
+/* スクロール可能な明細エリア */
+#scrollable-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+/* アニメーションの設定 */
+.payment-card {
+    background-color: #fff; /* カードの背景色を白に設定 */
+    border: 1px solid #ddd; /* 境界線を薄いグレーに */
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideIn 0.6s ease forwards;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ホバー時の浮き出し効果 */
+.payment-card:hover {
+    transform: translateX(0) scale(1.05);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* 影を強調 */
+}
+
+/* アニメーションの遅延を追加 */
+.payment-card:nth-child(1) { animation-delay: 0.1s; }
+.payment-card:nth-child(2) { animation-delay: 0.2s; }
+.payment-card:nth-child(3) { animation-delay: 0.3s; }
+.payment-card:nth-child(4) { animation-delay: 0.4s; }
+.payment-card:nth-child(5) { animation-delay: 0.5s; }
+
+/* スワイプインアニメーションの定義 */
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 支払者と支払先の情報 */
+.payment-card h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #0056b3; /* ダークブルーでアクセント */
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 出来事の項目 */
+.event-item {
+    margin-top: 10px;
+    background-color: #f0f0f0; /* 明るいグレー */
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 出来事名のスタイル調整 */
+.event-item .event-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 出来事ごとの支払金額 */
+.event-item .event-amount {
+    font-size: 16px;
+    color: #444; /* ダークグレー */
+    text-align: right;
+}
+
+/* 日時のスタイル */
+.event-item .event-date {
+    font-size: 12px;
+    color: #666; /* ライトグレー */
+    text-align: right;
+    margin-top: 5px;
+}
+
+/* 支払総額のスタイル */
+.payment-amount {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0056b3; /* ダークブルーでアクセント */
+    text-align: right;
+}
+
+/* PayPayリンクボタンと戻るリンクの配置 */
+#link-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+#paypay-link img {
+    width: 100px;
+    height: auto;
+}
+
+/* 戻るリンクのスタイル */
+#return-link {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: bold;
+}

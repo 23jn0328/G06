@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イベントの閲覧と選択</title>
+    <link rel="stylesheet" href="イベントの閲覧と選択.css">
+</head>
+<body>
+    <div class="container">
+        <!-- イベント作成ボタン -->
+        <button class="gradient-btn" onclick="goToCreateEvent()" type="button">イベント作成</button>
+
+        <h1>イベント一覧</h1>
+        <div id="eventsContainer"></div>
+    </div>
+
+    <script>
+        function goToCreateEvent() {
+            window.location.href = "イベント作成.html";
+        }
+
+        function displayEvents() {
+            const eventsContainer = document.getElementById("eventsContainer");
+            const events = JSON.parse(localStorage.getItem("events")) || [];
+
+            if (events.length === 0) {
+                eventsContainer.innerHTML = "<p>まだイベントは作成されていません。</p>";
+                return;
+            }
+
+            events.forEach((event, index) => {
+                const eventElement = document.createElement("div");
+                eventElement.className = "event-item";
+                eventElement.addEventListener("click", () => goToEventManager(index));
+
+                const eventName = document.createElement("div");
+                eventName.className = "event-name";
+                eventName.textContent = event.eventName;
+
+                const eventDate = document.createElement("div");
+                eventDate.className = "event-date";
+                eventDate.textContent = `開始日時: ${event.eventDate}`;
+
+                const memberList = document.createElement("div");
+                memberList.className = "member-list";
+                event.members.forEach(member => {
+                    const memberItem = document.createElement("span");
+                    memberItem.className = "member-item";
+                    memberItem.textContent = member;
+                    memberList.appendChild(memberItem);
+                });
+
+                const actionButtons = document.createElement("div");
+                actionButtons.className = "action-buttons";
+
+                const shareButton = createShareButton(event);
+                const editButton = createEditButton(index);
+
+                actionButtons.appendChild(shareButton);
+                actionButtons.appendChild(editButton);
+
+                eventElement.appendChild(eventName);
+                eventElement.appendChild(eventDate);
+                eventElement.appendChild(memberList);
+                eventElement.appendChild(actionButtons);
+                eventsContainer.appendChild(eventElement);
+            });
+        }
+
+        function createShareButton(event) {
+            const shareButton = document.createElement("button");
+            shareButton.className = "button";
+            shareButton.textContent = "共有";
+
+            shareButton.onclick = async function (e) {
+                e.stopPropagation();
+
+                const shareText = `イベント名: ${event.eventName}\n開始日時: ${event.eventDate}\nメンバー: ${event.members.join(", ")}`;
+                const shareUrl = window.location.href;
+
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: event.eventName,
+                            text: shareText,
+                            url: shareUrl
+                        });
+                        console.log('シェア成功！');
+                    } catch (error) {
+                        console.error('シェア失敗', error);
+                    }
+                } else {
+                    alert("お使いのブラウザでは共有機能がサポートされていません。");
+                }
+            };
+
+            return shareButton;
+        }
+
+        function createEditButton(index) {
+            const editButton = document.createElement("button");
+            editButton.className = "button";
+            editButton.textContent = "編集";
+            editButton.onclick = function (e) {
+                e.stopPropagation();
+                goToEventManagerEdit(index);
+            };
+            return editButton;
+        }
+
+        function goToEventManager(index) {
+            localStorage.setItem("editEventIndex", index);
+            window.location.href = "出来事作成.html";
+        }
+
+        function goToEventManagerEdit(index) {
+            localStorage.setItem("editEventIndex", index);
+            window.location.href = "イベント管理.html";
+        }
+
+        window.onload = displayEvents;
+    </script>
+</body>
+</html>

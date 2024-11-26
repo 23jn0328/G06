@@ -1,0 +1,85 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 95%;
+    max-width: 500px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 22px;
+    color: #444;
+}
+
+.transaction-list {
+    margin-bottom: 30px;
+}
+
+.transaction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 2px solid #ddd;
+}
+
+.transaction:last-child {
+    border-bottom: none;
+}
+
+.transaction span {
+    font-size: 18px;
+    flex: 2;
+}
+
+.transaction .amount {
+    flex: 1;
+    text-align: right;
+    font-size: 20px;
+    font-weight: bold;
+    color: #4caf50;
+}
+
+.transaction input[type="checkbox"] {
+    flex: 0;
+    width: 25px;
+    height: 25px;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.end-button {
+    width: 100%;
+    padding: 20px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #aaa;
+    border: none;
+    border-radius: 10px;
+    cursor: not-allowed;
+    transition: background-color 0.3s;
+}
+
+.end-button.enabled {
+    background-color: #4caf50;
+    cursor: pointer;
+}
+
+.end-button.enabled:hover {
+    background-color: #45a049;
+}

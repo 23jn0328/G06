@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>わりぺイ</title>
+    <link rel="stylesheet" href="出来事の閲覧と選択style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>わりぺイ</h1>
+        <h2>例：旅行</h2>
+
+        <div class="names">Aさん・Bさん・Cさん</div>
+        <button class="event-button" id="add-event-button">出来事の追加</button>
+
+        <div class="expense-item">
+            <h3>タクシー代</h3>
+            <p>Aさんが立て替え</p>
+            <div class="expense-buttons">
+                <button>Aさん</button>
+                <button>Bさん</button>
+                <button>Cさん</button>
+                <button class="management-button">🖊</button>
+            </div>
+            <div class="amount">
+                <span>￥6000</span>
+            </div>
+        </div>
+
+        <div class="expense-item">
+            <h3>昼飯代</h3>
+            <p>Bさんが立て替え</p>
+            <div class="expense-buttons">
+                <button>Aさん</button>
+                <button>Cさん</button>
+                <button class="management-button">🖊</button>
+            </div>
+            <div class="amount">
+                <span>￥6000</span>
+            </div>
+        </div>
+
+        <button class="calculate-button" id="total-button">割り勘総額</button>
+        <button class="end-button" id="event-End">イベント終了</button>
+    </div>
+
+    <script>
+        document.getElementById('add-event-button').addEventListener('click', function () {
+            window.location.href = '出来事作成.html';
+        });
+
+        document.querySelectorAll('.management-button').forEach(function (button) {
+            button.addEventListener('click', function () {
+                window.location.href = '出来事管理.html';
+            });
+        });
+        document.getElementById('event-End').addEventListener('click', function () {
+            window.location.href = 'イベント終了.html';
+        });
+        document.getElementById('total-button').addEventListener('click', function () {
+            window.location.href = '割り勘総額.html';
+        });
+    </script>
+</body>
+</html>
