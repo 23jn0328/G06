@@ -1,164 +1,109 @@
+/* ページ全体の背景色を濃いめのグレーに変更 */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #d3d3d3; /* 背景色を少し濃いめのグレーに設定 */
+  color: #333333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  flex-direction: column;
 }
 
+/* コンテナスタイル */
 .container {
-    width: 90%;
-    max-width: 450px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    color: #333;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    border: 1px solid #ccc;
-    background-color: #d8f4fc;
+  text-align: center;
+  width: 50%;
 }
 
-h1 {
-    font-size: 24px;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+/* タイトルのスタイル */
+.main-title {
+  font-size: 48px; /* タイトルを大きくする */
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 30px; /* ボタンとの余白を調整 */
 }
 
-/* 通常時の文字色を黒に設定 */
+/* イベント作成ボタンのスタイル */
 .gradient-btn {
-    color: black;
-  }
-  
-  /* ホバー時に文字色を白に変更 */
-  .gradient-btn:hover {
-    color: white;
-  }
-
-  /* buttonタグのリセットCSS */
-button.gradient-btn {
-    border: none;
-    appearance: none;
-    padding: 0;
-    border: 3px solid #bce2e8;
-  }
-  
-  /* ボタン本体の装飾 */
-  .gradient-btn {
-    position: relative; /* static以外を指定 */
-    z-index: 0; /* グラデーションよりも上に配置 */
-    display: inline-block; /* inline以外にする */
-    width: 200px; /* 横幅 */
-    height: 60px; /* 縦幅 */
-    line-height: 60px; /* 行の高さ(heightと同じにする) */
-    background: transparent; /* 背景を透明にする */
-    border-radius: 5px; /* 角の丸み */
-    overflow: hidden; /* はみ出した部分を非表示(角丸を付ける場合は必須) */
-    cursor: pointer; /* カーソルをポインターにする */
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    color: black; /* 通常時の文字色を黒に設定 */
-  }
-  
-  /* ::before, ::afterで2種類のグラデーションを用意 */
-.gradient-btn::before,
-.gradient-btn::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  color:white;
+  border: none;
+  appearance: none;
+  display: inline-block;
+  width: 250px; /* ボタンの幅を広く設定 */
+  height: 70px; /* ボタンの高さ */
+  line-height: 70px; /* ボタンの高さと同じにする */
+  background-color: #555555; /* 単色の濃いグレー */
+  border-radius: 10px; /* 角を少し丸くする */
+  font-size: 18px; /* フォントサイズを大きくする */
+  font-weight: bold;
+  text-align: center;
+  color: white; /* 文字色を白に設定 */
+  cursor: pointer; /* ポインターを表示 */
+  margin: 20px auto; /* ボタンを中央に配置 */
 }
 
-/* グラデーション1 */
-.gradient-btn::before {
-  transition: all 0.6s; /* アニメーション実行時間 */
-  z-index: -1;
-  background: linear-gradient(135deg, white 0%, white 100%);
-}
-
-/* グラデーション2 */
-.gradient-btn::after {
-  z-index: -2;
-  background: linear-gradient(135deg, #a5e5f7 0%, #54baf5 100%);
-}
-
-/* ホバー時にグラデーション1を透明にする */
-.gradient-btn:hover::before {
-  opacity: 0;
-}
-
-/* ホバー時に文字色を白に変更 */
+/* ボタンホバー時のスタイルを変更しない */
 .gradient-btn:hover {
-  color: white;
+  background-color: #555555; /* ホバー時も色を変更しない */
 }
 
+/* イベントアイテムのスタイル */
 .event-item {
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    position: relative;
-    cursor: pointer;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
 }
 
 .event-item:hover {
-    background-color: #f1f1f1;
-    
+  background-color: #f1f1f1;
 }
 
 .event-name {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
 }
 
 .event-date {
-    font-size: 14px;
-    color: #555;
+  font-size: 14px;
+  color: #555;
 }
 
 .member-list {
-    margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .member-item {
-    background-color: #a8a3a3;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 20px;
-    margin: 5px;
+  background-color: #a8a3a3;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  margin: 5px;
 }
 
 .action-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .button {
-    padding: 8px 12px;
-    font-size: 14px;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    background-color: #333333;
-    cursor: pointer;
-    z-index: 10; /* ボタンを最前面に配置 */
-    
+  padding: 8px 12px;
+  font-size: 14px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  background-color: #333333;
+  cursor: pointer;
 }
 
 .button:hover {
-    background-color: #c09544;
+  background-color: #c09544;
 }
