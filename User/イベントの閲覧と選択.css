@@ -140,3 +140,7 @@ h1 {
   border: 1px solid #ccc;
   background-color: #d8f4fc;
 }
+/* メンバーの「×」を非表示にする */
+.member-item::after { 
+  content: none;  /* 疑似要素で「×」を消す */
+}

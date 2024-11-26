@@ -46,12 +46,17 @@
 
                 const memberList = document.createElement("div");
                 memberList.className = "member-list";
-                event.members.forEach(member => {
-                    const memberItem = document.createElement("span");
-                    memberItem.className = "member-item";
-                    memberItem.textContent = member;
+                // メンバー名に「×」を付けないように修正
+                 event.members.forEach(member => {
+                     const memberItem = document.createElement("span");
+                     memberItem.className = "member-item";
+                        
+                    // 元の「×」を表示させない
+                    memberItem.textContent = member.replace('×', '').trim(); 
+                        
                     memberList.appendChild(memberItem);
                 });
+
 
                 const actionButtons = document.createElement("div");
                 actionButtons.className = "action-buttons";
