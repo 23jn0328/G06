@@ -56,4 +56,11 @@ tbody tr:nth-child(even) {
     font-size: 14px;
     border-radius: 4px;
     cursor: pointer;
+    
+}
+.あああ{
+    display: flex;
+}
+.managerID{
+    margin-right: 30px;
 }
