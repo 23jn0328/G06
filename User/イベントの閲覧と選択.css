@@ -1,46 +1,50 @@
 /* ページ全体の背景色を濃いめのグレーに変更 */
 body {
   font-family: Arial, sans-serif;
-  background-color: #d3d3d3; /* 背景色を少し濃いめのグレーに設定 */
+  background-color: #ffffff; /* PC画面の背景を白に */
   color: #333333;
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
+  align-items: flex-start;
   margin: 0;
-  flex-direction: column;
+  padding: 20px 0;
+  height: 100%;
+  width: 100%;
 }
 
-/* コンテナスタイル */
+/* コンテナ全体 */
 .container {
+  width: 100%; /* 幅をデバイス幅に合わせる */
+  max-width: 550px; /* 最大幅をスマホサイズに固定 */
+  background-color: #b0b0b0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 50%;
 }
-
 /* タイトルのスタイル */
 .main-title {
-  font-size: 48px; /* タイトルを大きくする */
+  font-size: 32px;
   font-weight: bold;
-  color: #333333;
-  margin-bottom: 30px; /* ボタンとの余白を調整 */
+  margin-bottom: 20px;
+  color: white;
 }
 
 /* イベント作成ボタンのスタイル */
 .gradient-btn {
-  border: none;
-  appearance: none;
-  display: inline-block;
-  width: 250px; /* ボタンの幅を広く設定 */
-  height: 70px; /* ボタンの高さ */
-  line-height: 70px; /* ボタンの高さと同じにする */
-  background-color: #555555; /* 単色の濃いグレー */
-  border-radius: 10px; /* 角を少し丸くする */
-  font-size: 18px; /* フォントサイズを大きくする */
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto 20px;
+  padding: 15px;
+  background-color: #555555;
+  color: white;
+  font-size: 16px;
   font-weight: bold;
-  text-align: center;
-  color: white; /* 文字色を白に設定 */
-  cursor: pointer; /* ポインターを表示 */
-  margin: 20px auto; /* ボタンを中央に配置 */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* ボタンに影を追加 */
 }
 
 /* ボタンホバー時のスタイルを変更しない */
@@ -54,9 +58,9 @@ body {
   margin-bottom: 15px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  position: relative;
-  cursor: pointer;
+  border-radius: 15px; /* 丸みを増加 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* アイテムに影を追加 */
+  text-align: left; /* 左寄せに変更 */
 }
 
 .event-item:hover {
@@ -64,11 +68,17 @@ body {
 }
 
 .event-name {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   color: #333;
+  margin-bottom: 5px; /* 下に少し余白を追加 */
 }
-
+h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: white; /* 見出し文字色を白に */
+}
 .event-date {
   font-size: 14px;
   color: #555;
@@ -78,6 +88,7 @@ body {
   margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
+  gap: 5px;
 }
 
 .member-item {
@@ -85,25 +96,31 @@ body {
   color: white;
   padding: 5px 10px;
   border-radius: 20px;
-  margin: 5px;
+  font-size: 12px;
 }
 
 .action-buttons {
+  margin-top: 15px;
   display: flex;
+  justify-content: flex-end;
   gap: 10px;
-  margin-top: 10px;
 }
 
 .button {
   padding: 8px 12px;
   font-size: 14px;
   color: white;
+  background-color: #555;
   border: none;
   border-radius: 5px;
-  background-color: #333333;
   cursor: pointer;
 }
 
 .button:hover {
-  background-color: #c09544;
+  background-color: #333;
+}
+@media (max-width: 480px) {
+  body {
+      background-color: #b0b0b0; /* スマホ画面の背景をさらに濃いグレーに設定 */
+  }
 }
