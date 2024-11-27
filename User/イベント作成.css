@@ -9,6 +9,14 @@ body {
     margin: 0;
 }
 
+.header {
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+    color: #ffffff;
+}
+
 .container {
     width: 90%;
     max-width: 450px;
@@ -57,11 +65,11 @@ button.button {
 }
 
 .button-add {
-    background-color: #d4a254;
+    background-color: #555;
 }
 
 .button-create {
-    background-color: #4CAF50;
+    background-color: #607d8b;
 }
 
 .button-back {
@@ -76,7 +84,7 @@ button.button {
 
 .member-input-containner button {
     width: 30%;
-    background-color: #d4a254;
+    background-color: #555;
     color: white;
     cursor: pointer;
     padding: 10px;
@@ -90,7 +98,7 @@ button.button {
 }
 
 .member-item {
-    background-color: #d4a254;
+    background-color: #555;
     color: white;
     padding: 5px 10px;
     border-radius: 20px;
@@ -121,4 +129,18 @@ button.button {
 hr {
     margin: 20px 0;
     border: 1px solid #eee;
+}
+#main-container{
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    background-color: #b0b0b0;;
+    border-radius: 10px;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    border: 1px solid #ccc;
 }

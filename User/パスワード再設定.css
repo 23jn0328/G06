@@ -44,3 +44,15 @@ body {
 .container button:hover {
     background-color: #0056b3;
 }
+#main-container{
+    /*ここから*/
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    text-align: center;
+    /*ここまで*/
+}

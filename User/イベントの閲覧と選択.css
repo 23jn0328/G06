@@ -14,17 +14,17 @@ body {
 
 /* コンテナ全体 */
 .container {
-  width: 100%; /* 幅をデバイス幅に合わせる */
-  max-width: 550px; /* 最大幅をスマホサイズに固定 */
+  width: 90%; /* 幅をデバイス幅に合わせる */
+  max-width: 500px; /* 最大幅をスマホサイズに固定 */
   background-color: #b0b0b0;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 /* タイトルのスタイル */
 .main-title {
-  font-size: 32px;
+  font-size: 50px;
   font-weight: bold;
   margin-bottom: 20px;
   color: white;
@@ -34,10 +34,10 @@ body {
 .gradient-btn {
   display: block;
   width: 100%;
-  max-width: 100%;
+  max-width: 300px;
   margin: 0 auto 20px;
   padding: 15px;
-  background-color: #555555;
+  background-color: #607d8b;
   color: white;
   font-size: 16px;
   font-weight: bold;
@@ -49,7 +49,7 @@ body {
 
 /* ボタンホバー時のスタイルを変更しない */
 .gradient-btn:hover {
-  background-color: #555555; /* ホバー時も色を変更しない */
+  background-color: #767f8d; /* ホバー時も色を変更しない */
 }
 
 /* イベントアイテムのスタイル */
@@ -123,4 +123,24 @@ h1 {
   body {
       background-color: #b0b0b0; /* スマホ画面の背景をさらに濃いグレーに設定 */
   }
+}
+
+#main-container{
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  height:auto;
+  background-color: white;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  border: 1px solid #ccc;
+  background-color: #d8f4fc;
+}
+/* メンバーの「×」を非表示にする */
+.member-item::after { 
+  content: none;  /* 疑似要素で「×」を消す */
 }

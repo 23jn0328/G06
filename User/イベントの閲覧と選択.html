@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +11,9 @@
         <!-- タイトル -->
         <h1 class="main-title">WARIPAY</h1>
         <!-- イベント作成ボタン -->
-        <button class="gradient-btn" onclick="goToCreateEvent()" type="button">イベント作成</button>
+        <button class="gradient-btn" onclick="goToCreateEvent()">イベント作成</button>
 
-        <h1>イベント一覧</h1>
+        <!-- イベントリスト表示 -->
         <div id="eventsContainer"></div>
     </div>
 
@@ -46,12 +46,17 @@
 
                 const memberList = document.createElement("div");
                 memberList.className = "member-list";
-                event.members.forEach(member => {
-                    const memberItem = document.createElement("span");
-                    memberItem.className = "member-item";
-                    memberItem.textContent = member;
+                // メンバー名に「×」を付けないように修正
+                 event.members.forEach(member => {
+                     const memberItem = document.createElement("span");
+                     memberItem.className = "member-item";
+                        
+                    // 元の「×」を表示させない
+                    memberItem.textContent = member.replace('×', '').trim(); 
+                        
                     memberList.appendChild(memberItem);
                 });
+
 
                 const actionButtons = document.createElement("div");
                 actionButtons.className = "action-buttons";
