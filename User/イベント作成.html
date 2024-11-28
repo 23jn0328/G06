@@ -1,37 +1,84 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>イベント作成</title>
-    <link rel="stylesheet" href="style.css">
+    <title>わりペイ</title>
+    <link rel="stylesheet" href="イベント作成.css">
 </head>
 <body>
-    <div class="main-container">
-        <div class="header">WARIPAY</div>
+    <div id="main-container">
+        <div class="header">
+            WARIPAY
+        </div>
+    <div class="container">
+        <label>イベント作成</label><hr><br>
 
-        <div class="content">
-            <h1>イベント作成</h1>
-            <label for="event-name">イベント名</label><br>
-            <input type="text" id="event-name" placeholder="イベント名を入力"><br><br>
+        <label>イベント名</label><br>
+        <input type="text" name="txtEventName" placeholder="イベント名を入力" id="event-name"><br><br>
 
-            <label for="event-date">イベント開始日時</label><br>
-            <input type="date" id="event-date"><br><br>
+        <label>イベント開始日時</label><br>
+        <input type="date" name="txtEventDate" id="event-date"><br><br>
 
-            <label for="member-name">メンバー名</label><br>
-            <div class="member-input-container">
-                <input type="text" id="member-name" placeholder="メンバー名を入力">
-                <button class="button" onclick="addMember()">追加</button>
-            </div>
-            <div id="member-list" class="member-list"></div>
+        <label>メンバー名</label><br>
+        <div class="member-input-containner">
+        <input type="text" placeholder="メンバー名を入力" id="memberName">
+        <button class="button" onclick="addMember()">追加</button>
+        </div>
+        <div class="member-list" id="memberList"></div>
 
-            <div class="action-buttons">
-                <button class="button" onclick="createEvent()">作成</button>
-                <button class="button" onclick="history.back()">戻る</button>
-            </div>
+        <div class="buttons">
+            <button class="button button-create" id="create-button">作成</button>
+            <button class="button button-back" onclick="history.back()">戻る</button>
         </div>
     </div>
+    </div>
+    <script>
+        // メンバーを追加する関数
+        function addMember() {
+            const memberNameInput = document.getElementById("memberName");
+            const memberList = document.getElementById("memberList");
 
-    <script src="script.js"></script>
+            if (memberNameInput.value.trim() !== "") {
+                const memberItem = document.createElement("span");
+                memberItem.className = "member-item";
+                memberItem.textContent = memberNameInput.value;
+
+                const removeBtn = document.createElement("span");
+                removeBtn.className = "remove-btn";
+                removeBtn.textContent = "×";
+                removeBtn.onclick = () => memberItem.remove();
+                memberItem.appendChild(removeBtn);
+
+                memberList.appendChild(memberItem);
+
+                memberNameInput.value = "";
+            }
+        }
+
+        // イベントを作成してlocalStorageに保存
+        document.getElementById("create-button").addEventListener('click', function() {
+            const eventName = document.getElementById("event-name").value;
+            const eventDate = document.getElementById("event-date").value;
+            const members = Array.from(document.getElementById("memberList").children).map(member => member.textContent);
+
+            if (eventName && eventDate && members.length > 0) {
+                const newEvent = {
+                    eventName: eventName,
+                    eventDate: eventDate,
+                    members: members
+                };
+
+                const events = JSON.parse(localStorage.getItem("events")) || [];
+                events.push(newEvent);
+                localStorage.setItem("events", JSON.stringify(events));
+
+                // 作成後、イベント一覧ページに遷移
+                window.location.href = 'イベントの閲覧と選択.html';
+            } else {
+                alert("すべてのフィールドを入力してください。");
+            }
+        });
+    </script>
 </body>
 </html>
