@@ -1,84 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>わりペイ</title>
+    <title>イベント作成 - WARIPAY</title>
     <link rel="stylesheet" href="イベント作成.css">
 </head>
 <body>
     <div id="main-container">
-        <div class="header">
-            WARIPAY
-        </div>
-    <div class="container">
-        <label>イベント作成</label><hr><br>
+        <div class="header">WARIPAY</div>
 
-        <label>イベント名</label><br>
-        <input type="text" name="txtEventName" placeholder="イベント名を入力" id="event-name"><br><br>
+        <div class="container">
+            <label>イベント作成</label>
+            <hr><br>
 
-        <label>イベント開始日時</label><br>
-        <input type="date" name="txtEventDate" id="event-date"><br><br>
+            <label for="event-name">イベント名</label><br>
+            <input type="text" id="event-name" placeholder="イベント名を入力"><br><br>
 
-        <label>メンバー名</label><br>
-        <div class="member-input-containner">
-        <input type="text" placeholder="メンバー名を入力" id="memberName">
-        <button class="button" onclick="addMember()">追加</button>
-        </div>
-        <div class="member-list" id="memberList"></div>
+            <label for="event-date">イベント開始日時</label><br>
+            <input type="date" id="event-date"><br><br>
 
-        <div class="buttons">
-            <button class="button button-create" id="create-button">作成</button>
-            <button class="button button-back" onclick="history.back()">戻る</button>
+            <label for="member-name">メンバー名</label><br>
+            <input type="text" id="member-name" placeholder="メンバー名を入力"><br><br>
+
+            <div class="buttons">
+                <button class="button button-create" onclick="navigateToList()">作成</button>
+                <button class="button button-back" onclick="history.back()">戻る</button>
+            </div>
         </div>
     </div>
-    </div>
+
+    <script>
+        // 作成ボタンの画面遷移
+        function navigateToList() {
+            window.location.href = "イベントの閲覧と選択.html";
+        }
+    </script>
+</body>
+</html>
+
     <script>
         // メンバーを追加する関数
-        function addMember() {
-            const memberNameInput = document.getElementById("memberName");
-            const memberList = document.getElementById("memberList");
+    //     function addMember() {
+    //         const memberNameInput = document.getElementById("memberName");
+    //         const memberList = document.getElementById("memberList");
 
-            if (memberNameInput.value.trim() !== "") {
-                const memberItem = document.createElement("span");
-                memberItem.className = "member-item";
-                memberItem.textContent = memberNameInput.value;
+    //         if (memberNameInput.value.trim() !== "") {
+    //             const memberItem = document.createElement("span");
+    //             memberItem.className = "member-item";
+    //             memberItem.textContent = memberNameInput.value;
 
-                const removeBtn = document.createElement("span");
-                removeBtn.className = "remove-btn";
-                removeBtn.textContent = "×";
-                removeBtn.onclick = () => memberItem.remove();
-                memberItem.appendChild(removeBtn);
+    //             const removeBtn = document.createElement("span");
+    //             removeBtn.className = "remove-btn";
+    //             removeBtn.textContent = "×";
+    //             removeBtn.onclick = () => memberItem.remove();
+    //             memberItem.appendChild(removeBtn);
 
-                memberList.appendChild(memberItem);
+    //             memberList.appendChild(memberItem);
 
-                memberNameInput.value = "";
-            }
-        }
+    //             memberNameInput.value = "";
+    //         }
+    //     }
 
-        // イベントを作成してlocalStorageに保存
-        document.getElementById("create-button").addEventListener('click', function() {
-            const eventName = document.getElementById("event-name").value;
-            const eventDate = document.getElementById("event-date").value;
-            const members = Array.from(document.getElementById("memberList").children).map(member => member.textContent);
+    //     // イベントを作成してlocalStorageに保存
+    //     document.getElementById("create-button").addEventListener('click', function() {
+    //         const eventName = document.getElementById("event-name").value;
+    //         const eventDate = document.getElementById("event-date").value;
+    //         const members = Array.from(document.getElementById("memberList").children).map(member => member.textContent);
 
-            if (eventName && eventDate && members.length > 0) {
-                const newEvent = {
-                    eventName: eventName,
-                    eventDate: eventDate,
-                    members: members
-                };
+    //         if (eventName && eventDate && members.length > 0) {
+    //             const newEvent = {
+    //                 eventName: eventName,
+    //                 eventDate: eventDate,
+    //                 members: members
+    //             };
 
-                const events = JSON.parse(localStorage.getItem("events")) || [];
-                events.push(newEvent);
-                localStorage.setItem("events", JSON.stringify(events));
+    //             const events = JSON.parse(localStorage.getItem("events")) || [];
+    //             events.push(newEvent);
+    //             localStorage.setItem("events", JSON.stringify(events));
 
-                // 作成後、イベント一覧ページに遷移
-                window.location.href = 'イベントの閲覧と選択.html';
-            } else {
-                alert("すべてのフィールドを入力してください。");
-            }
-        });
-    </script>
+    //             // 作成後、イベント一覧ページに遷移
+    //             window.location.href = 'イベントの閲覧と選択.html';
+    //         } else {
+    //             alert("すべてのフィールドを入力してください。");
+    //         }
+    //     });
+    // </script>
 </body>
 </html>
