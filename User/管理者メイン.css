@@ -1,0 +1,66 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    width: 60%;
+    max-width: 900px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* テーブルスタイル */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    background-color: #a3d178;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+tbody td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+/* 詳細ボタンのスタイル */
+.detail-btn {
+    background-color: #ffc107;
+    color: black;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    
+}
+.あああ{
+    display: flex;
+}
+.managerID{
+    margin-right: 30px;
+}
