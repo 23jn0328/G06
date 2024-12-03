@@ -1,87 +1,165 @@
+/* 全体設定 */
 body {
     font-family: Arial, sans-serif;
-    background-color: white;
-    color: black;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    min-height: 100vh;
 }
-.container {
-    width: 90%;
-    max-width: 400px;
-    background-color: #b0b0b0;
+
+/* メインコンテナ */
+#main-container {
+    width: 500px;
+    background-color: #d9d9d9;
+    border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
-h1 {
+
+/* アプリタイトル */
+.app-title {
     font-size: 50px;
     font-weight: bold;
-    margin-bottom: 20px;
-    color: rgb(94, 94, 94);
+    color: #ffffff;
+    margin-bottom: 10px;
 }
-h2 {
+
+/* イベント名 */
+.event-name {
+    font-size: 18px;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+/* メンバーリスト */
+.member-list {
     font-size: 16px;
-    color: gray;
+    color: #666666;
     margin-bottom: 20px;
 }
-.event-button, .calculate-button, .end-button {
+
+/* 出来事の追加ボタン */
+.add-event-button {
     width: 100%;
     padding: 10px;
-    margin-top: 10px;
     background-color: #607d8b;
-    color: white;
+    color: #ffffff;
+    font-size: 16px;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
 }
+
+.add-event-button:hover {
+    background-color: #607d8b;
+}
+
+/* 各費用項目 */
 .expense-item {
-    margin: 20px 0;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: left;
 }
-.expense-item h3 {
-    font-size: 16px;
-    margin: 0;
-    border-top: solid 1px;
-}
-.expense-item p {
-    margin: 5px 0;
-}
-.expense-buttons, .amount{
-    display: flex;
-    align-items: center;
-}
-.expense-buttons button {
-    margin: 0 5px;
-    padding: 5px 10px;
-    background-color: #b0b0b0;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-.amount {
-    justify-content: space-between;
+
+.expense-title {
     font-size: 18px;
-    font-weight: bold;
-    margin-top: 10px;
-    color:black ;
+    color: #333333;
+    margin: 0 0 5px 0;
 }
-.names {
-    text-align: left;
-    border-bottom: solid 1px;
+
+.payer {
+    font-size: 14px;
+    color: #666666;
+    margin: 0 0 10px 0;
 }
-#main-container{
-    width: 90%;
-    max-width: 500px;
-    padding: 20px;
-    border-radius: 8px;
+
+/* ボタングループ */
+.button-group {
     display: flex;
-    flex-direction: column;
-    height: auto;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.person-button {
+    flex: 1;
+    padding: 8px;
+    background-color: #f2f2f2;
+    color: #333333;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.person-button:hover {
+    background-color: #e6e6e6;
+}
+
+.edit-button {
+    width: 40px;
+    padding: 8px;
+    background-color: #cccccc;
+    color: #333333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: #b3b3b3;
+}
+
+/* 金額表示 */
+.amount {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+    text-align: right;
+}
+
+/* 割り勘総額ボタン */
+.summary-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #607d8b;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+}
+
+.summary-button:hover {
+    background-color: #607d8b;
+}
+
+/* イベント終了ボタン */
+.end-event-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #607d8b;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.end-event-button:hover {
+    background-color: #607d8b;
 }
