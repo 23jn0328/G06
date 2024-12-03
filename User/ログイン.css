@@ -22,7 +22,7 @@ body {
     .container hr {
     border: none;
     height: 1px;
-    background-color: #404040;
+    background-color: #2e2d2d;
     margin: 10px 0 20px;
     }
     .container input[type="text"],
