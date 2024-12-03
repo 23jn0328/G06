@@ -19,7 +19,12 @@ h2 {
 }
 
 .transaction-list {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 15px; /* 丸みを増加 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* アイテムに影を追加 */
     margin-bottom: 30px;
+    background-color: #ffffff;
 }
 
 .transaction {
