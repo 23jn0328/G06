@@ -9,35 +9,35 @@
 <body>
 <div id="main-container">
     <h1>WARIPAY</h1>
-    
-    <label for="event-name" class="bold-text">出来事名</label>
-    <input type="text" id="event-name" placeholder="出来事名を入力">
-    
-    <label for="event-date" class="bold-text">出来事日時</label>
-    <input type="date" id="event-date" placeholder="出来事日時を入力">
-    
-    <label for="member-selection" class="bold-text">メンバー選択</label>
-    <div class="checkbox-group" id="member-selection">
-        <label><input type="checkbox" name="member" value="A" onclick="calculatePerPerson()"> A</label>
-        <label><input type="checkbox" name="member" value="B" onclick="calculatePerPerson()"> B</label>
-        <label><input type="checkbox" name="member" value="C" onclick="calculatePerPerson()"> C</label>
-        <label><input type="checkbox" name="member" value="D" onclick="calculatePerPerson()"> D</label>
+    <div class="container">
+        <label for="event-name" class="bold-text">出来事名</label>
+        <input type="text" id="event-name" placeholder="出来事名を入力">
+        
+        <label for="event-date" class="bold-text">出来事日時</label>
+        <input type="date" id="event-date" placeholder="出来事日時を入力">
+        
+        <label for="member-selection" class="bold-text">メンバー選択</label>
+        <div class="checkbox-group" id="member-selection">
+            <label><input type="checkbox" name="member" value="A" onclick="calculatePerPerson()"> A</label>
+            <label><input type="checkbox" name="member" value="B" onclick="calculatePerPerson()"> B</label>
+            <label><input type="checkbox" name="member" value="C" onclick="calculatePerPerson()"> C</label>
+            <label><input type="checkbox" name="member" value="D" onclick="calculatePerPerson()"> D</label>
+        </div>
+        
+        <label for="payer" class="bold-text">払ったメンバー</label>
+        <select id="payer">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+        </select>
+        
+        <label for="amount" class="bold-text">金額</label>
+        <input type="number" id="amount" placeholder="¥" oninput="calculatePerPerson()">
+        
+        <label for="per-person" class="bold-text">一人当たり</label>
+        <input type="text" id="per-person" placeholder="¥" readonly>
     </div>
-    
-    <label for="payer" class="bold-text">払ったメンバー</label>
-    <select id="payer">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-    </select>
-    
-    <label for="amount" class="bold-text">金額</label>
-    <input type="number" id="amount" placeholder="¥" oninput="calculatePerPerson()">
-    
-    <label for="per-person" class="bold-text">一人当たり</label>
-    <input type="text" id="per-person" placeholder="¥" readonly>
-    
     <div class="buttons">
         <button class="button button-create" id="add-button">作成</button>
         <button class="button button-back" onclick="history.back()">戻る</button>
