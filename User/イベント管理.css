@@ -1,15 +1,15 @@
 body {
-    display: flex; /* 中央寄せにするための設定 */
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    font-family: Arial, sans-serif; /* フォント設定 */
-    background-color: #f4f4f4; /* 背景色 */
-    color: #333; /* テキスト色 */
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
     margin: 0;
     padding: 0;
-
 }
+
 .header {
     font-size: 50px;
     font-weight: bold;
@@ -17,6 +17,7 @@ body {
     margin: 20px 0;
     color: #ffffff;
 }
+
 .container {
     width: 90%;
     max-width: 450px;
@@ -76,14 +77,27 @@ button.button {
     background-color: #7a7a7a;
 }
 
+/* 余白を追加 */
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px; /* コンテナとボタンの間に余白を追加 */
+}
+
+/* 更新ボタンと戻るボタンを調整 */
+.button {
+    width: 48%;
+}
+
 .member-input-containner {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
 }
 
+/* 追加ボタンの幅を狭く調整 */
 .member-input-containner button {
-    width: 30%;
+    width: 25%; /* 横幅を少し狭く設定 */
     background-color: #555;
     color: white;
     cursor: pointer;
@@ -117,20 +131,11 @@ button.button {
     color: #f44336;
 }
 
-.buttons {
-    display: flex;
-    justify-content: space-between;
-}
-
-.button {
-    width: 48%;
-}
-
 hr {
     margin: 20px 0;
     border: 1px solid #eee;
 }
-/* 削除ボタンのスタイル */
+
 .button-delete {
     width: 100%;
     padding: 12px;
@@ -138,20 +143,19 @@ hr {
     color: white;
     border: none;
     border-radius: 5px;
-    background-color: #f44336; /* 赤色 */
+    background-color: #f44336;
     cursor: pointer;
-    margin-top: 20px; /* ボタンと他のボタンとの間にスペース */
+    margin-top: 20px;
 }
 
 .button-delete:hover {
-    background-color: #e53935; /* ホバー時に色が変わる */
+    background-color: #e53935;
 }
-
 #main-container{
     width: 90%;
     max-width: 500px;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 1px;
     display: flex;
     flex-direction: column;
     height: auto;
@@ -160,6 +164,6 @@ hr {
     color: #333;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: left;
-    border: 1px solid #535353;
+
 }
 
