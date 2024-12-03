@@ -10,20 +10,12 @@ body {
     min-height: 100vh;
 }
 
-.container {
-    width: 90%;
-    max-width: 445px;
-    padding: 30px;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
 
 h2 {
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 22px;
-    color: #444;
+    margin-bottom: 50px;
+    font-size: 50px;
+    color: #ffffff;
 }
 
 .transaction-list {
@@ -52,7 +44,7 @@ h2 {
     text-align: right;
     font-size: 20px;
     font-weight: bold;
-    color: #4caf50;
+    color: #000000;
 }
 
 .transaction input[type="checkbox"] {
@@ -67,8 +59,8 @@ h2 {
     width: 100%;
     padding: 20px;
     font-size: 18px;
-    color: #fff;
-    background-color: #aaa;
+    color: #000000;
+    background-color: #ffffff;
     border: none;
     border-radius: 10px;
     cursor: not-allowed;
@@ -76,12 +68,12 @@ h2 {
 }
 
 .end-button.enabled {
-    background-color: #4caf50;
+    background-color: #607d8b;
     cursor: pointer;
 }
 
 .end-button.enabled:hover {
-    background-color: #45a049;
+    background-color: #607d8b;
 }
 #main-container{
     width: 90%;
@@ -91,7 +83,7 @@ h2 {
     flex-direction: column;
     height: auto;
     padding: 30px;
-    background-color: #fff;
+    background-color: #b0b0b0;
     border-radius: 15px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     
