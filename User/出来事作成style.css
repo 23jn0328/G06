@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: white;
+    background-color: #ffffff;
     color: #333;
     display: flex;
     justify-content: center;
@@ -8,29 +8,25 @@ body {
     height: 100vh;
     margin: 0;
 }
-.container {
-    width: 90%;
-    max-width: 500px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    color: #333;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    border: 1px solid #ccc;
-}
+
 h1 {
-    font-size: 24px;
+    font-size: 50px;
     text-align: center;
     margin-bottom: 20px;
-    color: #333;
+    color: white;
 }
+
 label {
-    font-size: 14px;
+    font-size: 18px;
     margin-bottom: 5px;
     display: block;
     color: #333;
 }
+
+.bold-text {
+    font-weight: bold;
+}
+
 input[type="text"], input[type="number"], select, .checkbox-group {
     width: 100%;
     padding: 10px;
@@ -40,6 +36,7 @@ input[type="text"], input[type="number"], select, .checkbox-group {
     box-sizing: border-box;
     font-size: 14px;
 }
+
 .checkbox-group {
     height: 100px;
     overflow-y: auto;
@@ -47,16 +44,19 @@ input[type="text"], input[type="number"], select, .checkbox-group {
     color: #333;
     padding: 5px;
 }
+
 .checkbox-group label {
     display: block;
     margin: 5px;
     color: #333;
 }
+
 .buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
 }
+
 .button {
     width: 48%;
     padding: 10px;
@@ -66,15 +66,19 @@ input[type="text"], input[type="number"], select, .checkbox-group {
     border-radius: 5px;
     cursor: pointer;
 }
+
 .button-create {
-    background-color: #d4a254;
+    background-color: #767f8d;
 }
+
 .button-back {
     background-color: #7a7a7a;
 }
-#main-container{
+
+#main-container {
     width: 100%;
     max-width: 500px;
+    background-color: #b0b0b0;
     padding: 20px;
     border-radius: 8px;
     display: flex;
