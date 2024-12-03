@@ -1,32 +1,34 @@
- /* 基本スタイル */
- body {
+/* 基本スタイル */
+body {
     font-family: Arial, sans-serif;
-    background-color: #ffffff; /* 背景色を白に設定 */
-    color: #333333; /* テキスト色を濃いグレーに設定 */
+    background-color: #ffffff;
+    color: #333333;
     margin: 0;
     display: flex;
-    justify-content: flex-start; /* 上に詰める設定 */
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     height: 100vh;
-    overflow: hidden;
+
 }
 
 #main-container {
     width: 90%;
     max-width: 500px;
-    background-color: #f9f9f9; /* 明るいグレー */
+    background-color: #b0b0b0;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     height: 100%;
+    position: relative; /* 戻るボタンの位置調整のために追加 */
 }
 
 h1 {
+    font-size: 50px;
     text-align: center;
-    color: #333333; /* タイトルの色を濃いグレーに設定 */
+    color: #ffffff;
     margin-bottom: 20px;
 }
 
@@ -35,30 +37,28 @@ h1 {
     list-style: none;
     padding: 0;
     margin: 0;
-    width: 100%; /* リストの幅を調整 */
+    width: 100%;
     text-align: center;
+    flex-grow: 1; /* リストを中央に寄せるためのスペースを確保 */
 }
 
-/* メンバーごとの支払合計 */
 .member-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #e6e6e6; /* メンバー項目の背景色を淡いグレーに設定 */
+    background-color: #ffffff;
     margin-bottom: 10px;
     border-radius: 5px;
     opacity: 0;
-    transform: translateX(100%); /* 初期位置を右側に設定 */
+    transform: translateX(100%);
     animation: slideIn 0.6s ease forwards;
 }
 
-/* アニメーションの遅延を設定 */
 .member-item:nth-child(1) { animation-delay: 0.1s; }
 .member-item:nth-child(2) { animation-delay: 0.2s; }
 .member-item:nth-child(3) { animation-delay: 0.3s; }
 
-/* 右から左にスライドインするアニメーション */
 @keyframes slideIn {
     to {
         opacity: 1;
@@ -66,17 +66,30 @@ h1 {
     }
 }
 
-/* メンバー名のリンクスタイル */
 .member-item a {
-    color: #0066cc; /* リンク色を青に設定 */
+    color: #0066cc;
     text-decoration: none;
     font-weight: bold;
     font-size: 18px;
 }
 
-/* 支払合計の金額スタイル */
 .payment-amount {
     font-size: 18px;
-    color: #cc0000; /* 金額を濃い赤で表示 */
+    color: #000000;
     font-weight: bold;
+}
+
+/* 戻るボタンを右下に配置 */
+#return-link {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #607d8b;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 14px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
