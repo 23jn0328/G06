@@ -33,6 +33,26 @@
                 <div class="event-date">開始日時: 2024年2月1日</div>
             </div>
         </div>
+        <div class="event-list">
+            <div class="event-item" onclick="location.href='出来事の閲覧と選択.php'">
+                <div class="event-name">沖縄旅行</div>
+                <div class="event-date">開始日時: 2024年1月1日</div>
+            </div>
+            <div class="event-item" onclick="location.href='出来事の閲覧と選択.php'">
+                <div class="event-name">合宿</div>
+                <div class="event-date">開始日時: 2024年2月1日</div>
+            </div>
+        </div>
+        <div class="event-list">
+            <div class="event-item" onclick="location.href='出来事の閲覧と選択.php'">
+                <div class="event-name">沖縄旅行</div>
+                <div class="event-date">開始日時: 2024年1月1日</div>
+            </div>
+            <div class="event-item" onclick="location.href='出来事の閲覧と選択.php'">
+                <div class="event-name">合宿</div>
+                <div class="event-date">開始日時: 2024年2月1日</div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
