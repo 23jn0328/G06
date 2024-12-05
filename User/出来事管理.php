@@ -8,8 +8,13 @@
 </head>
 <body>
 <div id="main-container">
-
-    <h1>WARIPAY</h1>
+<header>
+                <div id="logo">
+                    <a href="イベントの閲覧と選択.php">
+                        <img src="img/image.png" alt="WARIPAYロゴ">
+                    </a>
+                </div>
+            </header>
     <div class="container">
         <label for="event-name">出来事名</label>
         <input type="text" id="event-name" placeholder="出来事名を入力">
@@ -69,7 +74,7 @@
         }
     }
     document.getElementById('create-button').addEventListener('click',function(){
-            window.location.href='出来事の閲覧と選択.html';
+            window.location.href='出来事の閲覧と選択.php';
         });
 </script>
 </div>

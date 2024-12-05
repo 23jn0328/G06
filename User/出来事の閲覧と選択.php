@@ -9,13 +9,19 @@
 <body>
     <div id="main-container">
             <!-- アプリタイトル -->
-            <h1 class="app-title">WARIPAY</h1>
+            <header>
+                <div id="logo">
+                    <a href="イベントの閲覧と選択.php">
+                        <img src="img/image.png" alt="WARIPAYロゴ">
+                    </a>
+                </div>
+            </header>
             <!-- イベント名 -->
             <h2 class="event-name">旅行</h2>
             <!-- メンバーリスト -->
             <div class="member-list">Aさん・Bさん・Cさん</div>
             <!-- 出来事の追加ボタン -->
-            <button class="add-event-button" onclick="location.href='出来事作成.html'">出来事の追加</button>
+            <button class="add-event-button" onclick="location.href='出来事作成.php'">出来事の追加</button>
             <!-- 各費用項目 -->
             <div class="expense-item">
                 <h3 class="expense-title">タクシー代</h3>
@@ -24,7 +30,7 @@
                     <button class="person-button">Aさん</button>
                     <button class="person-button">Bさん</button>
                     <button class="person-button">Cさん</button>
-                    <button class="edit-button" onclick="location.href='出来事管理.html'">🖊</button>
+                    <button class="edit-button" onclick="location.href='出来事管理.php'">🖊</button>
                 </div>
                 <div class="amount">￥6000</div>
             </div>
@@ -35,14 +41,14 @@
                 <div class="button-group">
                     <button class="person-button">Aさん</button>
                     <button class="person-button">Cさん</button>
-                    <button class="edit-button" onclick="location.href='出来事管理.html'">🖊</button>
+                    <button class="edit-button" onclick="location.href='出来事管理.php'">🖊</button>
                 </div>
                 <div class="amount">￥6000</div>
             </div>
         <!-- 割り勘総額ボタン -->
-        <button class="summary-button" onclick="location.href='割り勘総額.html'">割り勘総額</button>
+        <button class="summary-button" onclick="location.href='割り勘総額.php'">割り勘総額</button>
         <!-- イベント終了ボタン -->
-        <button class="end-event-button" onclick="location.href='イベント終了.html'">イベント終了</button>
+        <button class="end-event-button" onclick="location.href='イベント終了.php'">イベント終了</button>
     </div>
 </body>
 </html>

@@ -10,9 +10,13 @@
 
     <!-- メインコンテナ -->
     <div id="main-container">
-        <h1>WARIPAY</h1>
-            
-
+    <header>
+                <div id="logo">
+                    <a href="イベントの閲覧と選択.php">
+                        <img src="img/image.png" alt="WARIPAYロゴ">
+                    </a>
+                </div>
+            </header>
         <!-- スクロール可能な明細エリア -->
         <div id="scrollable-content">
             <!-- メンバーごとの支払情報 -->
@@ -88,7 +92,7 @@
                 <img src="https://image.paypay.ne.jp/page/notice-merchant/entry/20181016/159/img_logo_1.jpg" alt="PayPay">
             </a>
             <!-- 右寄せの戻るリンク -->
-            <a id="return-link" href="割り勘総額.html">戻る</a>
+            <a id="return-link" href="割り勘総額.php">戻る</a>
         </div>
     </div>
 
