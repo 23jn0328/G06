@@ -8,6 +8,11 @@
 </head>
 <body>
   <div id="main-container">
+  <div id="logo">
+            <a href="イベントの閲覧と選択.php">
+                <img src="img/image.png" alt="WARIPAYロゴ">
+            </a>
+  </div>
   <div class="container">
     <h1>登録したメールアドレスで再設定</h1>
     <hr>

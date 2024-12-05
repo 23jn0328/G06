@@ -9,8 +9,13 @@
 </head>
 <body>
     <div id="main-container">
+    <div id="logo">
+            <a href="イベントの閲覧と選択.php">
+                <img src="img/image.png" alt="WARIPAYロゴ">
+            </a>
+    </div>
     <div class="container">
-        <h1 id="main-title">WARIPAY</h1>
+       
         <hr>
         <form>
             <input type="text" placeholder="メールアドレス" required>
