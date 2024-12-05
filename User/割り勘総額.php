@@ -10,7 +10,11 @@
 
     <!-- 全画面に広がるメインコンテナ -->
     <div id="main-container">
-        <h1>WARIPAY</h1>
+    <div id="logo">
+            <a href="イベントの閲覧と選択.php">
+                <img src="img/image.png" alt="WARIPAYロゴ">
+            </a>
+    </div>
 
         <!-- メンバーリスト -->
         <ul class="member-list">
