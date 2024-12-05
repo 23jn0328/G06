@@ -8,8 +8,15 @@
 </head>
 <body>
     <div id="main-container"> 
-        <div class="header">WARIPAY</div>
+    <header>
+                <div id="logo">
+                    <a href="イベントの閲覧と選択.php">
+                        <img src="img/image.png" alt="WARIPAYロゴ">
+                    </a>
+                </div>
+            </header>
         <div class="container">
+           
             <label1>イベント管理</label1>
             <hr><br>
 

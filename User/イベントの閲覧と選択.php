@@ -16,8 +16,8 @@
             </a>
         </div>
     </header>
-        <!-- PHPコードでヘッダーロゴを挿入 -->
-        <?php include "headerLogo.php"; ?>
+       
+       
         
         <!-- イベント作成ボタン -->
         <button class="gradient-btn" onclick="location.href='イベント作成.php'">イベントを作成</button>
