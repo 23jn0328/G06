@@ -15,7 +15,7 @@
                 <img src="img/image.png" alt="WARIPAYロゴ">
             </a>
         </div>
-    </header>
+    </header>   
        
        
         
