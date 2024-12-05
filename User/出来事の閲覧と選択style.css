@@ -1,4 +1,10 @@
 /* 全体設定 */
+#logo img {
+    max-width: 250px; /* ロゴの最大幅を少し小さく調整 */
+    height: auto; /* アスペクト比を維持 */
+    margin: 10px auto; /* 上下に少し余白を追加 */
+    display: block; /* 中央揃え */
+}
 body {
     font-family: Arial, sans-serif;
     margin: 0;
