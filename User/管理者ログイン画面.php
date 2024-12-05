@@ -16,7 +16,7 @@
             <label for="password">パスワード</label>
             <input type="password" id="password" placeholder="パスワードを入力">
             
-            <a href="管理者メイン.html" class="login-button">ログイン</a>
+            <a href="管理者メイン.php" class="login-button">ログイン</a>
         </form>
     </div>
 </body>

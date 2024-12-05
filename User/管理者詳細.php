@@ -145,9 +145,9 @@
         </table>
        
         <div class="あああ">
-            <td><a href="管理者メイン.html" class="returnbtn">戻る</a></td>
+            <td><a href="管理者メイン.php" class="returnbtn">戻る</a></td>
             <div class="managerID">管理者ID : XXXXXX</div>
-            <a href="管理者ログイン画面.html" class="logout">ログアウト</a>
+            <a href="管理者ログイン画面.php" class="logout">ログアウト</a>
         </div>
     </div>
 </body>
