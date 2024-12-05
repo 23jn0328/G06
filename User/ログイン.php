@@ -21,17 +21,17 @@
             <input type="password" placeholder="パスワード" required>
             <button type="submit" class="login-button" id="login">ログイン</button>
             <button type="button" class="register-button" id="new-button">新規登録</button>
-            <div class="passwasu"><a href="パスワード再設定メール送信.html">パスワードを忘れた方はこちら</a></div>
+            <div class="passwasu"><a href="パスワード再設定メール送信.php">パスワードを忘れた方はこちら</a></div>
         </form>
     </div>
     </div>
     <script>
     
         document.getElementById('new-button').addEventListener('click', function () {
-            window.location.href = '会員登録.html';
+            window.location.href = '会員登録.php';
         });
         document.getElementById('login').addEventListener('click', function () {
-            window.location.href = 'イベントの閲覧と選択.html';
+            window.location.href = 'イベントの閲覧と選択.php';
         });
     </script>
 </body>

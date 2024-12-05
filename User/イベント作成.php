@@ -39,7 +39,7 @@
     <script>
         // 作成ボタンの画面遷移
         function navigateToList() {
-            window.location.href = "イベントの閲覧と選択.html";
+            window.location.href = "イベントの閲覧と選択.php";
         }
     </script>
 </body>

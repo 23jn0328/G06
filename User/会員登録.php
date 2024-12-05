@@ -27,7 +27,7 @@
     </div>
     <script>
         document.getElementById('touroku-button').addEventListener('click', function () {
-            window.location.href = 'イベント作成.html';
+            window.location.href = 'イベント作成.php';
         });
     </script>
 </body>

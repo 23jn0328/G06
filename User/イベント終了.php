@@ -58,7 +58,7 @@
             checkbox.addEventListener('change', updateButtonState);
         });
         document.getElementById('endButton').addEventListener('click', function () {
-            window.location.href = 'イベントの閲覧と選択.html';
+            window.location.href = 'イベントの閲覧と選択.php';
         });
     </script>
     </div>
