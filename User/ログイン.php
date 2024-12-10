@@ -26,8 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $member = $memberDAO->get_member($Adress, $Pw); // パスワードの処理は別途対応
 
         if ($member !== false) {
+            session_start();
+           
+            $_SESSION['ID'] = $member->ID;
             // セッションを使わずリダイレクト
-            header('Location: イベントの閲覧と選択.php');
+            //header('Location: イベントの閲覧と選択.php');
             exit;
         } else {
             $errs[] = 'メールアドレスまたはパスワードに誤りがあります。';
