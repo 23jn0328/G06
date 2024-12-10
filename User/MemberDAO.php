@@ -15,20 +15,6 @@
         // DBからメールアドレスとパスワードが一致する会員データを取得する
         public function get_member(string $Adress, string $Pw)
         {
-             $sql = "SELECT EID FROM イベント ORDER BY EID DESC LIMIT 1";
-        $stmt = $this->dbh->query($sql);
-        if ($stmt === false) {
-            throw new Exception("Failed to fetch last event ID");
-        }
-        $lastEvent = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // 新しいイベントIDを生成
-        if ($lastEvent) {
-            $lastID = (int)substr($lastEvent['EID'], 1);
-            $newID = 'E' . str_pad($lastID + 1, 6, '0', STR_PAD_LEFT);
-        } else {
-            $newID = 'E000001';
-        }
             //DBに接続する
             $dbh = DAO::get_db_connect();
 
@@ -59,43 +45,46 @@
         }
 
         //会員データを登録する
-        public function insert(Member $member){       
-        $sql = "SELECT ID FROM 会員 ORDER BY ID DESC LIMIT 1";
-        $stmt = $this->dbh->query($sql);
-    if ($stmt === false) {
-        throw new Exception("Failed to fetch last ID");
-    }
-    $lastID = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // 新しいイベントIDを生成
-    if ($lastID) {
-        $lastID = (int)substr($lastID['ID'], 1);
-        $newID = 'M' . str_pad($lastID + 1, 6, '0', STR_PAD_LEFT);
-    } else {
-        $newID = 'M000001';
-    }
-        // データベース接続の取得
-        $dbh = DAO::get_db_connect();
-
-        // SQLクエリの準備
-        $sql = "INSERT INTO 会員 (Adress, UserName,Pw)
-                VALUES (:Adress, :UserName,:Pw)";
-
-        $stmt = $dbh->prepare($sql);
-
-        // パスワードをハッシュ化
-        $hashedPw = password_hash($member->Pw, PASSWORD_DEFAULT); // 関数名修正: password_hash()
-
-        // プレースホルダに値をバインド
-        $stmt->bindValue(':Adress', $member->Adress, PDO::PARAM_STR);
-        $stmt->bindValue(':UserName', $member->UserName, PDO::PARAM_STR);
-        $stmt->bindValue(':ID', $member->ID, PDO::PARAM_STR);
-        $stmt->bindValue(':Pw', $hashedPw, PDO::PARAM_STR); // ハッシュ化したパスワードをバインド
-
-        // SQLを実行
-        $stmt->execute();
-
-}
+        public function insert(Member $member)
+        {  
+            // データベース接続の取得   
+            $dbh = DAO::get_db_connect();
+        
+            // 最新のIDを取得
+            $sql = "SELECT TOP 1 ID FROM 会員 ORDER BY ID DESC"; // 最新のIDを取得するためにORDER BYを使用
+            $stmt = $dbh->query($sql);
+        
+            if ($stmt === false) {
+                throw new Exception("Failed to fetch last ID");
+            }
+        
+            $lastID = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+            // 新しいIDを生成
+            if ($lastID) {
+                // IDから最初の文字'M'を除いて数値部分を取得し、+1して新しいIDを作成
+                $lastIDNum = (int)substr($lastID['ID'], 1); // 'M'を除去
+                $newID = 'M' . str_pad($lastIDNum + 1, 6, '0', STR_PAD_LEFT);
+            } else {
+                $newID = 'M000001';  // 会員がまだいない場合
+            }
+        
+            // SQLクエリの準備
+            $sql = "INSERT INTO 会員 (Adress, UserName, Pw, ID)
+                    VALUES (:Adress, :UserName, :Pw, :ID)";
+        
+            $stmt = $dbh->prepare($sql);
+        
+            // プレースホルダに値をバインド
+            $stmt->bindValue(':Adress', $member->Adress, PDO::PARAM_STR);
+            $stmt->bindValue(':UserName', $member->UserName, PDO::PARAM_STR);
+            $stmt->bindValue(':Pw', $member->Pw,PDO::PARAM_STR);
+            $stmt->bindValue(':ID', $newID, PDO::PARAM_STR); // 新しいIDをバインド
+        
+            // SQLを実行
+            $stmt->execute();
+        }
+        
 
         //指定したメールアドレスの会員データが存在すればtrueを返す
         public function Adress_exists(string $Adress)

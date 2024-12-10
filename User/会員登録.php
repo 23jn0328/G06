@@ -7,15 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Pw = $_POST['Pw'];
     $Adress = $_POST['Adress'];
     $UserName = $_POST['UserName'];
-
-    // パスワードのハッシュ化
-    $hashedPw = password_hash($Pw, PASSWORD_DEFAULT);
-
+    
     $memberDAO = new MemberDAO();
 
     $member = new Member();
     //$member->ID = $ID;
-    $member->Pw = $hashedPw;  
+    $member->Pw = $Pw;  
     $member->Adress = $Adress;
     $member->UserName = $UserName;
 
