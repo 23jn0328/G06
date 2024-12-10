@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $memberDAO->insert($member);
 
     // 遷移
-    header('Location: イベントの閲覧と選択.php');
+    header('Location: ログイン.php');
     exit;
 }
 ?>
