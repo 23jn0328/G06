@@ -19,7 +19,7 @@
             $dbh = DAO::get_db_connect();
 
             //メールアドレスが一致する会員データを取得する
-            $sql = "SELECT * FROM ID WHERE Adress = :Adress";
+            $sql = "SELECT * FROM 会員 WHERE Adress = :Adress ";
 
             $stmt = $dbh->prepare($sql);
 
@@ -34,11 +34,7 @@
 
             //会員データが取得できたとき
             if ($member !== false){
-                //パスワードが一致するか検証
-                if (Pw_verify($Pw, $member->Pw)){
-                    //会員データを返す
-                    return $member;
-                }
+                return $member;
             }
 
             return false;
