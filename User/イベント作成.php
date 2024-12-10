@@ -50,11 +50,10 @@
             formData.append('event-name', EventName);
             formData.append('event-date', EventDate);
             formData.append('member-name', MemberName);
-            
 
 
             // POSTリクエストGO！
-            fetch('add_event.php', {
+            fetch('config_event.php', {
                  method: 'POST',
                 body: formData
             })
@@ -62,9 +61,9 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    console.log(data.event-name);
+                    //console.log(data.event-name);
                  
-                    //window.location.href = "イベントの閲覧と選択.php";
+                    window.location.href = "イベントの閲覧と選択.php";
                 } else {
                     alert('イベントの作成に失敗したずら');
                 }

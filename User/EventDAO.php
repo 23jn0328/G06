@@ -12,14 +12,15 @@ class Event
 
 class EventDAO
 {
+    
     // イベントの追加
     public function add_event(string $userID, string $eventName, DateTime $eventDate): string
     {
         $dbh = DAO::get_db_connect();
 
         // 最新のイベントIDを取得
-        $sql = "SELECT EID FROM イベント ORDER BY EID DESC LIMIT 1";
-        $stmt = $this->dbh->query($sql);
+        $sql = "SELECT MAX(EID) as EID FROM イベント";
+        $stmt = $dbh->query($sql);
         if ($stmt === false) {
             throw new Exception("Failed to fetch last event ID");
         }
@@ -38,7 +39,7 @@ class EventDAO
 
         // データベースに挿入
         $sql = "INSERT INTO イベント (EID, ID, EventName, EventDate, EventStart) VALUES (:EID, :ID, :EventName, :EventDate, :EventStart)";
-        $stmt = $this->dbh->prepare($sql);
+        $stmt = $dbh->prepare($sql);
         $stmt->execute([
             ':EID' => $newID,
             ':ID' => $userID,
@@ -56,7 +57,7 @@ class EventDAO
         $dbh = DAO::get_db_connect();
 
         $sql = "UPDATE イベント SET EventName = :EventName, EventStart = :EventStart WHERE EID = :EID";
-        $stmt = $this->dbh->prepare($sql);
+        $stmt = dbh->prepare($sql);
         $stmt->execute([
             ':EventName' => $eventName,
             ':EventStart' => $eventStart->format('Y-m-d H:i:s'),
@@ -70,7 +71,7 @@ class EventDAO
         $dbh = DAO::get_db_connect();
 
         $sql = "DELETE FROM イベント WHERE EID = :EID";
-        $stmt = $this->dbh->prepare($sql);
+        $stmt = $dbh->prepare($sql);
         $stmt->execute([
             ':EID' => $eventID,
         ]);
@@ -82,7 +83,7 @@ class EventDAO
         $dbh = DAO::get_db_connect();
 
         $sql = "SELECT * FROM イベント WHERE EID = :EID";
-        $stmt = $this->dbh->prepare($sql);
+        $stmt = $dbh->prepare($sql);
         $stmt->execute([
             ':EID' => $eventID,
         ]);
