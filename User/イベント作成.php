@@ -38,10 +38,45 @@
     </div>
 
     <script>
-        // 作成ボタンの画面遷移
+        // 作成ボタンの画面遷移　こっから増田作
         function navigateToList() {
-            window.location.href = "イベントの閲覧と選択.php";
+            // フォームの値をとってくるーー
+            const EventName = document.getElementById('event-name').value;
+            const EventDate = document.getElementById('event-date').value;
+            const MemberName = document.getElementById('member-name').value;
+
+            // いつものフォームデータとしてさくせいーー
+            const formData = new FormData();
+            formData.append('event-name', EventName);
+            formData.append('event-date', EventDate);
+            formData.append('member-name', MemberName);
+            
+
+
+            // POSTリクエストGO！
+            fetch('add_event.php', {
+                 method: 'POST',
+                body: formData
+            })
+            // レスポンス文がjsonでかえってきはるもんで、その中身をはんてー
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log(data.event-name);
+                 
+                    //window.location.href = "イベントの閲覧と選択.php";
+                } else {
+                    alert('イベントの作成に失敗したずら');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+
+
+                alert('エラーが発生したずら');
+            });
         }
+        
     </script>
 </body>
 </html>

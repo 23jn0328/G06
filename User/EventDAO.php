@@ -1,17 +1,93 @@
 <?php
-    require_once 'DAO.php';
+require_once 'DAO.php';
 
 class Event
+{
+    public string $EID; // イベントID
+    public string $ID; // 会員ID
+    public string $EventName; // イベント名
+    public DateTime $EventDate; // イベント日時
+    public DateTime $EventStart; // イベント開始日時
+}
+
+class EventDAO
+{
+    // イベントの追加
+    public function add_event(string $userID, string $eventName, DateTime $eventDate): string
     {
-        public int    $EID;    //会員ID
-        public int $ID;       //メールアドレス
-        public string $EventName;  //会員名
-        public string $EventDate;     //郵便番号
-        public string $EventStart;     //住所
-        
+        $dbh = DAO::get_db_connect();
+
+        // 最新のイベントIDを取得
+        $sql = "SELECT EID FROM イベント ORDER BY EID DESC LIMIT 1";
+        $stmt = $this->dbh->query($sql);
+        if ($stmt === false) {
+            throw new Exception("Failed to fetch last event ID");
+        }
+        $lastEvent = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // 新しいイベントIDを生成
+        if ($lastEvent) {
+            $lastID = (int)substr($lastEvent['EID'], 1);
+            $newID = 'E' . str_pad($lastID + 1, 6, '0', STR_PAD_LEFT);
+        } else {
+            $newID = 'E000001';
+        }
+
+        // 現在の日時を取得
+        $eventStart = new DateTime();
+
+        // データベースに挿入
+        $sql = "INSERT INTO イベント (EID, ID, EventName, EventDate, EventStart) VALUES (:EID, :ID, :EventName, :EventDate, :EventStart)";
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->execute([
+            ':EID' => $newID,
+            ':ID' => $userID,
+            ':EventName' => $eventName,
+            ':EventDate' => $eventDate->format("Y-m-d H:i:s"),
+            ':EventStart' => $eventStart->format("Y-m-d H:i:s"),
+        ]);
+
+        return $newID;
     }
 
-    class EventDAO
+    // イベントの変更
+    public function update_event(string $eventID, string $eventName, DateTime $eventStart)
     {
-        
+        $dbh = DAO::get_db_connect();
+
+        $sql = "UPDATE イベント SET EventName = :EventName, EventStart = :EventStart WHERE EID = :EID";
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->execute([
+            ':EventName' => $eventName,
+            ':EventStart' => $eventStart->format('Y-m-d H:i:s'),
+            ':EID' => $eventID,
+        ]);
     }
+
+    // イベントの削除
+    public function delete_event(string $eventID)
+    {
+        $dbh = DAO::get_db_connect();
+
+        $sql = "DELETE FROM イベント WHERE EID = :EID";
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->execute([
+            ':EID' => $eventID,
+        ]);
+    }
+
+    // イベントの取得
+    public function get_event(string $eventID): ?Event
+    {
+        $dbh = DAO::get_db_connect();
+
+        $sql = "SELECT * FROM イベント WHERE EID = :EID";
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->execute([
+            ':EID' => $eventID,
+        ]);
+
+        $row = $stmt->fetchObject('Event');
+        return $row ?: null;
+    }
+}
