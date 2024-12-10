@@ -1,11 +1,39 @@
 <?php
-    require_once './EventDAO.php';
+// 必要なファイルの読み込み
+require_once 'DAO.php';
 
-    if(isset($_GET['goodscode'])){
-        $goodscode = $_GET['goodscode'];
-        $goodsDAO = new GoodsDAO();
-        $goods = $goodsDAO->get_goods_by_goodscode($goodscode);
-    }
+/*
+// ユーザーIDの取得（ログイン後にセッションで保持していると仮定）
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    // ログインしていない場合はログインページへリダイレクト
+    header('Location: ログイン.php');
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
+
+*/
+
+//仮のメンバーID
+$user_id = 'M000002';
+
+try {
+    // データベース接続
+    $dbh = DAO::get_db_connect();
+
+    // ユーザーの登録イベントを取得
+    $sql = "SELECT EID, EventName, EventStart FROM イベント WHERE ID = :user_id ORDER BY EventStart ASC";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+    $stmt->execute();
+
+    // 結果を取得
+    $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "データベースエラー: " . $e->getMessage();
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,51 +45,32 @@
     <link rel="stylesheet" href="イベントの閲覧と選択.css">
 </head>
 <body>
-
     <div class="container">
-    <header>
-        <div id="logo">
-            <a href="イベントの閲覧と選択.php">
-                <img src="img/image.png" alt="WARIPAYロゴ">
-            </a>
-        </div>
-    </header>   
-       
-       
-        
+        <header>
+            <div id="logo">
+                <a href="イベントの閲覧と選択.php">
+                    <img src="img/image.png" alt="WARIPAYロゴ">
+                </a>
+            </div>
+        </header>
+
         <!-- イベント作成ボタン -->
         <button class="gradient-btn" onclick="location.href='イベント作成.php'">イベントを作成</button>
 
         <!-- イベントリスト -->
         <div class="event-list">
-            <div class="event-item" onclick="location.href='出来事の閲覧と選択.php'">
-                <div class="event-name">沖縄旅行</div>
-                <div class="event-date">開始日時: 2024年1月1日</div>
-            </div>
-            <div class="event-item" onclick="location.href='出来事の閲覧と選択.php'">
-                <div class="event-name">合宿</div>
-                <div class="event-date">開始日時: 2024年2月1日</div>
-            </div>
-        </div>
-        <div class="event-list">
-            <div class="event-item" onclick="location.href='出来事の閲覧と選択.php'">
-                <div class="event-name">沖縄旅行</div>
-                <div class="event-date">開始日時: 2024年1月1日</div>
-            </div>
-            <div class="event-item" onclick="location.href='出来事の閲覧と選択.php'">
-                <div class="event-name">合宿</div>
-                <div class="event-date">開始日時: 2024年2月1日</div>
-            </div>
-        </div>
-        <div class="event-list">
-            <div class="event-item" onclick="location.href='出来事の閲覧と選択.php'">
-                <div class="event-name">沖縄旅行</div>
-                <div class="event-date">開始日時: 2024年1月1日</div>
-            </div>
-            <div class="event-item" onclick="location.href='出来事の閲覧と選択.php'">
-                <div class="event-name">合宿</div>
-                <div class="event-date">開始日時: 2024年2月1日</div>
-            </div>
+            <?php if (!empty($events)): ?>
+                <?php foreach ($events as $event): ?>
+                    <div class="event-item">
+                        <div class="event-name"><?= htmlspecialchars($event['EventName'], ENT_QUOTES, 'UTF-8') ?></div>
+                        <div class="event-date">開始日時: <?= htmlspecialchars($event['EventStart'], ENT_QUOTES, 'UTF-8') ?></div>
+                        <button class="manage-btn" onclick="location.href='イベント管理.php?eid=<?= htmlspecialchars($event['EID'], ENT_QUOTES, 'UTF-8') ?>'">管理</button>
+                        <button class="share-btn" onclick="alert('共有機能は現在準備中です')">共有</button>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>現在、表示するイベントはありません。</p>
+            <?php endif; ?>
         </div>
     </div>
 </body>
