@@ -1,3 +1,13 @@
+<?php
+    require_once './EventDAO.php';
+
+    if(isset($_GET['goodscode'])){
+        $goodscode = $_GET['goodscode'];
+        $goodsDAO = new GoodsDAO();
+        $goods = $goodsDAO->get_goods_by_goodscode($goodscode);
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
