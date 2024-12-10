@@ -57,7 +57,7 @@ class EventDAO
         $dbh = DAO::get_db_connect();
 
         $sql = "UPDATE イベント SET EventName = :EventName, EventStart = :EventStart WHERE EID = :EID";
-        $stmt = dbh->prepare($sql);
+        $stmt = $dbh->prepare($sql);
         $stmt->execute([
             ':EventName' => $eventName,
             ':EventStart' => $eventStart->format('Y-m-d H:i:s'),
