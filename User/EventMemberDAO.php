@@ -4,13 +4,15 @@
 
 class Event
     {
-        public int  $EMID;   
-        public int $EID;       
+        public string  $EMID;   
+        public string $EID;       
         public string $EventMemberName;  
-        
     }
-
+    
     class EventMemberDAO
     {
-        
+        public function getMembers(string $EID){
+            $dbh=DAO::get_db_connect();
+             
+        }
     }
