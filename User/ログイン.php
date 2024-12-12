@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'MemberDAO.php';
 
 $Adress = ''; // 初期化
@@ -7,7 +8,7 @@ $errs = []; // エラー配列を初期化
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Adress = trim($_POST['Adress'] ?? ''); // 安全に取得
     $Pw = trim($_POST['Pw'] ?? ''); // 安全に取得
-    var_dump($_POST);
+    //var_dump($_POST);
     // メールアドレスのバリデーション
     if ($Adress === '') {
         $errs[] = 'メールアドレスを入力してください。';
@@ -26,11 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $member = $memberDAO->get_member($Adress, $Pw); // パスワードの処理は別途対応
 
         if ($member !== false) {
-            session_start();
+
            
-            $_SESSION['ID'] = $member->ID;
+            $_SESSION['member_id'] = $member->ID;
+            //var_dump($_SESSION['ID']);
             // セッションを使わずリダイレクト
-            //header('Location: イベントの閲覧と選択.php');
+            header('Location: イベントの閲覧と選択.php');
             exit;
         } else {
             $errs[] = 'メールアドレスまたはパスワードに誤りがあります。';
