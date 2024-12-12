@@ -6,9 +6,8 @@ class Event
         public string $EMID;   
         public string $EID;       
         public string $EventMemberName;  
-        
     }
-
+    
     class EventMemberDAO
     {
         public function getEventMembers(string $EID)

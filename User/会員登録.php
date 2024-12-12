@@ -1,3 +1,30 @@
+<?php
+require_once 'MemberDAO.php';
+
+// POSTメソッドでリクエストされたとき
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // 入力された会員データを受け取る
+    $Pw = $_POST['Pw'];
+    $Adress = $_POST['Adress'];
+    $UserName = $_POST['UserName'];
+    
+    $memberDAO = new MemberDAO();
+
+    $member = new Member();
+    //$member->ID = $ID;
+    $member->Pw = $Pw;  
+    $member->Adress = $Adress;
+    $member->UserName = $UserName;
+
+    // DBに会員データを登録する
+    $memberDAO->insert($member);
+
+    // 遷移
+    header('Location: ログイン.php');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -17,18 +44,14 @@
     <div class="container">
        
         <hr>
-        <form>
-            <input type="text" placeholder="メールアドレス" required>
-            <input type="password" placeholder="パスワード" required>
-            <input type="password" placeholder="パスワード再入力" required>
+        <form action="" method="POST">
+            <input type="text" name="Adress" value="<?=@$Adress ?>"placeholder="メールアドレス"required>
+            <input type="password" name="Pw" value="<?=@$Pw ?>" placeholder="パスワード" required>
+            <input type="password" name="Pw2"placeholder="パスワード再入力" required>
+            <input type="text" name="UserName" value="<?=@$UserName ?>"placeholder="名前" required>
             <button type="submit" id="touroku-button">登録</button>      
         </form>
     </div>
     </div>
-    <script>
-        document.getElementById('touroku-button').addEventListener('click', function () {
-            window.location.href = 'イベント作成.php';
-        });
-    </script>
 </body>
 </html>
