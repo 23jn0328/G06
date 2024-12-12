@@ -17,12 +17,10 @@ class EventMemberDAO
         // SQL文: イベントメンバーを取得
         $sql = "SELECT em.id AS EMID, 
                        em.event_id AS EID, 
-                       m.name AS EventMemberName
-                FROM event_members em
-                INNER JOIN members m 
-                ON em.member_id = m.id
+                       em.name AS EventMemberName
+                FROM [イベントメンバー] em
                 WHERE em.event_id = :eventId
-                ORDER BY em.id ASC"; // EMID で順序付け
+                ORDER BY em.id ASC"; // EMIDで順序付け
 
         // ステートメントの準備
         $stmt = $dbh->prepare($sql);
