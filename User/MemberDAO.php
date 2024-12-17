@@ -107,4 +107,42 @@
                 return false;   //同じ人がいない
             }
         }
+
+        public function otpmusushin(string $Adress, string $otp, string $expires){
+            //DBに接続する
+            $dbh = DAO::get_db_connect();
+            // OTPをデータベースに保存（データベース接続の準備が整っている前提）
+            $stmt = $dbh->prepare("INSERT INTO otp_codes (Adress, otp, expires_at) VALUES (:Adress, :otp, :expires)");
+            $stmt->execute(['Adress' => $Adress, 'otp' => $otp, 'expires' => $expires]);
+
+            // OTPが生成され、保存されたことをユーザーに通知
+            $message = "ワンタイムパスワードを発行しました。送信された確認コードは: $otp です。10分間有効です。";
+            return $message;
+    
+        }
+        public function otparukana(string $Adress){
+            //DBに接続する
+            $dbh = DAO::get_db_connect();
+            //せれくと
+            $stmt = $dbh->prepare("SELECT * FROM otp_codes WHERE Adress = :Adress AND expires_at > GETDATE()");
+            $stmt->execute(['Adress' => $Adress]);
+
+            if ($stmt->fetch() !== false){
+                return true;   //あればtrue
+
+            }
+            else{
+                return false;       //なければ false
+            }
+        }
+        public function otpkousin(string $Adress, string $otp, string $expires){
+            // update
+
+            $message = "ワンタイムパスワードを発行しました。送信された確認コードは: $otp です。10分間有効です。";
+            return $message;
+        }
+
+
     }
+
+

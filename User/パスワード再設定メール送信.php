@@ -1,41 +1,44 @@
 <?php
-require 'config.php'; // データベース接続設定
+// データベース接続
+require 'MemberDAO.php';  // 必要なデータベース接続設定
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
-    $otp = $_POST['otp'];
+    // メールアドレスの取得
+    $Adress = $_POST['Adress'];
 
-    $stmt = $pdo->prepare("SELECT * FROM otp_codes WHERE email = :email AND otp = :otp AND expires_at > NOW()");
-    $stmt->execute(['email' => $email, 'otp' => $otp]);
-    $otpData = $stmt->fetch();
-
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    // メールアドレスの検証
+    if (!filter_var($Adress, FILTER_VALIDATE_EMAIL)) {
         die("無効なメールアドレスです。");
     }
 
-    $otp = random_int(100000, 999999); // 6桁の確認コード
-    $expires = date('Y-m-d H:i:s', strtotime('+10 minutes')); // 有効期限10分
+    // OTPを生成（6桁のランダムな数値）
+    $otp = random_int(100000, 999999); 
+    $expires = date('Y-m-d H:i:s', strtotime('+10 minutes')); // 10分の有効期限
+
+    // OTPをデータベースに保存（データベース接続の準備が整っている前提）
+    $memberDAO = new MemberDAO();
+    if($memberDAO->otparukana($Adress) == true){
+      //kousinn
+      $message = $memberDAO->otpkousin($Adress, $otp, $expires);
+
+    }else{
+      // insert
+      // OTPが生成され、保存されたことをユーザーに通知
+      $message = $memberDAO->otpmusoushin( $Adress,  $otp,  $expires);
+    }
+    // OTPが生成され、保存されたことをユーザーに通知
+    mb_language("Japanese");
+    mb_internal_encoding("UTF-8");
+    // ワンタイムパスワードを含んだメール送信
+    $to = $Adress;
+    $subject = "ワンタイムパスワード(WARIPAY)";
+    $headers = "From: WARIPAY@example.com";
+    mb_send_mail($to, $subject, $message, $headers);
 
 
-    
-    // OTPをデータベースに保存
-    $stmt = $pdo->prepare("INSERT INTO otp_codes (email, otp, expires_at) VALUES (:email, :otp, :expires) ON DUPLICATE KEY UPDATE otp = :otp, expires_at = :expires");
-    $stmt->execute(['email' => $email, 'otp' => $otp, 'expires' => $expires]);
-
-    // メール送信
-    mail($email, "確認コード", "あなたの確認コードは: $otp です。このコードは10分間有効です。");
-
-    header("Location: verify_otp.php?email=" . urlencode($email));
-    exit;
-
-
-    if ($otpData) {
-      header("Location: reset_password.php?email=" . urlencode($email));
-      exit;
-  } else {
-      die("無効または期限切れの確認コードです。");
-  }
-
+} else {
+    // 初期状態（フォームが表示された状態）
+    $message = '';
 }
 ?>
 
@@ -56,16 +59,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </a>
   </div>
     <h1>登録したメールアドレスで再設定</h1>
-    <form action="send_otp.php" method="post">
+    <form action="" method="post">
     <!-- メールアドレス入力 -->
     <div class="form-group">
       <label for="email">メールアドレスを入力</label>
       <div class="input-group">
-      <input type="email" id="email" name="email" placeholder="メールアドレスを入力" required>
+      <input type="email" id="email" name="Adress" placeholder="メールアドレスを入力" required>
+
         <button class="btn">送信</button>
       </div>
     </div>
-
+    <!-- メッセージ表示 -->
+    <?php if ($message): ?>
+      <p><?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?></p>
+    <?php endif; ?>
     <!-- メッセージ表示 -->
     <p class="message">
       <nobr>確認コードが届かない場合、メールアドレスが正しいかご確認ください。</nobr>
