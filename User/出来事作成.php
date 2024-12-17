@@ -63,8 +63,8 @@
 
             const perPersonField = document.getElementById('per-person');
             
-            if (selectedCount > 0 && !isNaN(amount)) {
-                const perPersonAmount = Math.ceil(amount / selectedCount);
+            if (!isNaN(amount) && amount > 0) {
+                const perPersonAmount = Math.ceil(amount / selectedCount); // 小数点以下切り上げ
                 perPersonField.value = `¥${perPersonAmount}`;
             } else {
                 perPersonField.value = '';

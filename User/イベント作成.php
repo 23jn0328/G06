@@ -1,4 +1,30 @@
+<?php
+/*require_once 'EventDAO.php';
+require_once 'EventMemberDAO.php';
 
+ POSTメソッドでリクエストされたとき
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+     入力された会員データを受け取る
+    $EventName = $_POST['EventName'];
+    $EventStart = $_POST['EventStart'];
+    $EventMemberName = $_POST['EventMemberName'];
+    
+    $EventDAO = new EventDAO();
+    $EventMemberDAO = new EventMemberDAO();
+
+
+    $Event = new Event();
+    $EventMember = new EventMember();
+    $member->ID = $ID;
+    $Event->EventName = $EventName;  
+    $Event->EventStart = $EventStart;
+    $EventMember->EventMemberName = $EventMemberName;
+
+     DBに会員データを登録する
+    $EventDAO->insert($Event);
+    $EventMemberDAO->insert($EventMember);
+}*/
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>

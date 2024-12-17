@@ -38,41 +38,35 @@ require_once 'DAO.php';
         }
 
         // イベントメンバー情報をデータベースから取得するメソッド
-        public function getEventMembersByEvent(string $EID): array  
+        public function getEventMembersByEvent(string $EID): array
         {
             $dbh = DAO::get_db_connect();
 
             // SQL文: イベントメンバーを取得
-            $sql = "SELECT em.id AS EMID, 
-                            em.event_id AS EID, 
+            $sql = "SELECT em.event_id AS EID, 
                             em.name AS EventMemberName
-                        FROM イベントメンバー em
-                        WHERE em.event_id = :eventId
-                        ORDER BY em.id ASC"; 
+                    FROM イベントメンバー em
+                    WHERE em.event_id = :eventId
+                    ORDER BY em.id ASC";
 
             $stmt = $dbh->prepare($sql);
-
             $stmt->bindParam(':eventId', $EID, PDO::PARAM_STR);
-
             $stmt->execute();
 
             // 結果を取得
             $eventMembers = [];
-            $newEMID = $this->getNextEMID();  // 最初に新しいEMIDを1回生成
-
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $member = new EventMember();
-                
-                // 生成した新しいEMIDを全メンバーに設定
-                $member->EMID = $newEMID;
+                $member->EMID = $this->getNextEMID(); // 毎回新しいIDを生成
                 $member->EID = $row['EID'];
                 $member->EventMemberName = $row['EventMemberName'];
-                
+
                 $eventMembers[] = $member;
             }
 
             return $eventMembers;
         }
+
 
         // イベントメンバー情報をデータベースに保存
         public function saveEventMember(EventMember $eventMember): bool
@@ -92,7 +86,7 @@ require_once 'DAO.php';
             return $stmt->execute();
         }
 
-        //メンバーを削除
+        //イベントメンバーを削除
         public function delete_EventMember(string $EMID)
         {
         $dbh = DAO::get_db_connect();
