@@ -1,3 +1,21 @@
+<?php
+    require_once 'HappenDetailDAO.php';
+
+    // HIDを取得
+    $HID = $_GET['HID'];  // URLのパラメータやフォームからHIDを取得
+
+    // HappenDetailDAOインスタンスを作成
+    $happenDetailDAO = new HappenDetailDAO();
+
+    // 支払金額の詳細を取得
+    $paymentDetails = $happenDetailDAO->getPaymentDetails($HID);
+
+    // メンバー名を取得するためのメソッド
+    function getMemberName($EMID) {
+        global $happenDetailDAO;
+        return $happenDetailDAO->getMemberNameById($EMID);
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
