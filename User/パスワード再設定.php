@@ -29,12 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div id="main-container">
+    <div class="container">
     <div id="logo">
             <a href="イベントの閲覧と選択.php">
                 <img src="img/image.png" alt="WARIPAYロゴ">
             </a>
         </div>
-    <div class="container">
         <h1>パスワードの再設定</h1>
         <form action="update_password.php" method="post">
        
