@@ -19,21 +19,21 @@
         <!-- メンバーリスト -->
         <ul class="member-list">
             <li class="member-item">
-                <a href="割り勘明細.html">はやと</a>
+                <a href="割り勘明細.php">はやと</a>
                 <span class="payment-amount">￥5000</span>
             </li>
             <li class="member-item">
-                <a href="割り勘明細.html">しゅうと</a>
+                <a href="割り勘明細.php">しゅうと</a>
                 <span class="payment-amount">￥7000</span>
             </li>
             <li class="member-item">
-                <a href="割り勘明細.html">いくみ</a>
+                <a href="割り勘明細.php">いくみ</a>
                 <span class="payment-amount">￥7000</span>
             </li>
         </ul>
 
         <!-- 右下に配置された戻るボタン -->
-        <a id="return-link" href="出来事の閲覧と選択.html">戻る</a>
+        <a id="return-link" href="出来事の閲覧と選択.php">戻る</a>
     </div>
 
 </body>
