@@ -108,7 +108,7 @@
             }
         }
 
-        public function otpmusushin(string $Adress, string $otp, string $expires){
+        public function otpmusoushin(string $Adress, string $otp, string $expires){
             //DBに接続する
             $dbh = DAO::get_db_connect();
             // OTPをデータベースに保存（データベース接続の準備が整っている前提）
@@ -124,7 +124,7 @@
             //DBに接続する
             $dbh = DAO::get_db_connect();
             //せれくと
-            $stmt = $dbh->prepare("SELECT * FROM otp_codes WHERE Adress = :Adress AND expires_at > GETDATE()");
+            $stmt = $dbh->prepare("SELECT * FROM otp_codes WHERE Adress = :Adress AND expires_at < GETDATE()");
             $stmt->execute(['Adress' => $Adress]);
 
             if ($stmt->fetch() !== false){
@@ -136,13 +136,30 @@
             }
         }
         public function otpkousin(string $Adress, string $otp, string $expires){
+            //DBに接続する
+            $dbh = DAO::get_db_connect();
+            
             // update
-
+            $stmt = $dbh->prepare("UPDATE otp_codes SET otp = :otp, expires_at = :expires WHERE Adress = :Adress");
+            $stmt->execute(['Adress' => $Adress, 'otp' => $otp, 'expires' => $expires]);
             $message = "ワンタイムパスワードを発行しました。送信された確認コードは: $otp です。10分間有効です。";
             return $message;
         }
 
+        public function otpTadasiikana(string $otp){
+            //DBに接続する
+            $dbh = DAO::get_db_connect();
+            //せれくと
+            $stmt = $dbh->prepare("SELECT * FROM otp_codes WHERE otp = :otp AND expires_at > (DATEADD(MINUTE, -10, GETDATE()))");
+            $stmt->execute(['otp' =>  $otp]);
+            if ($stmt->fetch() !== false){
+                return true;   //あればtrue
+
+            }
+            else{
+                return false;       //なければ false
+            }
+
 
     }
-
-
+}
