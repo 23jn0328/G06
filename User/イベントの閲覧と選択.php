@@ -57,14 +57,14 @@ try {
         <button class="gradient-btn" onclick="location.href='イベント作成.php'">イベントを作成</button>
 
         <!-- イベントリスト -->
-        <div class="event-list" onclick="location.href='出来事の閲覧と選択.php'">
+        <div class="event-list">
             <?php if (!empty($events)): ?>
                 <?php foreach ($events as $event): ?>
-                    <div class="event-item">
+                    <div class="event-item" onclick="location.href='出来事の閲覧と選択.php'">
                         <div class="event-name"><?= htmlspecialchars($event['EventName'], ENT_QUOTES, 'UTF-8') ?></div>
                         <div class="event-date">開始日時: <?= htmlspecialchars($event['EventStart'], ENT_QUOTES, 'UTF-8') ?></div>
                         <button class="manage-btn" onclick="goManageEvent(event, '<?= htmlspecialchars($event['EID'], ENT_QUOTES, 'UTF-8') ?>')">管理</button>
-                        <button id="webShareButton" class="share-btn">共有</button>
+                        <button class="share-btn" onclick="goShareEvent(event, '<?= htmlspecialchars($event['EID'], ENT_QUOTES, 'UTF-8') ?>')">共有</button>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -78,25 +78,21 @@ try {
             location.href = "イベント管理.php?eid=" + EID;
         }
 
-        const shareButton = document.getElementById('webShareButton');
-
-        // ページのdescriptionを取得
-        const descriptionMeta = document.querySelector("meta[name='description']");
-        const description = descriptionMeta ? descriptionMeta.getAttribute("content") : '';
-
-        // クリックイベントを設定
-        shareButton.addEventListener('click', async () => {
-            try {
-                await navigator.share({
-                    title: document.title,       // ページのタイトルを設定
-                    text: description,           // ページのdescriptionを設定
-                    url: window.location.href    // 現在のURLを取得
-                });
-                console.log('シェア成功！');
-            } catch (error) {
-                console.error('シェア失敗', error);
+        function goShareEvent(event, EID) {
+            event.stopPropagation();
+            const shareUrl = `${window.location.origin}/イベント管理.php?eid=${EID}`;
+            if (navigator.share) {
+                navigator.share({
+                    title: "イベント共有",
+                    text: "このイベントをチェックしてください！",
+                    url: shareUrl
+                })
+                .then(() => console.log("シェア成功！"))
+                .catch((error) => console.error("シェア失敗", error));
+            } else {
+                alert("このブラウザは共有機能をサポートしていません。リンクをコピーしてください: " + shareUrl);
             }
-        });
+        }
     </script>
 </body>
 </html>
