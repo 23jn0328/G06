@@ -62,16 +62,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             <label for="member-selection" class="bold-text">メンバー選択</label>
             <div class="checkbox-group" id="member-selection">
-                <label><input type="checkbox" name="member" value="EventUser01" onclick="calculatePerPerson()"> EventUser01</label>
-                <label><input type="checkbox" name="member" value="EventUser02" onclick="calculatePerPerson()"> EventUser02</label>
+                <label><input type="checkbox" name="member" value="A" onclick="calculatePerPerson()"> A</label>
+                <label><input type="checkbox" name="member" value="B" onclick="calculatePerPerson()"> B</label>
                 <label><input type="checkbox" name="member" value="C" onclick="calculatePerPerson()"> C</label>
                 <label><input type="checkbox" name="member" value="D" onclick="calculatePerPerson()"> D</label>
             </div>
             
             <label for="payer" class="bold-text">払ったメンバー</label>
             <select id="payer">
-                <option value="EventUser01">A</option>
-                <option value="EventUser02">B</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
                 <option value="C">C</option>
                 <option value="D">D</option>
             </select>
