@@ -1,21 +1,15 @@
 <?php
-require 'config.php';
+require 'MemberDAO.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
+    $Pw = $_POST['password'];
+    $confirm_Pw = $_POST['confirm_password'];
 
-    if ($password !== $confirm_password) {
+    if ($Pw !== $confirm_Pw) {
         die("パスワードが一致しません。");
     }
-
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    $stmt = $pdo->prepare("UPDATE users SET password = :password WHERE email = :email");
-    $stmt->execute(['password' => $hashed_password, 'email' => $email]);
-
     echo "パスワードが正常に更新されました。";
+    header('Location:イベントの閲覧と選択');
 }
 ?>
 
@@ -31,12 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div id="main-container">
     <div class="container">
     <div id="logo">
-            <a href="イベントの閲覧と選択.php">
                 <img src="img/image.png" alt="WARIPAYロゴ">
             </a>
         </div>
         <h1>パスワードの再設定</h1>
-        <form action="update_password.php" method="post">
+        <form action="" method="POST">
        
             <input type="password"id="password" name="password" placeholder="新しいパスワードを入力" required> 
 

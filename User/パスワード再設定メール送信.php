@@ -29,12 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $memberDAO = new MemberDAO();
       if($memberDAO->otparukana($Adress) == true){
         //kousinn
-        $message = $memberDAO->otpkousin($Adress, $otp, $expires);
+        $send_message = $memberDAO->otpkousin($Adress, $otp, $expires);
 
       }else{
         // insert
         // OTPが生成され、保存されたことをユーザーに通知
-        $message = $memberDAO->otpmusoushin( $Adress,  $otp,  $expires);
+        $send_message = $memberDAO->otpmusoushin( $Adress,  $otp,  $expires);
       }
 
       //mb_language("Japanese");
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
           $mail->addAddress($Adress,'受信者氏名');
           $mail->Subject =$subject ;
-          $mail->Body = $message;
+          $mail->Body = $send_message;
           $mail->send();
     
    
@@ -67,14 +67,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           echo "Message could not be sent.Mailer Error:{$mail->ErrorInfo}";
       }
     }else if ($_POST['otp_code'] !== null){
+        $memberDAO = new MemberDAO();
         $otp_code = $_POST['otp_code'];
         $otp_hantei = $memberDAO->otpTadasiikana($otp_code);
         if($otp_hantei == true){
-          return true;   //あればtrue
-
+          header('Location:パスワード再設定.php');
+          
         }
         else{
-            return false;    
+          $message = "じかんぎれー";    
         }
 
     }
@@ -116,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
     <!-- メッセージ表示 -->
     <?php if ($message): ?>
-      <p><?php //echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?></p>
+      <p><?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?></p>
     <?php endif; ?>
     <!-- メッセージ表示 -->
     <p class="message">

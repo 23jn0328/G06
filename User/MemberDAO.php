@@ -140,7 +140,7 @@
             $dbh = DAO::get_db_connect();
             
             // update
-            $stmt = $dbh->prepare("UPDATE otp_codes SET otp = :otp, expires_at = :expires WHERE Adress = :Adress");
+            $stmt = $dbh->prepare("UPDATE otp_codes SET Pw = :Pw, WHERE Adress = :Adress");
             $stmt->execute(['Adress' => $Adress, 'otp' => $otp, 'expires' => $expires]);
             $message = "ワンタイムパスワードを発行しました。送信された確認コードは: $otp です。10分間有効です。";
             return $message;
@@ -159,7 +159,16 @@
             else{
                 return false;       //なければ false
             }
+        }
 
+        public function updatePass(string $Pw)
+        {
+            $dbh = DAO::get_db_connect();
+            $stmt = $dbh->prepare("UPDATE Pw FROM 会員 SET Pw=:Pw");
 
-    }
+            $stmt->bindValue(':Pw', $Pw, PDO::PARAM_STR);
+
+            //SQLを実行する
+            $stmt->execute();
+        }
 }
