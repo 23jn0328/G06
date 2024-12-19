@@ -2,20 +2,19 @@
 // 必要なファイルの読み込み
 require_once 'DAO.php';
 
-/*
+
 // ユーザーIDの取得（ログイン後にセッションで保持していると仮定）
 session_start();
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['member_id'])) {
     // ログインしていない場合はログインページへリダイレクト
     header('Location: ログイン.php');
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
-*/
+$user_id = $_SESSION['member_id'];
 
 // 仮のメンバーID
-$user_id = 'M000002';
+// $user_id = 'M000002';
 
 try {
     // データベース接続
@@ -24,6 +23,7 @@ try {
     // ユーザーの登録イベントを取得
     $sql = "SELECT EID, EventName, EventStart FROM イベント WHERE ID = :user_id ORDER BY EventStart ASC";
     $stmt = $dbh->prepare($sql);
+    
     $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
     $stmt->execute();
 

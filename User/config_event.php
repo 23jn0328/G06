@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once 'EventDAO.php';
 header('Content-Type: application/json');
 try {
@@ -8,11 +8,11 @@ try {
     $eventName = $_POST['event-name'];
     $eventDate = new DateTime($_POST['event-date']);
     $memberName = $_POST['member-name'];
-    $userID = "M000002";  // 仮のユーザーID
+    $userID = $_SESSION['member_id'];  // 仮のユーザーID
 
     // EventDAOのインスタンスを作成
     $eventDAO = new EventDAO();
-
+    
     // イベントを追加
     $eventId = $eventDAO->add_event($userID, $eventName, $eventDate);
     

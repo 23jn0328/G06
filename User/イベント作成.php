@@ -1,30 +1,5 @@
-<?php
-/*require_once 'EventDAO.php';
-require_once 'EventMemberDAO.php';
-
- POSTメソッドでリクエストされたとき
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-     入力された会員データを受け取る
-    $EventName = $_POST['EventName'];
-    $EventStart = $_POST['EventStart'];
-    $EventMemberName = $_POST['EventMemberName'];
-    
-    $EventDAO = new EventDAO();
-    $EventMemberDAO = new EventMemberDAO();
 
 
-    $Event = new Event();
-    $EventMember = new EventMember();
-    $member->ID = $ID;
-    $Event->EventName = $EventName;  
-    $Event->EventStart = $EventStart;
-    $EventMember->EventMemberName = $EventMemberName;
-
-     DBに会員データを登録する
-    $EventDAO->insert($Event);
-    $EventMemberDAO->insert($EventMember);
-}*/
-?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -54,7 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="date" id="event-date"><br><br>
 
             <label for="member-name">メンバー名</label><br>
-            <input type="text" id="member-name" placeholder="メンバー名を入力"><br><br>
+            <input type="text" id="member-name" placeholder="メンバー名を入力">
+            <button type="button" onclick="addMember()">追加</button><br><br>
+
+            <!-- メンバーリスト -->
+            <div id="member-list"></div>
 
             <div class="buttons">
                 <button class="button button-create" onclick="navigateToList()">作成</button>
@@ -64,33 +43,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
+        // メンバーを追加する関数
+        function addMember() {
+            const memberNameInput = document.getElementById("member-name");
+            const memberList = document.getElementById("member-list");
+
+            if (memberNameInput.value.trim() !== "") {
+                // メンバーアイテムを作成
+                const memberItem = document.createElement("div");
+                memberItem.className = "member-item";
+                memberItem.textContent = memberNameInput.value;
+
+                // メンバーリストに追加
+                memberList.appendChild(memberItem);
+
+                // 入力フィールドをリセット
+                memberNameInput.value = "";
+            }
+        }
+
         // 作成ボタンの画面遷移
         function navigateToList() {
-            
-            // フォームの値をとってくる
+            // フォームの値を取得
             const EventName = document.getElementById('event-name').value;
             const EventDate = document.getElementById('event-date').value;
-            const MemberName = document.getElementById('member-name').value;
+            const memberItems = document.querySelectorAll("#member-list .member-item");
+
+            // メンバー名を配列にまとめる
+            const MemberNames = Array.from(memberItems).map(item => item.textContent);
 
             // フォームデータとして作成
             const formData = new FormData();
             formData.append('event-name', EventName);
             formData.append('event-date', EventDate);
-            formData.append('member-name', MemberName);
-
+            MemberNames.forEach((name, index) => {
+                formData.append('member-name[' + index + ']', name);
+            });
 
             // POSTリクエスト
             fetch('config_event.php', {
                  method: 'POST',
-                body: formData
+                 body: formData
             })
-
-            //判定
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    //console.log(data.event-name);
-                 
                     window.location.href = "イベントの閲覧と選択.php";
                 } else {
                     alert('イベントの作成に失敗');
@@ -98,62 +95,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             })
             .catch(error => {
                 console.error('Error:', error);
-
-
                 alert('エラーが発生');
             });
         }
-        
     </script>
-</body>
-</html>
-
-    <script>
-        // メンバーを追加する関数
-    //     function addMember() {
-    //         const memberNameInput = document.getElementById("memberName");
-    //         const memberList = document.getElementById("memberList");
-
-    //         if (memberNameInput.value.trim() !== "") {
-    //             const memberItem = document.createElement("span");
-    //             memberItem.className = "member-item";
-    //             memberItem.textContent = memberNameInput.value;
-
-    //             const removeBtn = document.createElement("span");
-    //             removeBtn.className = "remove-btn";
-    //             removeBtn.textContent = "×";
-    //             removeBtn.onclick = () => memberItem.remove();
-    //             memberItem.appendChild(removeBtn);
-
-    //             memberList.appendChild(memberItem);
-
-    //             memberNameInput.value = "";
-    //         }
-    //     }
-
-    //     // イベントを作成してlocalStorageに保存
-    //     document.getElementById("create-button").addEventListener('click', function() {
-    //         const eventName = document.getElementById("event-name").value;
-    //         const eventDate = document.getElementById("event-date").value;
-    //         const members = Array.from(document.getElementById("memberList").children).map(member => member.textContent);
-
-    //         if (eventName && eventDate && members.length > 0) {
-    //             const newEvent = {
-    //                 eventName: eventName,
-    //                 eventDate: eventDate,
-    //                 members: members
-    //             };
-
-    //             const events = JSON.parse(localStorage.getItem("events")) || [];
-    //             events.push(newEvent);
-    //             localStorage.setItem("events", JSON.stringify(events));
-
-    //             // 作成後、イベント一覧ページに遷移
-    //             window.location.href = 'イベントの閲覧と選択.html';
-    //         } else {
-    //             alert("すべてのフィールドを入力してください。");
-    //         }
-    //     });
-    // </script>
 </body>
 </html>
