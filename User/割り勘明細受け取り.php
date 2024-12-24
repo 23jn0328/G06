@@ -1,10 +1,18 @@
+<?php
+    require_once 'HappenDetailDAO.php';
+    require_once 'HappenDAO.php';
+
+    
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>割り勘明細 - わりペイ</title>
-    <link rel="stylesheet" href="割り勘明細.css">
+    <link rel="stylesheet" href="割り勘明細受け取り.css">
 </head>
 <body>
 
@@ -21,7 +29,7 @@
         <div id="scrollable-content">
             <!-- メンバーごとの支払情報 -->
             <div class="payment-card">
-                <h2>しゅうと  はやと <span class="payment-amount">￥5000</span></h2>
+                <h2>しゅうと ⬅ はやと <span class="payment-amount">￥5000</span></h2>
                 <div class="event-item">
                     <div class="event-name">レンタカー代</div>
                     <div class="event-amount">￥2000</div>
