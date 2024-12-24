@@ -19,7 +19,7 @@ class HappenDao
     {
         $dbh = DAO::get_db_connect();
 
-        $sql = "SELECT EMID, MemberName FROM イベントメンバー";
+        $sql = "SELECT EMID, EventMemberName FROM イベントメンバー";
         $stmt = $dbh->prepare($sql);
         $stmt->execute();
 
