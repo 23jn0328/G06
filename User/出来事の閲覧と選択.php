@@ -1,3 +1,34 @@
+<?php
+    require_once 'DAO.php';  // DAOクラスの読み込み
+    require_once 'HappenDao.php';  // HappenDaoクラスの読み込み
+
+    // セッション開始とイベントIDの取得
+    session_start();
+    if (!isset($_SESSION['member_id'])) {
+        // ログインしていない場合はログインページへリダイレクト
+        header('Location: ログイン.php');
+        exit;
+    }
+
+    $user_id = $_SESSION['member_id'];
+
+    // URLからイベントIDを取得
+    $eventID = $_GET['eventID'] ?? null;
+    if (!$eventID) {
+        echo "イベントIDが指定されていません。";
+        exit;
+    }
+
+    // HappenDaoインスタンス作成
+    $happenDao = new HappenDao();
+
+    // イベントメンバー一覧の取得
+    $members = $happenDao->get_member_list();
+
+    // 出来事一覧の取得
+    $happens = $happenDao->get_happen_details_by_event_id($eventID);
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -16,35 +47,33 @@
                     </a>
                 </div>
             </header>
+            
+            
             <!-- イベント名 -->
-            <h2 class="event-name">旅行</h2>
-            <!-- メンバーリスト -->
-            <div class="member-list">Aさん・Bさん・Cさん</div>
+            <h2 class="event-name">イベント名: <?= htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8') ?></h2>
+
+            <p>イベントメンバー：</p>
+
             <!-- 出来事の追加ボタン -->
             <button class="add-event-button" onclick="location.href='出来事作成.php'">出来事の追加</button>
             <!-- 各費用項目 -->
-            <div class="expense-item">
-                <h3 class="expense-title">タクシー代</h3>
-                <p class="payer">Aさんが立て替え</p>
-                <div class="button-group">
-                    <button class="person-button">Aさん</button>
-                    <button class="person-button">Bさん</button>
-                    <button class="person-button">Cさん</button>
-                    <button class="edit-button" onclick="location.href='出来事管理.php'">🖊</button>
-                </div>
-                <div class="amount">￥6000</div>
-            </div>
-
-            <div class="expense-item">
-                <h3 class="expense-title">昼飯代</h3>
-                <p class="payer">Bさんが立て替え</p>
-                <div class="button-group">
-                    <button class="person-button">Aさん</button>
-                    <button class="person-button">Cさん</button>
-                    <button class="edit-button" onclick="location.href='出来事管理.php'">🖊</button>
-                </div>
-                <div class="amount">￥6000</div>
-            </div>
+             <!-- 出来事一覧 -->
+             <?php if (!empty($happens)): ?>
+                <?php foreach ($happens as $happen): ?>
+                    <div class="expense-item">
+                        <h3 class="expense-title"><?= htmlspecialchars($happen->HappenName, ENT_QUOTES, 'UTF-8') ?></h3>
+                        <p class="payer"><?= htmlspecialchars($happen->PayID, ENT_QUOTES, 'UTF-8') ?> が立て替え</p>
+                        <div class="button-group">
+                            <!-- メンバー選択ボタン（例） -->
+                            <button class="person-button"><?= htmlspecialchars($happen->PayEMID, ENT_QUOTES, 'UTF-8') ?></button>
+                            <button class="edit-button" onclick="location.href='出来事管理.php?happenID=<?= htmlspecialchars($happen->HID, ENT_QUOTES, 'UTF-8') ?>'">🖊</button>
+                        </div>
+                        <div class="amount">￥<?= number_format($happen->TotalMoney) ?></div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>現在、表示する出来事はありません。</p>
+            <?php endif; ?>
         <!-- 割り勘総額ボタン -->
         <button class="summary-button" onclick="location.href='割り勘総額.php'">割り勘総額</button>
         <!-- イベント終了ボタン -->
