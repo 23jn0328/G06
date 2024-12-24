@@ -21,7 +21,7 @@
         <div id="scrollable-content">
             <!-- メンバーごとの支払情報 -->
             <div class="payment-card">
-                <h2>しゅうと  はやと <span class="payment-amount">￥5000</span></h2>
+                <h2>しゅうと ⬅ はやと <span class="payment-amount">￥5000</span></h2>
                 <div class="event-item">
                     <div class="event-name">レンタカー代</div>
                     <div class="event-amount">￥2000</div>
