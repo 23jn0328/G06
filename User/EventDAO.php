@@ -84,11 +84,19 @@ class EventDAO
 
         $sql = "SELECT * FROM イベント WHERE EID = :EID";
         $stmt = $dbh->prepare($sql);
-        $stmt->execute([
-            ':EID' => $eventID,
-        ]);
+        $stmt->execute([':EID' => $eventID]);
 
-        $row = $stmt->fetchObject('Event');
-        return $row ?: null;
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            $event = new Event();
+            $event->EID = $row['EID'];
+            $event->ID = $row['ID'];
+            $event->EventName = $row['EventName'];
+            $event->EventDate = new DateTime($row['EventDate']);
+            $event->EventStart = new DateTime($row['EventStart']);
+            return $event;
+        }
+
+        return null;
     }
 }

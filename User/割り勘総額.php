@@ -1,5 +1,5 @@
 <?php
-    require_once 'HappenDetailDAO.php';
+    /*require_once 'HappenDetailDAO.php';
 
     // HIDを取得
     $HID = $_GET['HID'];  // URLのパラメータやフォームからHIDを取得
@@ -14,7 +14,7 @@
     function getMemberName($EMID) {
         global $happenDetailDAO;
         return $happenDetailDAO->getMemberNameById($EMID);
-}
+}*/
 ?>
 <!DOCTYPE html>
 <html lang="ja">

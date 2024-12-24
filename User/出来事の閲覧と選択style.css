@@ -43,10 +43,28 @@ body {
 
 /* メンバーリスト */
 .member-list {
-    font-size: 16px;
-    color: #666666;
-    margin-bottom: 20px;
+    list-style-type: none; /* リストのデフォルトの丸を削除 */
+    padding: 0;
+    margin: 0;
+    display: flex; /* 横並び */
+    gap: 15px; /* アイテム間のスペース */
+    flex-wrap: wrap; /* アイテムが収まりきらない場合、次の行に折り返す */
+    justify-content: center; /* アイテムを中央揃え */
 }
+
+/* メンバーアイテム */
+.member-item {
+    background-color: #f0f0f0; /* アイテムの背景色 */
+    padding: 5px 10px; /* アイテムの内側に余白 */
+    border-radius: 5px; /* アイテムに角丸を追加 */
+    font-size: 14px;
+    white-space: nowrap; /* メンバー名が長くても1行で表示 */
+    text-align: center; /* メンバー名を中央に配置 */
+    min-width: 80px; /* 最小幅 */
+    border: 1px solid blue; /* 境界線を追加して確認 */
+}
+
+
 
 /* 出来事の追加ボタン */
 .add-event-button {
@@ -169,3 +187,4 @@ body {
 .end-event-button:hover {
     background-color: #607d8b;
 }
+
