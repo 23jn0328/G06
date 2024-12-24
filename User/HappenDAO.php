@@ -9,7 +9,7 @@ class Happen
     public string $PayEMID; // 支払者イベントメンバーID
     public string $HappenName; // 出来事名
     public int $TotalMoney; // 総額
-    public DateTime $HappenDate; // 出来事日時
+    public string $HappenDate; // 出来事日時
 }
 
 class HappenDao
@@ -33,7 +33,7 @@ class HappenDao
         string $payEMID,
         string $happenName,
         int $totalMoney,
-        DateTime $happenDate
+        string $happenDate
     ): string {
         $dbh = DAO::get_db_connect();
 

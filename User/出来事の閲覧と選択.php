@@ -73,8 +73,7 @@
 
 
             <!-- 出来事の追加ボタン -->
-            <button class="add-event-button" onclick="location.href='出来事作成.php'">出来事の追加</button>
-            <!-- 各費用項目 -->
+            <button class="add-event-button" onclick="location.href='出来事作成.php?eventID=<?php echo $eventID; ?>'">出来事の追加</button>            <!-- 各費用項目 -->
             <?php if (!empty($happens)): ?>
             <?php foreach ($happens as $happen): ?>
                 <div class="expense-item">

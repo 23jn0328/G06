@@ -15,14 +15,14 @@ $memberList = $happenDao->get_member_list();
 </head>
 <body>
 <div id="main-container">
-        <header>
-            <div id="logo">
-                <a href="イベントの閲覧と選択.php">
+    <header>
+        <div id="logo">
+            <a href="イベントの閲覧と選択.php">
                 <img src="img/image.png" alt="WARIPAYロゴ">
-                </a>
-            </div>
-        </header>
-    <from action="config_happen" method="POST">
+            </a>
+        </div>
+    </header>
+    <form action="config_happen.php" method="POST">
         <div class="container">
             <label for="event-name" id="happenName" class="bold-text">出来事名</label>
             <input type="text" id="event-name" name="happenName" placeholder="出来事名を入力" required>
@@ -59,8 +59,8 @@ $memberList = $happenDao->get_member_list();
             <input type="hidden" name="eventID" id="eventID" value="イベントのID">
         </div>
         <div class="buttons">
-            <button type="submit"class="button button-create" id="add-button">作成</button>
-            <button type="button"class="button button-back" onclick="history.back()">戻る</button>
+            <button type="submit" class="button button-create" id="add-button">作成</button>
+            <button type="button" class="button button-back" onclick="history.back()">戻る</button>
         </div>
 
     <script>
@@ -77,16 +77,16 @@ $memberList = $happenDao->get_member_list();
 
             const perPersonField = document.getElementById('per-person');
             
-            if (!isNaN(amount) && amount > 0) {
+            if (selectedCount > 0 && !isNaN(amount) && amount > 0) {
                 const perPersonAmount = Math.ceil(amount / selectedCount); // 小数点以下切り上げ
                 perPersonField.value = `¥${perPersonAmount}`;
             } else {
                 perPersonField.value = '';
             }
         }
-        //document.getElementById('add-button').addEventListener('click',function(){
-            //window.location.href='出来事の閲覧と選択.php';
-        //});
+
+        // ページ読み込み時に初期化
+        window.onload = calculatePerPerson;
     </script>
 </div>
 </body>
