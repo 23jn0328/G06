@@ -79,11 +79,37 @@ h1 {
     font-size: 18px;
 }
 
+.payment-amount,
+.payment-amount2,
+.payment-amount3,
+.payment-amount4 {
+    display: block; /* 要素を縦に並べる */
+    text-align: right; /* 右揃え */
+    font-weight: bold;
+    cursor: pointer; /* ポインタカーソルを表示 */
+    transition: transform 0.3s ease, color 0.3s ease;/* アニメーションの設定 */
+}
+.payment-amount:hover,
+.payment-amount2:hover,
+.payment-amount3:hover,
+.payment-amount4:hover {
+    transform: scale(1.1); /* サイズを少し大きくする */
+    
+}
+
 .payment-amount {
     font-size: 18px;
-    color: #000000;
-    font-weight: bold;
+    color: black;
+    margin-bottom: 5px; /* 下に余白を追加 */
 }
+
+.payment-amount2,
+.payment-amount3,
+.payment-amount4 {
+    font-size: 16px;
+    color: red;
+}
+
 
 /* 戻るボタンを右下に配置 */
 #return-link {
