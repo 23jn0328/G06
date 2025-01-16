@@ -40,6 +40,24 @@
             return false;
         }
 
+        public function get_member_by_id($id)
+        {
+            $dbh = DAO::get_db_connect();
+
+        // クエリの準備
+            $sql = "SELECT * FROM 会員 WHERE ID = :id";
+            $stmt = $dbh->prepare($sql);
+
+        // IDをバインド
+            $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+
+        // クエリ実行
+            $stmt->execute();
+
+        // 結果を取得して返す
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
         //会員データを登録する
         public function insert(Member $member)
         {  
