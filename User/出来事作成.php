@@ -1,8 +1,37 @@
 <?php
-require_once 'HappenDAO.php';
+require_once 'DAO.php';  // DAOクラスの読み込み
+require_once 'HappenDao.php';  // HappenDaoクラスの読み込み
 
+// セッション開始とイベントIDの取得
+session_start();
+if (!isset($_SESSION['member_id'])) {
+    // ログインしていない場合はログインページへリダイレクト
+    header('Location: ログイン.php');
+    exit;
+}
+
+$user_id = $_SESSION['member_id'];
+
+// URLからイベントIDを取得
+$eventID = $_GET['eventID'] ?? null;
+if (!$eventID) {
+    echo "イベントIDが指定されていません。";
+    exit;
+}
 $happenDao = new HappenDAO();
-$memberList = $happenDao->get_member_list();
+//$memberList = $happenDao->get_member_list();
+
+if (isset($_GET['eventID'])) {
+    $eventID = $_GET['eventID'];
+} else {
+    // もし eventID が渡されていない場合はエラーメッセージを表示して終了
+    echo "イベントIDが指定されていません。";
+    exit;
+}
+
+$happenDao = new HappenDao();
+$eventID = $_GET['eventID']; // または適切な方法で取得
+$memberList = $happenDao->get_member_list($eventID);
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +70,7 @@ $memberList = $happenDao->get_member_list();
             </div>
             
             <label for="payer" class="bold-text">払ったメンバー</label>
+            <?php var_dump($eventID) ?>
             <select id="payer" name="payer" required>
                 <option value="" disabled selected>選択してください</option>
                     <?php foreach ($memberList as $member): ?>
@@ -56,7 +86,7 @@ $memberList = $happenDao->get_member_list();
             <label for="per-person" class="bold-text">一人当たり</label>
             <input type="text" id="per-person" placeholder="¥" readonly>
 
-            <input type="hidden" name="eventID" id="eventID" value="イベントのID">
+            <input type="hidden" name="eventID" value="<?= htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8') ?>">
         </div>
         <div class="buttons">
             <button type="submit" class="button button-create" id="add-button">作成</button>

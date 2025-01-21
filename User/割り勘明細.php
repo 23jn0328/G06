@@ -14,6 +14,7 @@
     #支払者IDを取得してIDが設定されていなければエラー文
     $payer_id = $_GET['payer_id'] ?? null;
 
+    #仮のID
     $payer_id = "M000001";
 
     if(!$payer_id){

@@ -15,12 +15,14 @@ class Happen
 class HappenDao
 {
     // イベントメンバー一覧を取得
-    public function get_member_list(): array
+    public function get_member_list(string $eventID): array
     {
         $dbh = DAO::get_db_connect();
 
-        $sql = "SELECT EMID, EventMemberName FROM イベントメンバー";
+        $sql = "SELECT EMID, EventMemberName FROM イベントメンバー where EID = :eID";
         $stmt = $dbh->prepare($sql);
+        $stmt->bindParam(':eID', $eventID, PDO::PARAM_STR);
+
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -36,15 +38,33 @@ class HappenDao
         string $happenDate
     ): string {
         $dbh = DAO::get_db_connect();
+        //$sql = "SELECT COUNT(*) FROM 出来事 WHERE PayEMID = :PayEMID";
+        //$stmt = $dbh->prepare($sql);
+        //$stmt->bindParam(':PayEMID', $payEMID, PDO::PARAM_STR);
+        //$stmt->execute();
+        //$count = $stmt->fetchColumn();
 
+        // PayEMID が dbo.イベントメンバー に存在するか確認
+        $sql = "SELECT EMID FROM イベントメンバー WHERE EMID = :payEMID";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindParam(':payEMID', $payEMID, PDO::PARAM_STR);
+        $stmt->execute();
+        $member = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if (!$member) {
+            echo "指定されたPayEMIDはイベントメンバーに存在しません。";
+            exit; // 存在しない場合、処理を終了
+        }
+    
         // 最新の出来事IDを取得
         $sql = "SELECT MAX(HID) as HID FROM 出来事";
         $stmt = $dbh->query($sql);
         $lastHappen = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    
         $lastID = $lastHappen ? (int)substr($lastHappen['HID'], 1) : 0;
         $newID = 'H' . str_pad($lastID + 1, 6, '0', STR_PAD_LEFT);
-
+    
+        // 出来事を挿入
         $sql = "INSERT INTO 出来事 (HID, PayID, EID, PayEMID, HappenName, TotalMoney, HappenDate)
                 VALUES (:HID, :PayID, :EID, :PayEMID, :HappenName, :TotalMoney, :HappenDate)";
         $stmt = $dbh->prepare($sql);
@@ -55,47 +75,33 @@ class HappenDao
             ':PayEMID' => $payEMID,
             ':HappenName' => $happenName,
             ':TotalMoney' => $totalMoney,
-            ':HappenDate' => $happenDate->format("Y-m-d H:i:s"),
+            ':HappenDate' => $happenDate, // 日付は文字列で渡される場合
         ]);
-
+    
         return $newID;
     }
+    
 
     // イベントIDに基づいて出来事を取得
-    public function get_happen_details_by_event_id(string $eventID): array
-    {
+    public function get_happen_details_by_event_id($eventID) {
+        // DB接続を取得
         $dbh = DAO::get_db_connect();
     
-        $sql = "SELECT HID, PayID, EID, PayEMID, HappenName, TotalMoney, HappenDate 
-                FROM 出来事 
-                WHERE EID = :EID 
-                ORDER BY HappenDate ASC";
+        // SQL文の準備
+        $sql = "SELECT HID, PayID, EID, PayEMID, HappenName, TotalMoney, HappenDate
+                FROM 出来事
+                WHERE EID = :eventID
+                ORDER BY HappenDate DESC";
     
+        // SQLの実行
         $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(':EID', $eventID, PDO::PARAM_STR);
+        $stmt->bindParam(':eventID', $eventID, PDO::PARAM_STR);
         $stmt->execute();
     
-        $happens = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $happen = new Happen();
-            $happen->HID = $row['HID'];
-            $happen->PayID = $row['PayID'];
-            $happen->EID = $row['EID'];
-    
-            // PayEMIDがnullの場合、空文字列を代入
-            $happen->PayEMID = $row['PayEMID'] ?? '';  // nullなら空文字列
-    
-            $happen->HappenName = $row['HappenName'];
-            $happen->TotalMoney = (int)$row['TotalMoney'];
-            $happen->HappenDate = new DateTime($row['HappenDate']);
-    
-            $happens[] = $happen;
-        }
-    
-        return $happens;
+        // 結果を返す
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
     
-
     // 出来事を削除
     public function delete_happen_by_id(string $happenID): bool
     {
@@ -113,4 +119,3 @@ class HappenDao
         }
     }
 }
-
