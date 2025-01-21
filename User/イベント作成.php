@@ -127,9 +127,9 @@ function navigateToList() {
     const formData = new FormData();
     formData.append('event-name', EventName);
     formData.append('event-date', EventDate);
-    MemberNames.forEach((name, index) => {
-        formData.append('member-name[' + index + ']', name);
-    });
+    for (let i = 1; i < memberItems.length; i++) {
+        formData.append('member-name[' + (i - 1) + ']', memberItems[i].textContent);
+    }
     
     // POSTリクエスト
     fetch('config_event.php', {
