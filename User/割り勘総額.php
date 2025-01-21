@@ -72,21 +72,21 @@
             <li class="member-item">
                 <a>はやと</a>
                 <div>
-                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥5000</span></a>
+                <a href="割り勘明細受け取り.php"><span class="payment-amount">¥37,000</span></a>
                 <a href="割り勘明細.php"><span class="payment-amount2">¥2500</span></a>
                 </div>
             </li>
             <li class="member-item">
                 <a>しゅうと</a>
                 <div>
-                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥7000</span></a>
+                <a href="割り勘明細受け取り.php"><span class="payment-amount">¥7000</span></a>
                 <a href="割り勘明細.php"><span class="payment-amount3">¥2500</span></a>
                 </div>
             </li>
             <li class="member-item">
                 <a>いくみ</a>
                 <div>
-                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥7000</span></a>
+                <a href="割り勘明細受け取り.php"><span class="payment-amount">¥7000</span></a>
                 <a href="割り勘明細.php"><span class="payment-amount4">¥2500</span></a>
                 </div>
             </li>
