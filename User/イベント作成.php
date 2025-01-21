@@ -1,5 +1,38 @@
 
+<?php 
+/*
+session_start();
+require_once 'EventMemberDAO.php';
+require_once 'EventDAO.php';
 
+$eventMemberDAO = new EventMemberDAO();
+$emid = $eventMemberDAO->getNextEMID();
+    // EventDAOのインスタンスを作成
+    $eventDAO = new EventDAO();
+
+
+   // イベントを追加
+   $date = new DateTime('2025-01-17');
+//$formatted_date = $date->format('Y-m-d H:i:s');
+
+$eventId = $eventDAO->add_event($_SESSION['member_id'], "ev100", $date);
+
+$eventMember = new EventMember();
+$emid = $eventMemberDAO->getNextEMID(); 
+$eventMember->EMID = $emid; // 新しいEMIDを生成
+$eventMember->EID = $eventId; // 登録されたイベントID
+$eventMember->EventMemberName = "ev100-1";
+
+$eventMemberDAO->saveEventMember($eventMember);
+
+$emid = $eventMemberDAO->getNextEMID(); 
+$eventMember->EMID = $emid; // 新しいEMIDを生成
+$eventMember->EID = $eventId; // 登録されたイベントID
+$eventMember->EventMemberName = "ev100-2";
+$eventMemberDAO->saveEventMember($eventMember);
+
+*/
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -79,7 +112,8 @@
             MemberNames.forEach((name, index) => {
                 formData.append('member-name[' + index + ']', name);
             });
-
+            
+            
             // POSTリクエスト
             fetch('config_event.php', {
                  method: 'POST',
@@ -94,9 +128,10 @@
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('エラーが発生');
+                //console.error('Error:', error);
+                alert(error);
             });
+            
         }
     </script>
 </body>
