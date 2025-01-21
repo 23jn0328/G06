@@ -69,13 +69,30 @@ class EventDAO
     public function delete_event(string $eventID)
     {
         $dbh = DAO::get_db_connect();
-
-        $sql = "DELETE FROM イベント WHERE EID = :EID";
-        $stmt = $dbh->prepare($sql);
-        $stmt->execute([
-            ':EID' => $eventID,
-        ]);
+    
+        // トランザクション開始
+        $dbh->beginTransaction();
+    
+        try {
+            // 子テーブル（イベントメンバー）の関連データを削除
+            $sql = "DELETE FROM イベントメンバー WHERE EID = :EID";
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute([':EID' => $eventID]);
+    
+            // イベントの削除
+            $sql = "DELETE FROM イベント WHERE EID = :EID";
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute([':EID' => $eventID]);
+    
+            // トランザクションコミット
+            $dbh->commit();
+        } catch (Exception $e) {
+            // ロールバック
+            $dbh->rollBack();
+            throw $e;
+        }
     }
+    
 
     // イベントの取得
     public function get_event(string $eventID): ?Event
