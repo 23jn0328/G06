@@ -25,7 +25,6 @@
     <link rel="stylesheet" href="割り勘総額.css">
 </head>
 <body>
-
     <!-- 全画面に広がるメインコンテナ -->
     <div id="main-container">
     <div id="logo">
@@ -33,7 +32,41 @@
                 <img src="img/image.png" alt="WARIPAYロゴ">
             </a>
     </div>
+    <div id="text-center">
+    <small>
+        <span class="text-blue">青字</span>は受け取り金額
+        <span class="mx-1">/</span>
+        <span class="text-red">赤字</span>は支払い金額
+    </small>
+    </div>
+    <style> /*cssファイルで適用されないから<style>タグで適用させてる*/
+                .text-blue {
+            color: blue !important;
+        }
 
+        .text-red {
+            color: red !important;
+        }
+        #text-center{
+            display: block;
+            text-align: center;
+        }
+        .member-list .payment-amount {
+            color: blue !important; /* 確実に青字にする */
+        }
+        .payment-amount,
+        .payment-amount2,
+        .payment-amount3,
+        .payment-amount4{
+            text-decoration: underline;
+        }
+        .payment-amount:hover,
+        .payment-amount2:hover,
+        .payment-amount3:hover,
+        .payment-amount4:hover{
+            text-decoration: underline;
+        }
+        </style>
         <!-- メンバーリスト -->
         <ul class="member-list">
             <li class="member-item">
@@ -58,7 +91,7 @@
                 </div>
             </li>
         </ul>
-
+    
         <!-- 右下に配置された戻るボタン -->
         <a id="return-link" href="出来事の閲覧と選択.php">戻る</a>
     </div>
