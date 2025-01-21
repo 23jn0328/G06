@@ -19,12 +19,13 @@
             $dbh = DAO::get_db_connect();
 
             //メールアドレスが一致する会員データを取得する
-            $sql = "SELECT * FROM 会員 WHERE Adress = :Adress ";
+            $sql = "SELECT * FROM 会員 WHERE Adress = :Adress AND Pw = :Pw";
 
             $stmt = $dbh->prepare($sql);
 
             //SQLに変数の値を当てはめる
             $stmt->bindValue(':Adress', $Adress, PDO::PARAM_STR);
+            $stmt->bindValue(':Pw', $Pw, PDO::PARAM_STR);
 
             //SQLを実行する
             $stmt->execute();
