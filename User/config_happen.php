@@ -24,15 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 支払者を解析
     $PayID = '';  // 空文字で初期化
     $PayEMID = null;
-    if (preg_match('/^EID(\d+)$/', $payer, $matches)) {
+    if (preg_match('/^EM(\d+)$/', $payer, $matches)) {
         $PayEMID = $matches[1];
     } else {
-        $PayID = '';  // 空文字で設定（または適切なユーザーIDを設定）
+        $PayEMID = '';  // 空文字で設定（または適切なユーザーIDを設定）
     }
 
-    // もし $PayEMID が null のままであれば、ユーザーIDを代わりに使う
-    if ($PayEMID === null) {
-        $PayEMID = '';  // PayEMID を空文字に設定
+    // もし $PayEMID が null のままであれば、支払ったのは会員なのでID（M000??）を代入
+    if ($PayEMID === '') {
+        $PayID = $payer;  // PayID（支払った会員）にpayerをそのままいれる
     }
 
     // 日付の形式が正しいか確認
@@ -43,9 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // イベントIDが正しい形式かどうかの確認
-    if (!is_numeric($EventID)) {
-        echo "イベントIDは数値である必要があります。";
-        
+    if (!preg_match('/^E\d+$/', $EventID)) {
+        echo "イベントIDは'E'に続いて数字である必要があります。";
+        var_dump($_GET);
         exit;
     }
 
@@ -57,8 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $EventID,  // 数値形式のイベントID
         $PayEMID,
         $HappenName,
-        $HappenDate,
-        $TotalMoney  // 修正後の整数型の金額
+        $TotalMoney,  // 修正後の整数型の金額
+        $HappenDate->format('Y-m-d H:i:s')  // DateTimeオブジェクトを文字列に変換
     );
 
     // 出来事にメンバーを関連付ける

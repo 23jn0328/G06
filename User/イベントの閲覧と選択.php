@@ -12,7 +12,6 @@ if (!isset($_SESSION['member_id'])) {
 }
 
 $user_id = $_SESSION['member_id'];
-
 // 仮のメンバーID
 // $user_id = 'M000002';
 
