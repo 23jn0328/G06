@@ -120,28 +120,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_member'])) {
 // メンバー追加機能
 function addMember() {
     const memberName = document.getElementById('member-name').value;
+    const eventID = <?php echo json_encode($eventID); ?>; // イベントIDをPHPで埋め込む
+
     if (memberName.trim() === "") {
         alert("メンバー名を入力してください");
         return;
     }
 
-    const memberList = document.getElementById('member-list');
-    const memberItem = document.createElement('div');
-    memberItem.classList.add('member-item');
-    memberItem.textContent = memberName;
+    // AJAXリクエストでメンバー追加
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'add_member.php', true); // add_member.phpにリクエスト
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-    const removeBtn = document.createElement('span');
-    removeBtn.classList.add('remove-btn');
-    removeBtn.textContent = "削除";
-    removeBtn.onclick = function() {
-        memberItem.remove();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const response = xhr.responseText;
+            if (response === "success") {
+                // メンバーが正常に追加されたらリストを更新
+                const memberList = document.getElementById('member-list');
+                const memberItem = document.createElement('div');
+                memberItem.classList.add('member-item');
+                memberItem.textContent = memberName;
+
+                const removeBtn = document.createElement('span');
+                removeBtn.classList.add('remove-btn');
+                removeBtn.textContent = "削除";
+                removeBtn.onclick = function() {
+                    memberItem.remove();
+                    updateHiddenMemberList();
+                };
+
+                memberItem.appendChild(removeBtn);
+                memberList.appendChild(memberItem);
+
+                document.getElementById('member-name').value = ''; // 入力欄をクリア
+            } else {
+                alert("メンバーの追加に失敗しました");
+            }
+        }
     };
-    
-    memberItem.appendChild(removeBtn);
-    memberList.appendChild(memberItem);
 
-    document.getElementById('member-name').value = ''; // 入力欄をクリア
+    xhr.send('event_id=' + encodeURIComponent(eventID) + '&member_name=' + encodeURIComponent(memberName));
 }
+
 </script>
 </body>
 </html>
