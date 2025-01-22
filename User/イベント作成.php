@@ -1,5 +1,41 @@
 
+<?php 
+// 必要なファイルの読み込み
+require_once 'DAO.php';
 
+
+// ユーザーIDの取得（ログイン後にセッションで保持していると仮定）
+session_start();
+if (!isset($_SESSION['member_id'])) {
+    // ログインしていない場合はログインページへリダイレクト
+    header('Location: ログイン.php');
+    exit;
+}
+
+$user_id = $_SESSION['member_id'];
+
+// 仮のメンバーID
+// $user_id = 'M000002';
+
+try {
+    // データベース接続
+    $dbh = DAO::get_db_connect();
+
+    // ユーザーの登録イベントを取得
+    $sql = "SELECT UserName FROM 会員 WHERE ID = :user_id ";
+    $stmt = $dbh->prepare($sql);
+    
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+    $stmt->execute();
+
+    // 結果を取得
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $userName = $user['UserName'];
+} catch (PDOException $e) {
+    echo "データベースエラー: " . $e->getMessage();
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -43,61 +79,75 @@
     </div>
 
     <script>
-        // メンバーを追加する関数
-        function addMember() {
-            const memberNameInput = document.getElementById("member-name");
-            const memberList = document.getElementById("member-list");
+       // 初期データ（PHPから渡されたユーザー名）
+       const initialUserName = "<?php echo htmlspecialchars($userName, ENT_QUOTES, 'UTF-8'); ?>";
 
-            if (memberNameInput.value.trim() !== "") {
-                // メンバーアイテムを作成
-                const memberItem = document.createElement("div");
-                memberItem.className = "member-item";
-                memberItem.textContent = memberNameInput.value;
+// ページロード時にユーザー名を追加
+window.onload = function() {
+    if (initialUserName) {
+        addMemberToList(initialUserName);
+    }
+};
 
-                // メンバーリストに追加
-                memberList.appendChild(memberItem);
+// メンバーをリストに追加する関数
+function addMember() {
+    const memberNameInput = document.getElementById("member-name");
+    const memberName = memberNameInput.value.trim();
 
-                // 入力フィールドをリセット
-                memberNameInput.value = "";
-            }
+    if (memberName !== "") {
+        addMemberToList(memberName);
+        memberNameInput.value = ""; // 入力フィールドをリセット
+    }
+}
+
+// メンバーリストに名前を追加する関数
+function addMemberToList(name) {
+    const memberList = document.getElementById("member-list");
+
+    // メンバーアイテムを作成
+    const memberItem = document.createElement("div");
+    memberItem.className = "member-item";
+    memberItem.textContent = name;
+
+    // メンバーリストに追加
+    memberList.appendChild(memberItem);
+}
+
+// 作成ボタンの画面遷移
+function navigateToList() {
+    // フォームの値を取得
+    const EventName = document.getElementById('event-name').value;
+    const EventDate = document.getElementById('event-date').value;
+    const memberItems = document.querySelectorAll("#member-list .member-item");
+
+    // メンバー名を配列にまとめる
+    const MemberNames = Array.from(memberItems).map(item => item.textContent);
+
+    // フォームデータとして作成
+    const formData = new FormData();
+    formData.append('event-name', EventName);
+    formData.append('event-date', EventDate);
+    for (let i = 1; i < memberItems.length; i++) {
+        formData.append('member-name[' + (i - 1) + ']', memberItems[i].textContent);
+    }
+    
+    // POSTリクエスト
+    fetch('config_event.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = "イベントの閲覧と選択.php";
+        } else {
+            alert('イベントの作成に失敗');
         }
-
-        // 作成ボタンの画面遷移
-        function navigateToList() {
-            // フォームの値を取得
-            const EventName = document.getElementById('event-name').value;
-            const EventDate = document.getElementById('event-date').value;
-            const memberItems = document.querySelectorAll("#member-list .member-item");
-
-            // メンバー名を配列にまとめる
-            const MemberNames = Array.from(memberItems).map(item => item.textContent);
-
-            // フォームデータとして作成
-            const formData = new FormData();
-            formData.append('event-name', EventName);
-            formData.append('event-date', EventDate);
-            MemberNames.forEach((name, index) => {
-                formData.append('member-name[' + index + ']', name);
-            });
-
-            // POSTリクエスト
-            fetch('config_event.php', {
-                 method: 'POST',
-                 body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = "イベントの閲覧と選択.php";
-                } else {
-                    alert('イベントの作成に失敗');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('エラーが発生');
-            });
-        }
+    })
+    .catch(error => {
+        alert(error);
+    });
+}
     </script>
 </body>
 </html>

@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+require_once 'config.php';
+require_once 'HappenDAO.php';
+
+$eventID=$_SESSION['eventID'];
+
+$happenDAO=new HappenDAO();
+$memberList=$happenDAO->get_member_list($eventID);
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -16,33 +29,39 @@
                 </div>
             </header>
     <div class="container">
+        <form action="update_happen.php" method="POST">
+
         <label for="event-name">出来事名</label>
-        <input type="text" id="event-name" placeholder="出来事名を入力">
+        <input type="text" id="event-name" name="happenName" placeholder="出来事名を入力">
         
         <label for="event-date">出来事日時</label>
-        <input type="date" id="event-date" placeholder="出来事日時を入力">
+        <input type="date" id="event-date" name="happenDate" placeholder="出来事日時を入力">
         
-        <label for="member-selection">メンバー選択</label>
-        <div class="checkbox-group" id="member-selection">
-            <label><input type="checkbox" name="member" value="A" onclick="calculatePerPerson()"> A</label>
-            <label><input type="checkbox" name="member" value="B" onclick="calculatePerPerson()"> B</label>
-            <label><input type="checkbox" name="member" value="C" onclick="calculatePerPerson()"> C</label>
-            <label><input type="checkbox" name="member" value="D" onclick="calculatePerPerson()"> D</label>
-        </div>
+        <label for="member-selection" class="bold-text">メンバー選択</label>
+            <div class="checkbox-group" id="member-selection">
+                <?php foreach ($memberList as $member): ?>
+                    <label>
+                        <input type="checkbox" name="members[]" value="<?= $member['EMID'] ?>" onclick="calculatePerPerson()">
+                            <?= htmlspecialchars($member['EventMemberName'], ENT_QUOTES, 'UTF-8') ?>
+                    </label>
+                <?php endforeach; ?>
+            </div>
         
-        <label for="payer">払ったメンバー</label>
-        <select id="payer">
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-            <option value="D">D</option>
-        </select>
+            <label for="payer" class="bold-text">払ったメンバー</label>
+            <select id="payer" name="payer" required>
+                <option value="" disabled selected>選択してください</option>
+                    <?php foreach ($memberList as $member): ?>
+                        <option value="<?= $member['EMID'] ?>">
+                            <?= htmlspecialchars($member['EventMemberName'], ENT_QUOTES, 'UTF-8') ?>
+                </option>
+                <?php endforeach; ?>
+            </select>
         
-        <label for="amount">金額</label>
-        <input type="number" id="amount" placeholder="¥" oninput="calculatePerPerson()">
-        
-        <label for="per-person">一人当たり</label>
-        <input type="text" id="per-person" placeholder="¥" readonly>
+            <label for="amount" class="bold-text">金額</label>
+            <input type="number" id="amount" name="totalMoney" placeholder="¥" oninput="calculatePerPerson()" required>
+            
+            <label for="per-person" class="bold-text">一人当たり</label>
+            <input type="text" id="per-person" placeholder="¥" readonly>
     
     </div>
 
@@ -50,7 +69,7 @@
         <button class="button button-create" id="create-button">更新</button>
         <button class="button button-back" onclick="history.back()">戻る</button>
     </div>
-
+    </form>
 
 <script>
     function calculatePerPerson() {
@@ -73,9 +92,7 @@
             perPersonField.value = '';
         }
     }
-    document.getElementById('create-button').addEventListener('click',function(){
-            window.location.href='出来事の閲覧と選択.php';
-        });
+    
 </script>
 </div>
 

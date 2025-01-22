@@ -1,3 +1,48 @@
+<?php
+
+    require_once 'DAO.php';
+    require_once 'MemberDAO.php';
+    require_once 'HappenDAO.php';
+    require_once 'HappenDetailDAO.php';
+    require_once 'EventMemberDAO.php';
+
+    $memberDAO = new MemberDAO();
+    $happenDAO = new HappenDAO();
+    $happenDetailDAO = new HappenDetailDAO();
+    $eventMemberDAO = new EventMemberDAO();
+
+    #支払者IDを取得してIDが設定されていなければエラー文
+    $payer_id = $_GET['payer_id'] ?? null;
+
+    #仮のID
+    $payer_id = "M000001";
+
+    if(!$payer_id){
+        echo "支払者IDをいれろ";
+        exit;
+    }
+
+    #支払者情報を取得して見つからない場合エラー文
+    $payer = $memberDAO->get_member_by_id($payer_id);
+    if(!$payer){
+        echo "支払者が見つかりません。";
+        exit;
+    }
+
+    function get_name($pay_id, $pay_emid, $memberDAO, $eventMemberDAO){
+        if($pay_id){
+            $payer = $memberDAO->get_member_by_id($pay_id);
+            return $payer['UserName'] ?? '不明なユーザー';
+        }elseif ($pay_emid){
+            $payer = $eventMemberDAO->get_event_member_by_id($pay_emid);
+            return $payer['EventMemberName'] ?? '不明なメンバー';
+        }
+        return '不明なユーザー';
+    }
+
+    $happen_list = $happenDAO->get_happen_details_by_event_id($payer_id);
+
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -11,79 +56,45 @@
     <!-- メインコンテナ -->
     <div id="main-container">
     <header>
-                <div id="logo">
-                    <a href="イベントの閲覧と選択.php">
-                        <img src="img/image.png" alt="WARIPAYロゴ">
-                    </a>
-                </div>
-            </header>
-        <!-- スクロール可能な明細エリア -->
-        <div id="scrollable-content">
-            <!-- メンバーごとの支払情報 -->
-            <div class="payment-card">
-                <h2>しゅうと ➔ はやと <span class="payment-amount">￥5000</span></h2>
-                <div class="event-item">
-                    <div class="event-name">レンタカー代</div>
-                    <div class="event-amount">￥2000</div>
-                </div>
-                <div class="event-date">2024年10月15日 13時</div>
-
-                <div class="event-item">
-                    <div class="event-name">食事</div>
-                    <div class="event-amount">￥3000</div>
-                </div>
-                <div class="event-date">2024年10月15日 18時</div>
+            <div id="logo">
+                <a href="イベントの閲覧と選択.php">
+                    <img src="img/image.png" alt="WARIPAYロゴ">
+                </a>
             </div>
+    </header>
 
-            <div class="payment-card">
-                <h2>しゅうと ➔ ひかる <span class="payment-amount">￥10000</span></h2>
-                <div class="event-item">
-                    <div class="event-name">ホテル代</div>
-                    <div class="event-amount">￥10000</div>
-                </div>
-                <div class="event-date">2024年10月15日 11時</div>
-            </div>
+    <!-- スクロールエリア -->
+    <div id="scrollabel-content">
+
+        <?php foreach ($happen_list as $happen): ?>
+            <?php
+
+            #支払者と支払先の名前を取得
+            $payer_name = get_name($happen['PayID'],$happen['PayEMID'],$memberDAO,$eventMemberDAO);
+            $payee_name = get_name($happen['SakiKID'],$happen['SakiEMID'],$memberDAO,$eventMemberDAO);
+
+            #出来事詳細情報取得
+            $details = $happenDetailDAO->get_happendetails($happen['HID']);
+
+            #合計金額計算
+            $total_amount = array_sum(array_column(details,'SMoney'));
+
+            ?>
 
             <div class="payment-card">
-                <h2>しゅうと ➔ れおん <span class="payment-amount">￥10000</span></h2>
-                <div class="event-item">
-                    <div class="event-name">タクシー代</div>
-                    <div class="event-amount">￥10000</div>
-                </div>
-                <div class="event-date">2024年10月15日 17時</div>
+            <h2><?= htmlspecialchars($payer_name) ?> ➔ <?= htmlspecialchars($payee_name) ?> <span class="payment-amount">￥<?= number_format($total_amount) ?></span></h2>
+                <?php foreach ($details as $detail): ?>
+                    <div class="event-item">
+                        <div class="event-name"><?= htmlspecialchars($detail['HappenName']) ?></div>
+                        <div class="event-amount">￥<?= number_format($detail['SMoney']) ?></div>
+                    </div>
+
+                    <div class="event-date"><?= htmlspecialchars($detail['Happendate']) ?></div>
+            
+                <?php endforeach; ?>
             </div>
-
-            <!-- 新規追加データ -->
-            <div class="payment-card">
-                <h2>しゅうと ➔ いくみ <span class="payment-amount">￥6000</span></h2>
-                <div class="event-item">
-                    <div class="event-name">食事</div>
-                    <div class="event-amount">￥3000</div>
-                </div>
-                <div class="event-date">2024年10月15日</div>
-
-                <div class="event-item">
-                    <div class="event-name">温泉代</div>
-                    <div class="event-amount">￥3000</div>
-                </div>
-                <div class="event-date">2024年10月16日</div>
-            </div>
-
-            <div class="payment-card">
-                <h2>しゅうと ➔ ますだ <span class="payment-amount">￥6000</span></h2>
-                <div class="event-item">
-                    <div class="event-name">ガソリン代</div>
-                    <div class="event-amount">￥4000</div>
-                </div>
-                <div class="event-date">2024年10月26日</div>
-
-                <div class="event-item">
-                    <div class="event-name">ホテル代</div>
-                    <div class="event-amount">￥2000</div>
-                </div>
-                <div class="event-date">2024年10月27日</div>
-            </div>
-        </div>
+        <?php endforeach; ?>
+    </div>
 
         <!-- 固定されたPayPayリンクボタン -->
         <div id="link-container">
@@ -94,6 +105,7 @@
             <!-- 右寄せの戻るリンク -->
             <a id="return-link" href="割り勘総額.php">戻る</a>
         </div>
+
     </div>
 
 </body>

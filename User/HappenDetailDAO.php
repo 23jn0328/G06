@@ -16,6 +16,7 @@
         // 出来事詳細情報を取得
     public function get_happendetails(string $HID): array
     { 
+        
         $dbh = DAO::get_db_connect();
 
         $sql = "SELECT HSID, HID, MotoKid, SakiKID, MotoEMID, SakiEMID, SMoney 
@@ -58,7 +59,7 @@
 
         return 'HS000001'; // IDがまだない場合の初期値
     }
-
+    
     // 出来事詳細を更新または挿入するメソッド
     public function Save_Or_Update_MemberPayment($HID, $members) 
     {

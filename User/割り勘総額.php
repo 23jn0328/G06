@@ -25,7 +25,6 @@
     <link rel="stylesheet" href="割り勘総額.css">
 </head>
 <body>
-
     <!-- 全画面に広がるメインコンテナ -->
     <div id="main-container">
     <div id="logo">
@@ -33,23 +32,66 @@
                 <img src="img/image.png" alt="WARIPAYロゴ">
             </a>
     </div>
+    <div id="text-center">
+    <small>
+        <span class="text-blue">青字</span>は受け取り金額
+        <span class="mx-1">/</span>
+        <span class="text-red">赤字</span>は支払い金額
+    </small>
+    </div>
+    <style> /*cssファイルで適用されないから<style>タグで適用させてる*/
+                .text-blue {
+            color: blue !important;
+        }
 
+        .text-red {
+            color: red !important;
+        }
+        #text-center{
+            display: block;
+            text-align: center;
+        }
+        .member-list .payment-amount {
+            color: blue !important; /* 確実に青字にする */
+        }
+        .payment-amount,
+        .payment-amount2,
+        .payment-amount3,
+        .payment-amount4{
+            text-decoration: underline;
+        }
+        .payment-amount:hover,
+        .payment-amount2:hover,
+        .payment-amount3:hover,
+        .payment-amount4:hover{
+            text-decoration: underline;
+        }
+        </style>
         <!-- メンバーリスト -->
         <ul class="member-list">
             <li class="member-item">
-                <a href="割り勘明細.php">はやと</a>
-                <span class="payment-amount">￥5000</span>
+                <a>はやと</a>
+                <div>
+                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥5000</span></a>
+                <a href="割り勘明細.php"><span class="payment-amount2">¥2500</span></a>
+                </div>
             </li>
             <li class="member-item">
-                <a href="割り勘明細.php">しゅうと</a>
-                <span class="payment-amount">￥7000</span>
+                <a>しゅうと</a>
+                <div>
+                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥7000</span></a>
+                <a href="割り勘明細.php"><span class="payment-amount3">¥2500</span></a>
+                </div>
             </li>
             <li class="member-item">
-                <a href="割り勘明細.php">いくみ</a>
-                <span class="payment-amount">￥7000</span>
+                <a>いくみ</a>
+                <div>
+                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥7000</span></a>
+                <a href="割り勘明細.php"><span class="payment-amount4">¥2500</span></a>
+                </div>
             </li>
         </ul>
-
+    
         <!-- 右下に配置された戻るボタン -->
         <a id="return-link" href="出来事の閲覧と選択.php">戻る</a>
     </div>

@@ -1,13 +1,27 @@
+<?php
+require_once 'config.php';
+require_once 'MemberDAO.php';
+session_start();
+
+if (!isset($_SESSION['adminID'])) {
+    header('Location: 管理者ログイン画面.php');
+    exit();
+}
+
+$dao = new MemberDAO();
+$users = $dao->getAllUsersWithEventCounts();
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理者画面 - イベント一覧</title>
+    <title>管理者メイン</title>
     <link rel="stylesheet" href="管理者メイン.css">
 </head>
 <body>
     <div class="container">
+        <h1>管理者メイン画面</h1>
         <table>
             <thead>
                 <tr>
@@ -17,81 +31,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>xxxxxxx</td>
-                    <td>1</td>
-                    <td><a href="管理者詳細.php" class="detail-btn">詳細</a></td>
-                </tr>
-                <tr>
-                    <td>xxxxxxx</td>
-                    <td>5</td>
-                    <td><a href="管理者詳細.php" class="detail-btn">詳細</a></td>
-                </tr>
-                <tr>
-                    <td>xxxxxxx</td>
-                    <td>4</td>
-                    <td><a href="管理者詳細.php" class="detail-btn">詳細</a></td>
-                </tr>
-                <tr>
-                    <td>xxxxxxx</td>
-                    <td>6</td>
-                    <td><a href="管理者詳細.php" class="detail-btn">詳細</a></td>
-                </tr>
-                <!-- 他の行も追加可能 -->
-                <tr>
-                    <td>xxxxxxx</td>
-                    <td>1</td>
-                    <td><a href="管理者詳細.php" class="detail-btn">詳細</a></td>
-                </tr>
-                <tr>
-                    <td>xxxxxxx</td>
-                    <td>5</td>
-                    <td><a href="管理者詳細.php" class="detail-btn">詳細</a></td>
-                </tr>
-                <tr>
-                    <td>xxxxxxx</td>
-                    <td>4</td>
-                    <td><a href="管理者詳細.php" class="detail-btn">詳細</a></td>
-                </tr>
-                <tr>
-                    <td>xxxxxxx</td>
-                    <td>6</td>
-                    <td><a href="管理者詳細.php" class="detail-btn">詳細</a></td>
-                </tr>
-                <tr>
-
-                </tr>
-                    <td>xxxxxxx</td>
-                    <td>1</td>
-                    <td><a href="管理者詳細.php" class="detail-btn">詳細</a></td>
-                </tr>
-                <tr>
-                    <td>xxxxxxx</td>
-                    <td>5</td>
-                    <td><a href="管理者詳細.php" class="detail-btn">詳細</a></td>
-                </tr>
-                <tr>
-                    <td>xxxxxxx</td>
-                    <td>4</td>
-                    <td><a href="管理者詳細.php" class="detail-btn">詳細</a></td>
-                </tr>
-                <tr>
-                    <td>xxxxxxx</td>
-                    <td>6</td>
-                    <td><a href="管理者詳細.php" class="detail-btn">詳細</a></td>
-                </tr>
-
+                <?php foreach ($users as $user): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($user['ID']) ?></td>
+                        <td><?= htmlspecialchars($user['イベント作成数']) ?></td>
+                        <td><a href="管理者詳細.php?userID=<?= urlencode($user['ID']) ?>" class="detail-btn">詳細</a></td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
-            
         </table>
-        <div class="あああ">
-            <div class="managerID">管理者ID : XXXXXX</div>
-            <a href="管理者ログイン画面.php" class="logout">ログアウト</a>
+        <div class="managerID">
+            管理者ID: <?= htmlspecialchars($_SESSION['adminID']) ?>
+            <a href="logout.php" style="color: blue;">ログアウト</a>
         </div>
-        
     </div>
-    <footer>
-        
-    </footer>
 </body>
 </html>

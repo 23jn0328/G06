@@ -1,25 +1,42 @@
+<?php
+require_once 'config.php';
+require_once 'EventDAO.php';
+session_start();
+
+if (!isset($_SESSION['adminID'])) {
+    header('Location: 管理者ログイン画面.php');
+    exit();
+}
+
+$userID = $_GET['userID'] ?? null;
+if (!$userID) {
+    echo "ユーザーIDが指定されていません。";
+    exit();
+}
+
+$dao = new EventDAO();
+$userDetails = $dao->getUserDetails($userID);
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理者画面</title>
-    
+    <title>管理者詳細</title>
     <link rel="stylesheet" href="管理者詳細.css">
 </head>
-
 <body>
-    <div class="logo"></div>
-        <span class="wari"></span><span class="pay"></span>
-    </div>
-    
     <div class="container">
-        <div class="user-info">
-            <p>会員ID: XXXXXXXXXX</p>
-            <p>メールアドレス: XXX@XX.com</p>
-            <p>アカウント作成日時: XXXX年X月X日</p>
+        <div class="user-info-delete">
+            <div class="user-info">
+                <p>会員ID: <?= htmlspecialchars($userDetails['会員ID'] ?? '不明') ?></p>
+                <p>メールアドレス: <?= htmlspecialchars($userDetails['メールアドレス'] ?? '不明') ?></p>
+            </div>
+            <form method="POST" action="deleteUser.php">
+                <input type="hidden" name="userID" value="<?= htmlspecialchars($userID) ?>">
+                <button type="submit" class="delete-btn">アカウント削除</button>
+            </form>
         </div>
-        <button class="delete-btn">アカウント削除</button>
         <table>
             <thead>
                 <tr>
@@ -29,126 +46,22 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>(例) 沖縄旅行</td>
-                    <td>3</td>
-                    <td>XXXX年X月X日</td>
-                </tr>
-                <tr>
-                    <td>(例) 北海道旅行</td>
-                    <td>5</td>
-                    <td>XXXX年X月X日</td>
-                </tr>
-                <!-- 他の行も追加可能 -->
-                <tr>
-                    <td>(例) 沖縄旅行</td>
-                    <td>3</td>
-                    <td>XXXX年X月X日</td>
-                </tr>
-                <tr>
-                    <td>(例) 北海道旅行</td>
-                    <td>5</td>
-                    <td>XXXX年X月X日</td>
-                </tr>
-                <tr>
+                <?php if (!empty($userDetails['events'])): ?>
+                    <?php foreach ($userDetails['events'] as $event): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($event['イベント名'] ?? '不明') ?></td>
+                            <td><?= htmlspecialchars($event['出来事数'] ?? '0') ?></td>
+                            <td><?= htmlspecialchars($event['作成日時'] ?? '不明') ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
                     <tr>
-                        <td>(例) 沖縄旅行</td>
-                        <td>3</td>
-                        <td>XXXX年X月X日</td>
+                        <td colspan="3">イベントがありません。</td>
                     </tr>
-                    <tr>
-                        <td>(例) 北海道旅行</td>
-                        <td>5</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 沖縄旅行</td>
-                        <td>3</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 北海道旅行</td>
-                        <td>5</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 沖縄旅行</td>
-                        <td>3</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 北海道旅行</td>
-                        <td>5</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 沖縄旅行</td>
-                        <td>3</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 北海道旅行</td>
-                        <td>5</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 沖縄旅行</td>
-                        <td>3</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 北海道旅行</td>
-                        <td>5</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 沖縄旅行</td>
-                        <td>3</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 北海道旅行</td>
-                        <td>5</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 沖縄旅行</td>
-                        <td>3</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 北海道旅行</td>
-                        <td>5</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 沖縄旅行</td>
-                        <td>3</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                    <tr>
-                        <td>(例) 北海道旅行</td>
-                        <td>5</td>
-                        <td>XXXX年X月X日</td>
-                    </tr>
-                </tr>
-                    <td>(例) 沖縄旅行</td>
-                    <td>3</td>
-                    <td>XXXX年X月X日</td>
-                </tr>
-                <tr>
-                    <td>(例) 北海道旅行</td>
-                    <td>5</td>
-                    <td>XXXX年X月X日</td>
-                </tr>
+                <?php endif; ?>
             </tbody>
         </table>
-       
-        <div class="あああ">
-            <td><a href="管理者メイン.php" class="returnbtn">戻る</a></td>
-            <div class="managerID">管理者ID : XXXXXX</div>
-            <a href="管理者ログイン画面.php" class="logout">ログアウト</a>
-        </div>
+        <a href="管理者メイン.php" class="returnbtn">戻る</a>
     </div>
 </body>
 </html>
