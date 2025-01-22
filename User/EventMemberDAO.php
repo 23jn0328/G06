@@ -98,5 +98,48 @@ require_once 'DAO.php';
                 ':EMID' => $EMID,
             ]);
         }
+
+         // メンバー一覧を取得
+        public function get_members_by_event_id(string $eventID): array
+        {
+            $dbh = DAO::get_db_connect();
+            $sql = "SELECT EMID, EventMemberName FROM イベントメンバー WHERE EID = :EID";
+            $stmt = $dbh->prepare($sql);
+            $stmt->bindParam(':EID', $eventID, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        // メンバーを追加
+                public function add_member(string $eventID, string $memberName): bool
+        {
+            try {
+                $dbh = DAO::get_db_connect();
+
+                // 最新のメンバーIDを取得
+                $sql = "SELECT MAX(EMID) as EMID FROM イベントメンバー";
+                $stmt = $dbh->query($sql);
+                $lastMember = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                $lastID = $lastMember ? (int)substr($lastMember['EMID'], 2) : 0;
+                $newID = 'EM' . str_pad($lastID + 1, 6, '0', STR_PAD_LEFT);
+
+                // メンバー追加
+                $sql = "INSERT INTO イベントメンバー (EMID, EID, EventMemberName) VALUES (:EMID, :EID, :EventMemberName)";
+                $stmt = $dbh->prepare($sql);
+
+                // パラメータをバインド
+                $stmt->bindParam(':EMID', $newID, PDO::PARAM_STR);
+                $stmt->bindParam(':EID', $eventID, PDO::PARAM_STR);
+                $stmt->bindParam(':EventMemberName', $memberName, PDO::PARAM_STR);
+
+                return $stmt->execute();
+            } catch (PDOException $e) {
+                error_log("メンバー追加エラー: " . $e->getMessage());
+                return false;
+            }
+        }
+
     }
 ?>

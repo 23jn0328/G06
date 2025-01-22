@@ -5,6 +5,7 @@ session_start();
 // 必要なファイルをインクルード
 require_once 'config.php';
 require_once 'EventDAO.php';
+require_once 'EventMemberDAO.php';
 
 // セッションからログインユーザーのIDを取得
 if (!isset($_SESSION['member_id'])) {
@@ -23,6 +24,7 @@ if (isset($_GET['eid'])) { // 'eid'に変更
 
 // DAOクラスをインスタンス化
 $eventDAO = new EventDAO();
+$eventMemberDAO = new EventMemberDAO();
 
 // イベントデータの取得
 $event = $eventDAO->get_event($eventID);
@@ -30,6 +32,7 @@ if (!$event) {
     echo "指定されたイベントが存在しません。";
     exit;
 }
+$memberList=$eventMemberDAO->get_members_by_event_id($eventID);
 
 // 更新処理
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
@@ -54,6 +57,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
 
     echo "<script>alert('イベントを削除しました。'); window.location.href='イベントの閲覧と選択.php';</script>";
     exit;
+}
+
+// メンバー追加処理
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_member'])) {
+    $memberName = trim($_POST['member_name']);
+
+    if (empty($memberName)) {
+        echo "<script>alert('メンバー名を入力してください。');</script>";
+    } else {
+        // DAOクラスでメンバーを追加
+        $eventMemberDAO->add_member($eventID, $memberName);
+
+        echo "<script>alert('メンバーが追加されました。'); window.location.reload();</script>";
+        exit;
+    }
 }
 ?>
 
@@ -82,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
         <input type="date" id="event-date" name="event_start" value="<?php echo htmlspecialchars($event->EventStart->format('Y-m-d')); ?>">
 
         <label for="member-name">メンバー名</label>
-        <input type="text" id="member-name" placeholder="メンバー名を入力">
+        <input type="text" id="member-name"  name="member_name" placeholder="メンバー名を入力">
         <button type="button" onclick="addMember()">追加</button>
 
         <div id="member-list">
