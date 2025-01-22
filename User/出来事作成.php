@@ -18,19 +18,9 @@ if (!$eventID) {
     echo "イベントIDが指定されていません。";
     exit;
 }
-$happenDao = new HappenDAO();
-//$memberList = $happenDao->get_member_list();
-
-if (isset($_GET['eventID'])) {
-    $eventID = $_GET['eventID'];
-} else {
-    // もし eventID が渡されていない場合はエラーメッセージを表示して終了
-    echo "イベントIDが指定されていません。";
-    exit;
-}
 
 $happenDao = new HappenDao();
-$eventID = $_GET['eventID']; // または適切な方法で取得
+$user_name = $happenDao->getEventHostName($eventID);
 $memberList = $happenDao->get_member_list($eventID);
 ?>
 
@@ -61,6 +51,8 @@ $memberList = $happenDao->get_member_list($eventID);
             
             <label for="member-selection" class="bold-text">メンバー選択</label>
             <div class="checkbox-group" id="member-selection">
+            <input type="checkbox" name="members[]" value="<?= $user_id ?>" onclick="calculatePerPerson()">
+            <?= htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8') ?>
                 <?php foreach ($memberList as $member): ?>
                     <label>
                         <input type="checkbox" name="members[]" value="<?= $member['EMID'] ?>" onclick="calculatePerPerson()">
@@ -70,13 +62,15 @@ $memberList = $happenDao->get_member_list($eventID);
             </div>
             
             <label for="payer" class="bold-text">払ったメンバー</label>
-            <?php var_dump($eventID) ?>
             <select id="payer" name="payer" required>
                 <option value="" disabled selected>選択してください</option>
-                    <?php foreach ($memberList as $member): ?>
-                        <option value="<?= $member['EMID'] ?>">
-                            <?= htmlspecialchars($member['EventMemberName'], ENT_QUOTES, 'UTF-8') ?>
+                <option value="<?= $user_id ?>">
+                    <?= htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8') ?>
                 </option>
+                <?php foreach ($memberList as $member): ?>
+                    <option value="<?= $member['EMID'] ?>">
+                        <?= htmlspecialchars($member['EventMemberName'], ENT_QUOTES, 'UTF-8') ?>
+                    </option>
                 <?php endforeach; ?>
             </select>
             
@@ -92,6 +86,7 @@ $memberList = $happenDao->get_member_list($eventID);
             <button type="submit" class="button button-create" id="add-button">作成</button>
             <button type="button" class="button button-back" onclick="history.back()">戻る</button>
         </div>
+    </form>
 
     <script>
         function calculatePerPerson() {

@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $payer = $_POST['payer'];
     $EventID = $_POST['eventID'];
     $HappenName = $_POST['happenName'];
-    var_dump($EventID);
+    var_dump($payer);
     
     // 金額を数値に変換
     $TotalMoney = $_POST['totalMoney'];
@@ -27,11 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (preg_match('/^EM(\d+)$/', $payer, $matches)) {
         $PayEMID = $matches[1];
     } else {
-        $PayEMID = '';  // 空文字で設定（または適切なユーザーIDを設定）
+        $PayEMID = null;  // 空文字で設定（または適切なユーザーIDを設定）
+        $PayID = $payer;
     }
 
     // もし $PayEMID が null のままであれば、支払ったのは会員なのでID（M000??）を代入
-    if ($PayEMID === '') {
+    if ($PayEMID === null) {
         $PayID = $payer;  // PayID（支払った会員）にpayerをそのままいれる
     }
 
@@ -51,6 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // HappenDaoをインスタンス化
     $HappenDao = new HappenDao();
+    $PayEMID = null;
+    var_dump($PayID."  ".$EventID."  ".$PayEMID);
     // データベースに出来事を追加
     $newHappenID = $HappenDao->add_happen(
         $PayID,  // 空文字または適切なID
@@ -61,13 +64,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $HappenDate->format('Y-m-d H:i:s')  // DateTimeオブジェクトを文字列に変換
     );
 
+
     // 出来事にメンバーを関連付ける
+    if (empty($members)) {
+        echo "メンバーが選択されていません。";
+        exit;
+    }
+
     foreach ($members as $member) {
         $HappenDao->add_happen_member($newHappenID, $member);
     }
 
     // リダイレクト
-    header('Location: 出来事の閲覧と選択.php');
-    exit;
+    //header('Location: 出来事の閲覧と選択.php');
+    //exit;
 }
 ?>
