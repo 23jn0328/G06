@@ -8,8 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($Pw !== $confirm_Pw) {
         die("パスワードが一致しません。");
     }
+    // パスワードが一致した場合、パスワードの更新処理を行う
     echo "パスワードが正常に更新されました。";
-    header('Location:イベントの閲覧と選択');
+    
+    // ここでリダイレクト先のURLを正確に指定
+    header('Location: ログイン.php'); // 例えば、event_view.phpへのリダイレクト
+    exit; // リダイレクト後の処理を止める
 }
 ?>
 
@@ -23,20 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div id="main-container">
-    <div class="container">
-    <div id="logo">
+        <div class="container">
+            <div id="logo">
                 <img src="img/image.png" alt="WARIPAYロゴ">
-            </a>
+            </div>
+            <h1>パスワードの再設定</h1>
+            <form action="" method="POST">
+                <input type="password" id="password" name="password" placeholder="新しいパスワードを入力" required> 
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="確認用パスワードを入力" required>
+                <button type="submit">パスワードの再設定</button>
+            </form>
         </div>
-        <h1>パスワードの再設定</h1>
-        <form action="" method="POST">
-       
-            <input type="password"id="password" name="password" placeholder="新しいパスワードを入力" required> 
-
-            <input type="password" id="confirm_password" name="confirm_password" placeholder="確認用パスワードを入力" required>
-            <button type="btn" type="submit">パスワードの再設定</button>
-        </form>
-    </div>
     </div>
 </body>
 </html>

@@ -11,6 +11,7 @@ require 'MemberDAO.php';  // 必要なデータベース接続設定
   require('./PHPMailer/PHPMailer/src/PHPMailer.php');
   require('./PHPMailer/PHPMailer/src/Exception.php');
   require('./PHPMailer/PHPMailer/src/SMTP.php');
+  $message = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if($_POST['Adress'] !== null){
       // メールアドレスの取得
@@ -19,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       // メールアドレスの検証
       if (!filter_var($Adress, FILTER_VALIDATE_EMAIL)) {
           die("無効なメールアドレスです。");
+          
       }
 
       // OTPを生成（6桁のランダムな数値）
