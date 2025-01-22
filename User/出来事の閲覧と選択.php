@@ -1,6 +1,7 @@
 <?php
 require_once 'DAO.php';  // DAOクラスの読み込み
 require_once 'HappenDao.php';  // HappenDaoクラスの読み込み
+require_once 'EventDAO.php';  // EventDAOクラスの読み込み
 
 // セッション開始とイベントIDの取得
 session_start();
@@ -23,12 +24,24 @@ try {
     // データベース接続
     $dbh = DAO::get_db_connect();
 
-    // イベント名を取得
-    $sql = "SELECT EventName FROM イベント WHERE EID = :eventID";
+    // イベント名と作成者IDを取得
+    $sql = "SELECT EventName, ID FROM イベント WHERE EID = :eventID";
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':eventID', $eventID, PDO::PARAM_STR);
     $stmt->execute();
     $event = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$event) {
+        echo "イベントが見つかりません。";
+        exit;
+    }
+
+    // 作成者名を取得
+    $sqlCreator = "SELECT UserName FROM 会員 WHERE ID = :creatorID";
+    $stmtCreator = $dbh->prepare($sqlCreator);
+    $stmtCreator->bindParam(':creatorID', $event['ID'], PDO::PARAM_STR);
+    $stmtCreator->execute();
+    $creator = $stmtCreator->fetch(PDO::FETCH_ASSOC);
 
     // HappenDaoインスタンス作成
     $happenDao = new HappenDao();
@@ -68,6 +81,10 @@ try {
 
         <p>イベントメンバー：</p>
         <ul class="member-list">
+            <?php if ($creator): ?>
+                <li class="member-item"><?= htmlspecialchars($creator['UserName'], ENT_QUOTES, 'UTF-8') ?></li>
+            <?php endif; ?>
+
             <?php if (!empty($members)): ?>
                 <?php foreach ($members as $member): ?>
                     <li class="member-item"><?= htmlspecialchars($member['EventMemberName'], ENT_QUOTES, 'UTF-8') ?></li>
