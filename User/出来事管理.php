@@ -3,8 +3,11 @@ session_start();
 
 require_once 'config.php';
 require_once 'HappenDAO.php';
-require_once 'HappenDetailDAO.php';
 
+$eventID=$_SESSION['eventID'];
+
+$happenDAO=new HappenDAO();
+$memberList=$happenDAO->get_member_list($eventID);
 
 ?>
 
@@ -26,11 +29,13 @@ require_once 'HappenDetailDAO.php';
                 </div>
             </header>
     <div class="container">
+        <form action="update_happen.php" method="POST">
+
         <label for="event-name">出来事名</label>
-        <input type="text" id="event-name" placeholder="出来事名を入力">
+        <input type="text" id="event-name" name="happenName" placeholder="出来事名を入力">
         
         <label for="event-date">出来事日時</label>
-        <input type="date" id="event-date" placeholder="出来事日時を入力">
+        <input type="date" id="event-date" name="happenDate" placeholder="出来事日時を入力">
         
         <label for="member-selection" class="bold-text">メンバー選択</label>
             <div class="checkbox-group" id="member-selection">
@@ -64,7 +69,7 @@ require_once 'HappenDetailDAO.php';
         <button class="button button-create" id="create-button">更新</button>
         <button class="button button-back" onclick="history.back()">戻る</button>
     </div>
-
+    </form>
 
 <script>
     function calculatePerPerson() {

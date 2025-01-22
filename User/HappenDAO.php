@@ -131,6 +131,47 @@ class HappenDao
 
         return $newID;
     }
+        //出来事更新
+        public function update_happen(
+            string $happenID,
+            string $payID,
+            string $payEMID,
+            int $totalMoney,
+            string $happenName,
+            string $happenDate
+        ): bool {
+            try {
+                // データベース接続
+                $dbh = DAO::get_db_connect();
+        
+                // 更新するSQL文を準備
+                $sql = "UPDATE 出来事 
+                        SET PayID = :PayID, 
+                            PayEMID = :PayEMID, 
+                            TotalMoney = :TotalMoney, 
+                            HappenName = :HappenName,
+                            HappenDate = :HappenDate
+                        WHERE HID = :HID";
+        
+                $stmt = $dbh->prepare($sql);
+        
+                // パラメータをバインド
+                $stmt->bindValue(':PayID', $payID, PDO::PARAM_STR);
+                $stmt->bindValue(':PayEMID', $payEMID, PDO::PARAM_STR);
+                $stmt->bindValue(':TotalMoney', $totalMoney, PDO::PARAM_INT);
+                $stmt->bindValue(':HappenName', $happenName, PDO::PARAM_STR);
+                $stmt->bindValue(':HappenDate', $happenDate, PDO::PARAM_STR);
+                $stmt->bindValue(':HID', $happenID, PDO::PARAM_STR);
+        
+                // 実行して結果を返す
+                return $stmt->execute();
+            } catch (PDOException $e) {
+                // エラーログを記録
+                error_log('Error in update_happen: ' . $e->getMessage());
+                return false;
+            }
+        }
+    
 }
 
 ?>
