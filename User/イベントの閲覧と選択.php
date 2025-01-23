@@ -79,11 +79,11 @@ try {
         }
 
         function goShareEvent(event, EID) {
-    event.stopPropagation();
+        event.stopPropagation();
 
-    // 現在のページのURLを取得し、共有用に利用
-    const shareUrl = `${window.location.href}?eid=${encodeURIComponent(EID)}`;
-    console.log("共有URL:", shareUrl); // デバッグ用: URLを確認
+        // 現在のページのURLを取得し、共有用に利用
+        const shareUrl = `${window.location.origin}/G06/G06/User/イベントの閲覧と選択share.php?eventID=${encodeURIComponent(EID)}`;
+        console.log("共有URL:", shareUrl); // デバッグ用: URLを確認
 
     // Web Share APIのチェック
     if (navigator.share) {
