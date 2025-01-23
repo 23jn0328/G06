@@ -64,73 +64,99 @@ class HappenDao
         return $result ? $result['UserName'] : null;
     }
 
-    // 支払者情報を登録（PayIDまたはPayEMID）
-    public function registerPayer($eventID, $payerEMID, $amount, $type) {
+    // 支払者情報を登録（PayIDまたはPayEMID） $smoney = 一人分の金額
+    public function registerPayer($happenID, $payer, $smoney , $type) {
         $pdo = DAO::get_db_connect();
         $sql = "SELECT MAX(HSID) as HSID FROM 出来事詳細";
-        $stmt = $dbh->query($sql);
+        $stmt = $pdo->query($sql);
         $lastHappen = $stmt->fetch(PDO::FETCH_ASSOC);
-        $lastID = $lastHappen ? (int)substr($lastHappen['HID'], 1) : 0;
+         $lastID = $lastHappen ? (int)substr($lastHappen['HSID'], 2) : 0;
+        var_dump((int)substr($lastHappen['HSID'], 2));
         $newID = 'HS' . str_pad($lastID + 1, 6, '0', STR_PAD_LEFT);
         if ($type === 'PayID') {
-            $sql = "INSERT INTO 出来事詳細 (HSID,EID, PayID, Amount) VALUES (:hsID,:eventID, :payerEMID, :amount)";
+            $sql = "INSERT INTO 出来事詳細 (HSID,HID, SakiKID, SMoney) VALUES (:hsID,:hID, :payerEMID, :smoney)";
         } else {
-            $sql = "INSERT INTO 出来事詳細 (EID, PayEMID, Amount) VALUES (:eventID, :payerEMID, :amount)";
+            $sql = "INSERT INTO 出来事詳細 (HSID, HID, SakiEMID, SMoney) VALUES (:hsID,:hID, :payerEMID, :smoney)";
         }
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':eventID', $eventID, PDO::PARAM_STR);
+        $stmt->bindParam(':hsID', $newID, PDO::PARAM_STR);
+        $stmt->bindParam(':hID', $happenID, PDO::PARAM_STR);
         $stmt->bindParam(':payerEMID', $payerEMID, PDO::PARAM_STR);
-        $stmt->bindParam(':amount', $amount, PDO::PARAM_INT);
+        $stmt->bindParam(':smoney', $smoney, PDO::PARAM_INT);
         $stmt->execute();
     }
 
     // 出来事を追加
-    public function add_happen(
-        string $payID,
-        string $eventID,
-        string $payEMID = null,
-        string $happenName,
-        int $totalMoney,
-        string $happenDate
-    ): string {
-        $dbh = DAO::get_db_connect();
-        $hostID = $this->getEventHostID($eventID); // イベント主催者IDを取得
+    // 出来事を追加
+public function add_happen(
+    string $payID = null,
+    string $eventID,
+    string $payEMID = null,
+    string $happenName,
+    int $totalMoney,
+    string $happenDate,
+    int $smoney // 一人分の支払金額
+): string {
+    $dbh = DAO::get_db_connect();
+    $hostID = $this->getEventHostID($eventID); // イベント主催者IDを取得
 
-        if (!$hostID) {
-            echo "イベント主催者が見つかりません。";
-            exit; // 主催者がいない場合は処理を終了
-        }
-
-        // 最新の出来事IDを取得
-        $sql = "SELECT MAX(HID) as HID FROM 出来事";
-        $stmt = $dbh->query($sql);
-        $lastHappen = $stmt->fetch(PDO::FETCH_ASSOC);
-        $lastID = $lastHappen ? (int)substr($lastHappen['HID'], 1) : 0;
-        $newID = 'H' . str_pad($lastID + 1, 6, '0', STR_PAD_LEFT);
-
-        // 出来事を挿入
-        $sql = "INSERT INTO 出来事 (HID, PayID, EID, PayEMID, HappenName, TotalMoney, HappenDate)
-                VALUES (:HID, :PayID, :EID, :PayEMID, :HappenName, :TotalMoney, :HappenDate)";
-        $stmt = $dbh->prepare($sql);
-        $stmt->execute([
-            ':HID' => $newID,
-            ':PayID' => $payID,
-            ':EID' => $eventID,
-            ':PayEMID' => $payEMID,
-            ':HappenName' => $happenName,
-            ':TotalMoney' => $totalMoney,
-            ':HappenDate' => $happenDate,
-        ]);
-
-        // 主催者がチェックされている場合はPayIDに登録、それ以外はPayEMIDに登録
-        if ($payID == $hostID) {
-            $this->registerPayer($eventID, $payID, $totalMoney, 'PayID');
-        } else {
-            $this->registerPayer($eventID, $payEMID, $totalMoney, 'PayEMID');
-        }
-
-        return $newID;
+    if (!$hostID) {
+        echo "イベント主催者が見つかりません。";
+        exit; // 主催者がいない場合は処理を終了
     }
+
+    // PayIDが会員IDとして存在するか確認
+    if ($payID !== null) {
+        $sql = "SELECT COUNT(*) FROM 会員 WHERE ID = :payID";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindParam(':payID', $payID, PDO::PARAM_STR);
+        $stmt->execute();
+        if ($stmt->fetchColumn() == 0) {
+            echo "無効なPayIDです。";
+            exit; // PayIDが無効な場合は処理を終了
+        }
+    }
+
+    // 最新の出来事IDを取得
+    $sql = "SELECT MAX(HID) as HID FROM 出来事";
+    $stmt = $dbh->query($sql);
+    $lastHappen = $stmt->fetch(PDO::FETCH_ASSOC);
+    $lastID = $lastHappen ? (int)substr($lastHappen['HID'], 1) : 0;
+    $newID = 'H' . str_pad($lastID + 1, 6, '0', STR_PAD_LEFT);
+
+    // 出来事を挿入
+    $sql = "INSERT INTO 出来事 (HID, PayID, EID, PayEMID, HappenName, TotalMoney, HappenDate)
+            VALUES (:HID, :PayID, :EID, :PayEMID, :HappenName, :TotalMoney, :HappenDate)";
+    $stmt = $dbh->prepare($sql);
+
+    // 非会員の場合、PayIDをNULLにし、PayEMIDを設定
+    if ($payEMID !== null) {
+        $payID = null; // PayIDはNULLに設定
+    }
+
+    $stmt->execute([
+        ':HID' => $newID,
+        ':PayID' => $payID,  // 会員ID（会員の場合に設定）
+        ':EID' => $eventID,
+        ':PayEMID' => $payEMID,  // 非会員ID（非会員の場合に設定）
+        ':HappenName' => $happenName,
+        ':TotalMoney' => $totalMoney,
+        ':HappenDate' => $happenDate,
+    ]);
+
+    // 主催者がチェックされている場合はPayIDに登録、それ以外はPayEMIDに登録
+    if ($payID == $hostID) {
+        $this->registerPayer($newID, $payID, $smoney, 'PayID');
+    } else {
+        $this->registerPayer($newID, $payEMID, $smoney, 'PayEMID');
+    }
+
+    return $newID;
+}
+
+
+    
+
         //出来事更新
         public function update_happen(
             string $happenID,

@@ -7,12 +7,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $payer = $_POST['payer'];
     $EventID = $_POST['eventID'];
     $HappenName = $_POST['happenName'];
+    $SMoney = $_POST['smoney'];
     var_dump($payer);
     
     // 金額を数値に変換
     $TotalMoney = $_POST['totalMoney'];
-    if (is_numeric($TotalMoney)) {
+    if (is_numeric($TotalMoney)&& is_numeric($SMoney)) {
         $TotalMoney = intval($TotalMoney);  // 明示的に整数型に変換
+        $SMoney = intval($SMoney);  // 明示的に整数型に変換
+
     } else {
         echo "金額は数値でなければなりません。";
         exit;
@@ -22,10 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $members = $_POST['members'];
 
     // 支払者を解析
-    $PayID = '';  // 空文字で初期化
+    $PayID = null;  // 空文字で初期化
     $PayEMID = null;
     if (preg_match('/^EM(\d+)$/', $payer, $matches)) {
+        
         $PayEMID = $matches[1];
+        var_dump($matches[1]);
     } else {
         $PayEMID = null;  // 空文字で設定（または適切なユーザーIDを設定）
         $PayID = $payer;
@@ -34,6 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // もし $PayEMID が null のままであれば、支払ったのは会員なのでID（M000??）を代入
     if ($PayEMID === null) {
         $PayID = $payer;  // PayID（支払った会員）にpayerをそのままいれる
+    }else{
+        $PayEMID = $payer;
     }
 
     // 日付の形式が正しいか確認
@@ -52,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // HappenDaoをインスタンス化
     $HappenDao = new HappenDao();
-    $PayEMID = null;
+    //$PayEMID = null;
     var_dump($PayID."  ".$EventID."  ".$PayEMID);
     // データベースに出来事を追加
     $newHappenID = $HappenDao->add_happen(
@@ -61,7 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $PayEMID,
         $HappenName,
         $TotalMoney,  // 修正後の整数型の金額
-        $HappenDate->format('Y-m-d H:i:s')  // DateTimeオブジェクトを文字列に変換
+        $HappenDate->format('Y-m-d H:i:s'),  // DateTimeオブジェクトを文字列に変換
+        $SMoney // 一人分の支払金額
     );
 
 
