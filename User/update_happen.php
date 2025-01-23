@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'HappenDAO.php';
+require_once 'HappenDetailDAO.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $happenID = $_POST['happenID'];
