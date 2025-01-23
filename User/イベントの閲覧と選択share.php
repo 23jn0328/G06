@@ -55,16 +55,20 @@ try {
         </header>
 
         <!-- 共有イベント詳細 -->
-        <div class="event-details">
-            <?php if (!empty($event)): ?>
-                <div class="event-item">
-                    <div class="event-name"><?= htmlspecialchars($event['EventName'], ENT_QUOTES, 'UTF-8') ?></div>
-                    <div class="event-date">開始日時: <?= htmlspecialchars($event['EventStart'], ENT_QUOTES, 'UTF-8') ?></div>
-                </div>
-            <?php else: ?>
-                <p>現在、表示するイベントはありません。</p>
-            <?php endif; ?>
+<div class="event-details">
+    <?php if (!empty($event)): ?>
+        <div class="event-item">
+            <!-- クリック可能なリンク -->
+            <a href="出来事の閲覧と選択share.php?eventID=<?= htmlspecialchars($event['EID'], ENT_QUOTES, 'UTF-8') ?>" class="event-link">
+                <div class="event-name"><?= htmlspecialchars($event['EventName'], ENT_QUOTES, 'UTF-8') ?></div>
+                <div class="event-date">開始日時: <?= htmlspecialchars($event['EventStart'], ENT_QUOTES, 'UTF-8') ?></div>
+            </a>
         </div>
+    <?php else: ?>
+        <p>現在、表示するイベントはありません。</p>
+    <?php endif; ?>
+</div>
+
     </div>
 </body>
 </html>
