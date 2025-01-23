@@ -12,6 +12,7 @@ if (!isset($_SESSION['member_id'])) {
 }
 
 $user_id = $_SESSION['member_id'];
+
 // 仮のメンバーID
 // $user_id = 'M000002';
 
@@ -78,20 +79,27 @@ try {
         }
 
         function goShareEvent(event, EID) {
-            event.stopPropagation();
-            const shareUrl = `${window.location.origin}/イベント管理.php?eid=${EID}`;
-            if (navigator.share) {
-                navigator.share({
-                    title: "イベント共有",
-                    text: "このイベントをチェックしてください！",
-                    url: shareUrl
-                })
-                .then(() => console.log("シェア成功！"))
-                .catch((error) => console.error("シェア失敗", error));
-            } else {
-                alert("このブラウザは共有機能をサポートしていません。リンクをコピーしてください: " + shareUrl);
-            }
-        }
+    event.stopPropagation();
+
+    // 現在のページのURLを取得し、共有用に利用
+    const shareUrl = `${window.location.href}?eid=${encodeURIComponent(EID)}`;
+    console.log("共有URL:", shareUrl); // デバッグ用: URLを確認
+
+    // Web Share APIのチェック
+    if (navigator.share) {
+        navigator.share({
+            title: "イベント共有",
+            text: "このイベントをチェックしてください！",
+            url: shareUrl
+        })
+        .then(() => console.log("シェア成功！"))
+        .catch((error) => console.error("シェア失敗", error));
+    } else {
+        // Web Share APIが利用できない場合
+        alert("このブラウザは共有機能をサポートしていません。リンクをコピーしてください: " + shareUrl);
+    }
+}
+
     </script>
 </body>
 </html>
