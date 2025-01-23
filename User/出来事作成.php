@@ -78,7 +78,7 @@ $memberList = $happenDao->get_member_list($eventID);
             <input type="number" id="amount" name="totalMoney" placeholder="¥" oninput="calculatePerPerson()" required>
             
             <label for="per-person" class="bold-text">一人当たり</label>
-            <input type="text" id="per-person" placeholder="¥" readonly>
+            <input type="text" id="per-person" name="smoney" placeholder="¥" readonly>
 
             <input type="hidden" name="eventID" value="<?= htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8') ?>">
         </div>
@@ -104,7 +104,7 @@ $memberList = $happenDao->get_member_list($eventID);
             
             if (selectedCount > 0 && !isNaN(amount) && amount > 0) {
                 const perPersonAmount = Math.ceil(amount / selectedCount); // 小数点以下切り上げ
-                perPersonField.value = `¥${perPersonAmount}`;
+                perPersonField.value = `${perPersonAmount}`;
             } else {
                 perPersonField.value = '';
             }
