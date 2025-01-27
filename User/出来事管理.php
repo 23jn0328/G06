@@ -4,8 +4,14 @@ session_start();
 require_once 'config.php';
 require_once 'HappenDAO.php';
 
-$eventID=$_SESSION['eventID'];
 
+$user_id = $_SESSION['member_id'];
+
+$eventID = $_GET['eventID'] ?? null;
+if (!$eventID) {
+    echo "イベントIDが指定されていません。";
+    exit;
+}
 $happenDAO=new HappenDAO();
 $memberList=$happenDAO->get_member_list($eventID);
 
