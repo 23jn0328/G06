@@ -11,6 +11,8 @@ if (!isset($_SESSION['member_id'])) {
     exit;
 }
 
+$happenDao = new HappenDao();
+
 $user_id = $_SESSION['member_id'];
 
 // URLからイベントIDを取得
@@ -43,9 +45,7 @@ try {
     $stmtCreator->execute();
     $creator = $stmtCreator->fetch(PDO::FETCH_ASSOC);
 
-    // HappenDaoインスタンス作成
-    $happenDao = new HappenDao();
-
+    
     // イベントメンバー一覧の取得
     $members = $happenDao->get_member_list($eventID);
 
@@ -55,6 +55,7 @@ try {
     echo "エラー: " . $e->getMessage();
     exit;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -105,10 +106,11 @@ try {
 
                     <p class="payer"><?= htmlspecialchars($happen['PayerName'] ?? '', ENT_QUOTES, 'UTF-8') ?> が立て替え</p>
 
+
                     <div class="button-group">
-                <?php if (!empty($happen['Members'])): ?>
-                    <?php foreach ($happen['Members'] as $member): ?>
-                        <li><?= htmlspecialchars($member['PayEMName'], ENT_QUOTES, 'UTF-8') ?></li>
+                <?php if (!empty($happen['members'])): ?>
+                    <?php foreach ($happen['members'] as $member_id): ?>         
+                        <li><?= htmlspecialchars($member[''], ENT_QUOTES, 'UTF-8') ?></li>
                     <?php endforeach; ?>
                 <?php endif; ?>
             

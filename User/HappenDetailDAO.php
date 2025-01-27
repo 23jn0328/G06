@@ -1,15 +1,16 @@
 <?php
+// 必要なファイルをインクルード
 require_once 'DAO.php';
 
 class HappenDetail 
 {
-    public string $HSID; //出来事詳細ID
-    public string $HID; //出来事ID
-    public string $MotoKid; //請求元会員ID
-    public string $SakiKID; //請求先会員ID
-    public string $MotoEMID; //請求元イベントメンバーID
-    public string $SakiEMID; //請求先イベントメンバーID
-    public string $SMoney; //詳細金額
+    public string $HSID; // 出来事詳細ID
+    public string $HID; // 出来事ID
+    public string $MotoKid; // 請求元会員ID
+    public string $SakiKID; // 請求先会員ID
+    public string $MotoEMID; // 請求元イベントメンバーID
+    public string $SakiEMID; // 請求先イベントメンバーID
+    public string $SMoney; // 詳細金額
     public string $payer;
 }
 
@@ -60,12 +61,20 @@ class HappenDetailDAO
 
         return 'HS000001'; // IDがまだない場合の初期値
     }
-
+    
     // 出来事詳細を更新または挿入するメソッド
     public function Save_Or_Update_MemberPayment($HID, $members, $payer, $smoney) 
     {
         $dbh = DAO::get_db_connect();
-        var_dump("ddddd".   $HID, $members, $payer, $smoney);
+        var_dump("ddddd". $HID, $members, $payer, $smoney);
+
+        // イベントIDを受け取る処理
+        if (isset($_GET['eventID'])) {
+            $eventID = $_GET['eventID']; // URLのクエリパラメータからイベントIDを取得
+        } else {
+            echo 'イベントIDが指定されていません。';
+            return;
+        }
 
         foreach ($members as $member) {
             // 既存データを確認
@@ -73,7 +82,6 @@ class HappenDetailDAO
             $stmt = $dbh->prepare($sql);
             $stmt->bindParam(':kid', $member, PDO::PARAM_STR);
             $stmt->bindParam(':emid', $member, PDO::PARAM_STR);
-
             $stmt->bindParam(':HID', $HID, PDO::PARAM_STR);
             $stmt->execute();
             
@@ -83,9 +91,10 @@ class HappenDetailDAO
                         SET MotoKid = :MotoKid, SakiKID = :SakiKID, MotoEMID = :MotoEMID, 
                             SakiEMID = :SakiEMID, SMoney = :SMoney
                         WHERE HSID = :HSID AND HID = :HID";
+                // ここに更新処理を記述
             } else {
                 // データがない場合は挿入
-                $HSID = $this->NewHappenDetailID(); // 新しいHSIDを生成 
+                $HSID = $this->NewHappenDetailID(); // 新しいHSIDを生成
                 $MotoKID = null;
                 $MotoEMID = null;
 
@@ -103,9 +112,9 @@ class HappenDetailDAO
                     $stmt->bindParam(':HSID', $HSID, PDO::PARAM_STR);
                     $stmt->bindParam(':HID', $HID, PDO::PARAM_STR);
                     $stmt->bindParam(':notPayer', $MotoEMID, PDO::PARAM_STR);
-                    
+
                     $smoney = (int)$smoney; // 数値型にキャスト
-                    $stmt->bindParam(':SMoney', $smoney, PDO::PARAM_INT); // 正しく渡す
+                    $stmt->bindParam(':SMoney', $smoney, PDO::PARAM_INT);
                     $stmt->execute();
                 } else {
                     $sql = "INSERT INTO 出来事詳細 (HSID, HID, MotoKID, SMoney)
@@ -114,47 +123,34 @@ class HappenDetailDAO
                     $stmt->bindParam(':HSID', $HSID, PDO::PARAM_STR);
                     $stmt->bindParam(':HID', $HID, PDO::PARAM_STR);
                     $stmt->bindParam(':notPayer', $MotoKID, PDO::PARAM_STR);
-                
+
                     $smoney = (int)$smoney; // 数値型にキャスト
-                    $stmt->bindParam(':SMoney', $smoney, PDO::PARAM_INT); // 正しく渡す
+                    $stmt->bindParam(':SMoney', $smoney, PDO::PARAM_INT);
                     $stmt->execute();
                 }
 
                 // 支払者以外のメンバーを抽出
                 $sql = "SELECT EMID FROM イベントメンバー WHERE EID = :eventID AND EMID NOT IN (:payID, :payEMID)";
                 $stmt = $dbh->prepare($sql);
-                $stmt->bindParam(':eventID', $HID, PDO::PARAM_STR);
-                $stmt->bindParam(':payID', $MotoKID, PDO::PARAM_STR);
-                $stmt->bindParam(':payEMID', $MotoEMID, PDO::PARAM_STR);
+                $stmt->bindParam(':eventID', $eventID, PDO::PARAM_STR);
+                $stmt->bindParam(':payID', $payer, PDO::PARAM_STR);
+                $stmt->bindParam(':payEMID', $payer, PDO::PARAM_STR);
                 $stmt->execute();
                 $notPayers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 // 支払者以外のメンバーを挿入
                 foreach ($notPayers as $notPayer) {
-                    // まず、EMIDが存在するかを確認
-                    $sql = "SELECT EMID FROM イベントメンバー WHERE EMID = :EMID";
+                    $sql = "INSERT INTO 出来事詳細 (HSID, HID, MotoEMID, SMoney)
+                            VALUES (:HSID, :HID, :notPayer, :SMoney)";
                     $stmt = $dbh->prepare($sql);
-                    $stmt->bindParam(':EMID', $notPayer['EMID'], PDO::PARAM_STR);
+                    $stmt->bindParam(':HSID', $HSID, PDO::PARAM_STR);
+                    $stmt->bindParam(':HID', $HID, PDO::PARAM_STR);
+                    $stmt->bindParam(':notPayer', $notPayer['EMID'], PDO::PARAM_STR);
+                    $smoney = (int)$smoney; // 数値型にキャスト
+                    $stmt->bindParam(':SMoney', $smoney, PDO::PARAM_INT);
                     $stmt->execute();
-
-                    if ($stmt->rowCount() > 0) {
-                        // 存在する場合、挿入処理を実行
-                        $sql = "INSERT INTO 出来事詳細 (HSID, HID, MotoEMID, SMoney)
-                                VALUES (:HSID, :HID, :notPayer, :SMoney)";
-                        $stmt = $dbh->prepare($sql);
-                        $stmt->bindParam(':HSID', $HSID, PDO::PARAM_STR);
-                        $stmt->bindParam(':HID', $HID, PDO::PARAM_STR);
-                        $stmt->bindParam(':notPayer', $notPayer['EMID'], PDO::PARAM_STR);
-                        $smoney = (int)$smoney; // 数値型にキャスト
-                        $stmt->bindParam(':SMoney', $smoney, PDO::PARAM_INT);
-                        $stmt->execute();
-                    } else {
-                        // EMIDが存在しない場合のエラーハンドリング
-                        throw new Exception("EMID does not exist: " . $notPayer['EMID']);
-                    }
                 }
             }
         }
     }
 }
-?>

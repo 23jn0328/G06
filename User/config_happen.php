@@ -2,26 +2,26 @@
 require_once 'HappenDAO.php';
 require_once 'HappenDetailDAO.php';
 session_start();
-    $eventID = $_SESSION['eventID'] ?? null;
-    var_dump($eventID); // デバッグ用にイベントIDを表示
-    if (!$eventID) {
-        echo "イベントIDがセッションに保存されていません。";
-        exit;
-    }
+
+// セッションから eventID を取得
+$eventID = $_SESSION['eventID'] ?? null;
+if (!$eventID) {
+    echo "イベントIDがセッションに保存されていません。";
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // POSTデータの取得
     $payer = $_POST['payer'];
-    $EventID = $_POST['eventID'];
+    $EventID = $eventID; // セッションから取得したeventIDを使用
     $HappenName = $_POST['happenName'];
     $SMoney = $_POST['smoney'];
- 
-    
+
     // 金額を数値に変換
     $TotalMoney = $_POST['totalMoney'];
-    if (is_numeric($TotalMoney)&& is_numeric($SMoney)) {
+    if (is_numeric($TotalMoney) && is_numeric($SMoney)) {
         $TotalMoney = intval($TotalMoney);  // 明示的に整数型に変換
         $SMoney = intval($SMoney);  // 明示的に整数型に変換
-
     } else {
         echo "金額は数値でなければなりません。";
         exit;
@@ -29,24 +29,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $HappenDate = $_POST['happenDate'];
     $members = $_POST['members'];
-    var_dump($members);
 
     // 支払者を解析
-    $PayID = null;  // 空文字で初期化
+    $PayID = null;
     $PayEMID = null;
     if (preg_match('/^EM(\d+)$/', $payer, $matches)) {
-        
         $PayEMID = $matches[1];
-        
     } else {
-        $PayEMID = null;  // 空文字で設定（または適切なユーザーIDを設定）
+        $PayEMID = null; 
         $PayID = $payer;
     }
 
-    // もし $PayEMID が null のままであれば、支払ったのは会員なのでID（M000??）を代入
     if ($PayEMID === null) {
-        $PayID = $payer;  // PayID（支払った会員）にpayerをそのままいれる
-    }else{
+        $PayID = $payer;
+    } else {
         $PayEMID = $payer;
     }
 
@@ -57,46 +53,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // イベントIDが正しい形式かどうかの確認
-    if (!preg_match('/^E\d+$/', $EventID)) {
-        echo "イベントIDは'E'に続いて数字である必要があります。";
-        exit;
-    }
-
     // HappenDaoをインスタンス化
     $HappenDao = new HappenDao();
-    //$PayEMID = null;
-    // データベースに出来事を追加
     $newHappenID = $HappenDao->add_happen(
-        $PayID,  // 空文字または適切なID
-        $EventID,  // 数値形式のイベントID
+        $PayID, 
+        $EventID,  // セッションから取得したeventIDを使用
         $PayEMID,
         $HappenName,
-        $TotalMoney,  // 修正後の整数型の金額
-        $HappenDate->format('Y-m-d H:i:s'),  // DateTimeオブジェクトを文字列に変換
-        $SMoney // 一人分の支払金額
-    );
-    $happenDetailDao = new HappenDetailDAO();
-    $happenDetailDao->Save_Or_Update_MemberPayment(
-        $newHappenID,  // HID（新しく追加された出来事のID）
-        $members,  // メンバー情報
-        $payer,     // 支払者情報
+        $TotalMoney,  
+        $HappenDate->format('Y-m-d H:i:s'),
         $SMoney
     );
-    
-    // 出来事にメンバーを関連付ける
+
+    $happenDetailDao = new HappenDetailDAO();
+    $happenDetailDao->Save_Or_Update_MemberPayment(
+        $newHappenID, 
+        $members,  
+        $payer,     
+        $SMoney
+    );
+
     if (empty($members)) {
         echo "メンバーが選択されていません。";
         exit;
     }
-   
-    // foreach ($members as $member) {
-    //     $HappenDao->add_happen_member($newHappenID, $member);
-    // }
 
-    
     echo "受け取ったイベントID: " . htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8');
-   // header('Location: 出来事の閲覧と選択.php');
-    //exit;
+    header('Location: 出来事の閲覧と選択.php?eventID=' . urlencode($eventID));
+
+    exit;
 }
 ?>
