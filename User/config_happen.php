@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $EventID = $_POST['eventID'];
     $HappenName = $_POST['happenName'];
     $SMoney = $_POST['smoney'];
-    var_dump($payer);
+ 
     
     // 金額を数値に変換
     $TotalMoney = $_POST['totalMoney'];
@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $HappenDate = $_POST['happenDate'];
     $members = $_POST['members'];
+    var_dump($members);
 
     // 支払者を解析
     $PayID = null;  // 空文字で初期化
@@ -30,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (preg_match('/^EM(\d+)$/', $payer, $matches)) {
         
         $PayEMID = $matches[1];
-        var_dump($matches[1]);
+        
     } else {
         $PayEMID = null;  // 空文字で設定（または適切なユーザーIDを設定）
         $PayID = $payer;
@@ -53,14 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // イベントIDが正しい形式かどうかの確認
     if (!preg_match('/^E\d+$/', $EventID)) {
         echo "イベントIDは'E'に続いて数字である必要があります。";
-        var_dump($_GET);
         exit;
     }
 
     // HappenDaoをインスタンス化
     $HappenDao = new HappenDao();
     //$PayEMID = null;
-    var_dump($PayID."  ".$EventID."  ".$PayEMID);
     // データベースに出来事を追加
     $newHappenID = $HappenDao->add_happen(
         $PayID,  // 空文字または適切なID
@@ -71,19 +70,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $HappenDate->format('Y-m-d H:i:s'),  // DateTimeオブジェクトを文字列に変換
         $SMoney // 一人分の支払金額
     );
-
-
+    $happenDetailDao = new HappenDetailDAO();
+    $happenDetailDao->Save_Or_Update_MemberPayment(
+        $newHappenID,  // HID（新しく追加された出来事のID）
+        $members,  // メンバー情報
+        $payer     // 支払者情報
+    );
+    
     // 出来事にメンバーを関連付ける
     if (empty($members)) {
         echo "メンバーが選択されていません。";
         exit;
     }
+   
+    // foreach ($members as $member) {
+    //     $HappenDao->add_happen_member($newHappenID, $member);
+    // }
 
-    foreach ($members as $member) {
-        $HappenDao->add_happen_member($newHappenID, $member);
-    }
-
-    // リダイレクト
+    // 完成したらここ！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+    
     //header('Location: 出来事の閲覧と選択.php');
     //exit;
 }

@@ -10,6 +10,7 @@
         public string $MotoEMID; //請求元イベントメンバーID
         public string $SakiEMID; //請求先イベントメンバーID
         public string $SMoney; //詳細金額
+        public string $payer;
     }
     class HappenDetailDAO
     {
@@ -61,15 +62,16 @@
     }
     
     // 出来事詳細を更新または挿入するメソッド
-    public function Save_Or_Update_MemberPayment($HID, $members) 
+    public function Save_Or_Update_MemberPayment($HID, $members,$payer, $smoney) 
     {
         $dbh = DAO::get_db_connect();
+        
 
         foreach ($members as $member) {
             // 既存データを確認
-            $sql = "SELECT HSID FROM 出来事詳細 WHERE HSID = :HSID AND HID = :HID";
+            $sql = "SELECT HSID FROM 出来事詳細 WHERE HID = :HID AND (MotoKID = :id OR MotoEMID = :id )";
             $stmt = $dbh->prepare($sql);
-            $stmt->bindParam(':HSID', $member['HSID'], PDO::PARAM_STR);
+            $stmt->bindParam(':id', $member, PDO::PARAM_STR);
             $stmt->bindParam(':HID', $HID, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -79,21 +81,52 @@
                         SET MotoKid = :MotoKid, SakiKID = :SakiKID, MotoEMID = :MotoEMID, 
                             SakiEMID = :SakiEMID, SMoney = :SMoney
                         WHERE HSID = :HSID AND HID = :HID";
+
+
+
+
+
             } else {
                 // データがない場合は挿入
-                $sql = "INSERT INTO 出来事詳細 (HSID, HID, MotoKid, SakiKID, MotoEMID, SakiEMID, SMoney)
-                        VALUES (:HSID, :HID, :MotoKid, :SakiKID, :MotoEMID, :SakiEMID, :SMoney)";
+                $MotoKID = null;
+                $MotoEMID = null;
+
+                 // 支払者の判定
+                    if (preg_match('/^M\d+$/', $payer)) { // 会員
+                        $MotoKID = $payer;
+                    } else { // 非会員
+                        $MotoEMID = $payer;
+                    }
+                    if($MotoKID == null){
+                        $sql = "INSERT INTO 出来事詳細 (HSID, HID,   MotoEMID, SMoney)
+                        VALUES (:HSID, :HID, :notPayer, :SMoney)";
+                         $stmt = $dbh->prepare($sql);
+                         $stmt->bindParam(':notPayer', $MotoEMID, PDO::PARAM_STR);
+
+
+                    } else{
+                        $sql = "INSERT INTO 出来事詳細 (HSID, HID,   MotoKID, SMoney)
+                        VALUES (:HSID, :HID, :notPayer, :SMoney)";
+                        $stmt = $dbh->prepare($sql);
+                        $stmt->bindParam(':notPayer', $MotoKID, PDO::PARAM_STR);
+
+                    }
+                    
+                    $stmt->bindParam(':HSID', ?????, PDO::PARAM_STR);
+                    $stmt->bindParam(':HID', $HID, PDO::PARAM_STR);
+
+                    $stmt->bindParam(':SMoney', $smoney, PDO::INT);
+                    $stmt->execute();
             }
 
-            $stmt = $dbh->prepare($sql);
-            $stmt->bindParam(':HSID', $member['HSID']);
-            $stmt->bindParam(':HID', $HID);
-            $stmt->bindParam(':MotoKid', $member['MotoKid']);
-            $stmt->bindParam(':SakiKID', $member['SakiKID']);
-            $stmt->bindParam(':MotoEMID', $member['MotoEMID']);
-            $stmt->bindParam(':SakiEMID', $member['SakiEMID']);
-            $stmt->bindParam(':SMoney', $member['SMoney']);
-            $stmt->execute();
+         
+
+                    
+
+            
+
+            
+
         }
     }
 }
