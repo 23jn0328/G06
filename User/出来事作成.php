@@ -90,6 +90,7 @@ $memberList = $happenDao->get_member_list($eventID);
 
     <script>
         function calculatePerPerson() {
+            
             const amount = parseFloat(document.getElementById('amount').value);
             const checkboxes = document.querySelectorAll('#member-selection input[type="checkbox"]');
             let selectedCount = 0;

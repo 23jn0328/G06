@@ -1,7 +1,13 @@
 <?php
 require_once 'HappenDAO.php';
 require_once 'HappenDetailDAO.php';
-
+session_start();
+    $eventID = $_SESSION['eventID'] ?? null;
+    var_dump($eventID); // デバッグ用にイベントIDを表示
+    if (!$eventID) {
+        echo "イベントIDがセッションに保存されていません。";
+        exit;
+    }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // POSTデータの取得
     $payer = $_POST['payer'];
@@ -74,7 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $happenDetailDao->Save_Or_Update_MemberPayment(
         $newHappenID,  // HID（新しく追加された出来事のID）
         $members,  // メンバー情報
-        $payer     // 支払者情報
+        $payer,     // 支払者情報
+        $SMoney
     );
     
     // 出来事にメンバーを関連付ける
@@ -87,9 +94,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //     $HappenDao->add_happen_member($newHappenID, $member);
     // }
 
-    // 完成したらここ！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
     
-    //header('Location: 出来事の閲覧と選択.php');
+    echo "受け取ったイベントID: " . htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8');
+   // header('Location: 出来事の閲覧と選択.php');
     //exit;
 }
 ?>

@@ -29,8 +29,31 @@ class HappenDao
         $stmt->bindParam(':eventID', $eventID, PDO::PARAM_STR);
         $stmt->execute();
     
-        // 結果を返す
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        // 結果を取得
+        $happens = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        // 支払者名を取得
+        foreach ($happens as &$happen) {
+            if ($happen['PayID']) {
+                // 会員の支払者の場合
+                $sqlPayer = "SELECT UserName FROM 会員 WHERE ID = :payID";
+                $stmtPayer = $dbh->prepare($sqlPayer);
+                $stmtPayer->bindParam(':payID', $happen['PayID'], PDO::PARAM_STR);
+                $stmtPayer->execute();
+                $payer = $stmtPayer->fetch(PDO::FETCH_ASSOC);
+                $happen['PayerName'] = $payer['UserName'];  // 支払者名をセット
+            } elseif ($happen['PayEMID']) {
+                // イベントメンバーの支払者の場合
+                $sqlEM = "SELECT EventMemberName FROM イベントメンバー WHERE EMID = :payEMID";
+                $stmtEM = $dbh->prepare($sqlEM);
+                $stmtEM->bindParam(':payEMID', $happen['PayEMID'], PDO::PARAM_STR);
+                $stmtEM->execute();
+                $em = $stmtEM->fetch(PDO::FETCH_ASSOC);
+                $happen['PayerName'] = $em['EventMemberName'];  // イベントメンバーの名前をセット
+            }
+        }
+    
+        return $happens;
     }
     // イベントメンバー一覧を取得
     public function get_member_list(string $eventID): array
