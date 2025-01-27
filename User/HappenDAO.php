@@ -55,6 +55,7 @@ class HappenDao
     
         return $happens;
     }
+    
     // イベントメンバー一覧を取得
     public function get_member_list(string $eventID): array
     {
