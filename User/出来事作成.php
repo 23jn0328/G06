@@ -83,14 +83,14 @@ $memberList = $happenDao->get_member_list($eventID);
             <input type="hidden" name="eventID" value="<?= htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8') ?>">
         </div>
         <div class="buttons">
-            <button type="submit" class="button button-create" id="add-button">作成</button>
+            <!-- 修正：onclickのクオートの修正 -->
+            <button type="submit" class="button button-create" id="add-button" onclick="location.href='config_happen.php?eventID=<?= $eventID ?>'">作成</button>
             <button type="button" class="button button-back" onclick="history.back()">戻る</button>
         </div>
     </form>
 
     <script>
         function calculatePerPerson() {
-            
             const amount = parseFloat(document.getElementById('amount').value);
             const checkboxes = document.querySelectorAll('#member-selection input[type="checkbox"]');
             let selectedCount = 0;
