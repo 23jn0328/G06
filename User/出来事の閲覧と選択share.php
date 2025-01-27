@@ -94,25 +94,16 @@ try {
             <?php endif; ?>
         </ul>
 
-        <!-- 出来事の追加ボタン -->
-        <button class="add-event-button" onclick="location.href='出来事作成.php?eventID=<?= htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8') ?>'">出来事の追加</button>
+        
 
         <!-- 各費用項目 -->
         <?php if (!empty($happens)): ?>
             <?php foreach ($happens as $happen): ?>
                 <div class="expense-item">
                     <h3 class="expense-title"><?= htmlspecialchars($happen['HappenName'], ENT_QUOTES, 'UTF-8') ?></h3>
-
                     <p class="payer"><?= htmlspecialchars($happen['PayerName'] ?? '', ENT_QUOTES, 'UTF-8') ?> が立て替え</p>
-
                     <div class="button-group">
-                <?php if (!empty($happen['Members'])): ?>
-                    <?php foreach ($happen['Members'] as $member): ?>
-                        <li><?= htmlspecialchars($member['PayEMName'], ENT_QUOTES, 'UTF-8') ?></li>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            
-                        
+                        <button class="person-button"><?= htmlspecialchars($happen['PayEMName'], ENT_QUOTES, 'UTF-8') ?></button>
                         <button class="edit-button" onclick="location.href='出来事管理.php?happenID=<?= htmlspecialchars($happen['HID'], ENT_QUOTES, 'UTF-8') ?>'">🖊</button>
                     </div>
                     <div class="amount">￥<?= number_format($happen['TotalMoney']) ?></div>
@@ -125,8 +116,7 @@ try {
         <!-- 割り勘総額ボタン -->
         <button class="summary-button" onclick="location.href='割り勘総額.php'">割り勘総額</button>
 
-        <!-- イベント終了ボタン -->
-        <button class="end-event-button" onclick="location.href='イベント終了.php'">イベント終了</button>
+       
     </div>
 </body>
 </html>
