@@ -101,7 +101,7 @@
         <button id="endButton" class="end-button" disabled>精算を完了する</button>
 
 
-    <script>
+        <script>
         const checkboxes = document.querySelectorAll('.checkbox');
         const endButton = document.getElementById('endButton');
 
@@ -123,6 +123,8 @@
             window.location.href = 'イベントの閲覧と選択.php';
         });
     </script>
+
+    
     </div>
 </body>
 </html>

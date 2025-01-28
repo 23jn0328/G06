@@ -99,3 +99,8 @@ h2 {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     
 }
+.settled-mark {
+    color: green;
+    font-weight: bold;
+    margin-left: 10px;
+}
