@@ -74,21 +74,6 @@
                 </div>
                 <div class="event-date">2024年10月16日</div>
             </div>
-
-            <div class="payment-card">
-                <h2>しゅうと ⬅ ますだ <span class="payment-amount">￥6000</span></h2>
-                <div class="event-item">
-                    <div class="event-name">ガソリン代</div>
-                    <div class="event-amount">￥4000</div>
-                </div>
-                <div class="event-date">2024年10月26日</div>
-
-                <div class="event-item">
-                    <div class="event-name">ホテル代</div>
-                    <div class="event-amount">￥2000</div>
-                </div>
-                <div class="event-date">2024年10月27日</div>
-            </div>
         </div>
 
         <!-- 固定されたPayPayリンクボタン -->

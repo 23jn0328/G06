@@ -1,3 +1,9 @@
+<?php
+    require_once 'HappenDetailDAO.php';
+    require_once 'HappenDAO.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -21,7 +27,7 @@
         <div id="scrollable-content">
             <!-- メンバーごとの支払情報 -->
             <div class="payment-card">
-                <h2>はやと ➡ ひかる <span class="payment-amount">￥5000</span></h2>
+                <h2>はやと ⬅ ひかる <span class="payment-amount">￥5000</span></h2>
                 <div class="event-item">
                     <div class="event-name">レンタカー代</div>
                     <div class="event-amount">￥2000</div>
@@ -36,7 +42,7 @@
             </div>
 
             <div class="payment-card">
-                <h2>はやと ➡ しゅうと <span class="payment-amount">￥10000</span></h2>
+                <h2>はやと ⬅ しゅうと <span class="payment-amount">￥10000</span></h2>
                 <div class="event-item">
                     <div class="event-name">ホテル代</div>
                     <div class="event-amount">￥10000</div>
@@ -45,7 +51,7 @@
             </div>
 
             <div class="payment-card">
-                <h2>はやと ➡ れおん <span class="payment-amount">￥10000</span></h2>
+                <h2>はやと ⬅ れおん <span class="payment-amount">￥10000</span></h2>
                 <div class="event-item">
                     <div class="event-name">タクシー代</div>
                     <div class="event-amount">￥10000</div>
@@ -55,7 +61,7 @@
 
             <!-- 新規追加データ -->
             <div class="payment-card">
-                <h2>はやと ➡ いくみ <span class="payment-amount">￥6000</span></h2>
+                <h2>はやと ⬅ いくみ <span class="payment-amount">￥6000</span></h2>
                 <div class="event-item">
                     <div class="event-name">食事</div>
                     <div class="event-amount">￥3000</div>
