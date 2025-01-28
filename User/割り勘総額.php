@@ -72,26 +72,40 @@
             <li class="member-item">
                 <a>はやと</a>
                 <div>
-                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥5000</span></a>
-                <a href="割り勘明細.php"><span class="payment-amount2">¥2500</span></a>
+                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥8000</span></a>
+                <a href="割り勘明細.php"><span class="payment-amount2">¥1000</span></a>
                 </div>
             </li>
             <li class="member-item">
                 <a>しゅうと</a>
                 <div>
-                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥7000</span></a>
-                <a href="割り勘明細.php"><span class="payment-amount3">¥2500</span></a>
+                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥0</span></a>
+                <a href="割り勘明細.php"><span class="payment-amount3">¥3000</span></a>
                 </div>
             </li>
             <li class="member-item">
                 <a>いくみ</a>
                 <div>
-                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥7000</span></a>
-                <a href="割り勘明細.php"><span class="payment-amount4">¥2500</span></a>
+                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥0</span></a>
+                <a href="割り勘明細.php"><span class="payment-amount4">¥3000</span></a>
                 </div>
             </li>
-        </ul>
-    
+        
+        <li class="member-item">
+                <a>ひかる</a>
+                <div>
+                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥4000</span></a>
+                <a href="割り勘明細.php"><span class="payment-amount4">¥2000</span></a>
+                </div>
+            </li>
+            <li class="member-item">
+                <a>れおん</a>
+                <div>
+                <a href="割り勘明細受け取り.php"><span class="payment-amount">￥0</span></a>
+                <a href="割り勘明細.php"><span class="payment-amount4">¥3000</span></a>
+                </div>
+            </li>
+    </ul>
         <!-- 右下に配置された戻るボタン -->
         <a id="return-link" href="出来事の閲覧と選択.php">戻る</a>
     </div>

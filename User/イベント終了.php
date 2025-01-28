@@ -59,21 +59,44 @@
         </div>
        
         <div class="transaction-list">
-            <?php foreach ($happen_list as $happen) :?>
-                <?php
-                 #支払者と支払先の名前を取得
-            $payer_name = get_name($happen['PayID'],$happen['PayEMID'],$memberDAO,$eventMemberDAO);
-            $payee_name = get_name($happen['SakiKID'],$happen['SakiEMID'],$memberDAO,$eventMemberDAO);
+         
             
-            $total_amount = $happen['SMoney'];
-
-            ?>
-            <div class="transaction">
-            <span><?php echo htmlspecialchars($payer_name); ?> → <?php echo htmlspecialchars($payee_name); ?></span>
-                    <span class="amount"><?php echo number_format($total_amount); ?>円</span>
-                    <input type="checkbox" class="checkbox">
+        
+        <div class="transaction">
+                <span>ひかる → はやと</span>
+                <span class="amount">1000円</span>
+                <input type="checkbox" class="checkbox">
             </div>
-            <?php endforeach; ?>
+            <div class="transaction">
+                <span>れおん → ひかる</span>
+                <span class="amount">1000円</span>
+                <input type="checkbox" class="checkbox">
+            </div>
+            <div class="transaction">
+                <span>れおん → はやと</span>
+                <span class="amount">2000円</span>
+                <input type="checkbox" class="checkbox">
+            </div>
+            <div class="transaction">
+                <span>しゅうと → ひかる</span>
+                <span class="amount">1000円</span>
+                <input type="checkbox" class="checkbox">
+            </div>
+            <div class="transaction">
+                <span>しゅうと → はやと</span>
+                <span class="amount">2000円</span>
+                <input type="checkbox" class="checkbox">
+            </div>
+            <div class="transaction">
+                <span>いくみ → ひかる</span>
+                <span class="amount">1000円</span>
+                <input type="checkbox" class="checkbox">
+            </div>
+            <div class="transaction">
+                <span>いくみ → はやと</span>
+                <span class="amount">2000円</span>
+                <input type="checkbox" class="checkbox">
+            </div>
         </div>
         <button id="endButton" class="end-button" disabled>精算を完了する</button>
 
