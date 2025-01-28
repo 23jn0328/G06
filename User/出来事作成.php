@@ -86,7 +86,7 @@ $memberList = $happenDao->get_member_list($eventID);
         <div class="buttons">
             <!-- 修正：onclickのクオートの修正 -->
             <button type="submit" class="button button-create" id="add-button" onclick="location.href='config_happen.php?eventID=<?= $eventID ?>'">作成</button>
-            <?php var_dump($eventID) ?>
+
             <button type="button" class="button button-back" onclick="history.back()">戻る</button>
         </div>
     </form>
