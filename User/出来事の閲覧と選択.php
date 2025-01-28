@@ -128,7 +128,7 @@ try {
         <button class="summary-button" onclick="location.href='割り勘総額.php'">割り勘総額</button>
 
         <!-- イベント終了ボタン -->
-        <button class="end-event-button" onclick="location.href='イベントの閲覧と選択.php'">イベント終了</button>
+        <button class="end-event-button" onclick="location.href='イベント終了.php'">イベント終了</button>
     </div>
 </body>
 </html>
