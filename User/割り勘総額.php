@@ -107,7 +107,7 @@
         </ul>
     
         <!-- 右下に配置された戻るボタン -->
-        <a id="return-link" href="出来事の閲覧と選択.php">戻る</a>
+        <a id="return-link" href="出来事の閲覧と選択.php?eventID=E000121">戻る</a>
     </div>
 
 </body>
