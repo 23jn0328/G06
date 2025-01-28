@@ -19,6 +19,7 @@ if (!$eventID) {
     exit;
 }
 
+
 $happenDao = new HappenDao();
 $user_name = $happenDao->getEventHostName($eventID);
 $memberList = $happenDao->get_member_list($eventID);

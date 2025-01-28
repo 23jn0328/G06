@@ -5,6 +5,7 @@ session_start();
 
 // セッションから eventID を取得
 $eventID = $_SESSION['eventID'] ?? null;
+var_dump($eventID);
 if (!$eventID) {
     echo "イベントIDがセッションに保存されていません。";
     exit;
