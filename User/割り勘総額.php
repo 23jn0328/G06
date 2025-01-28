@@ -66,6 +66,12 @@
         .payment-amount4:hover{
             text-decoration: underline;
         }
+        .member-item:nth-child(4) {
+         animation-delay: 0.4s;
+        }
+        .member-item:nth-child(5) {
+         animation-delay: 0.5s;
+        }
         </style>
         <!-- メンバーリスト -->
         <ul class="member-list">
