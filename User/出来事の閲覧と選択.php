@@ -66,6 +66,201 @@ try {
     <title>WARIPAY</title>
     <link rel="stylesheet" href="出来事の閲覧と選択style.css">
 </head>
+<style>
+    /* 全体設定 */
+#logo img {
+    max-width: 250px; /* ロゴの最大幅を少し小さく調整 */
+    height: auto; /* アスペクト比を維持 */
+    margin: 10px auto; /* 上下に少し余白を追加 */
+    display: block; /* 中央揃え */
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fffcfc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* メインコンテナ */
+#main-container {
+    width: 500px;
+    background-color: #b0b0b0;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* アプリタイトル */
+.app-title {
+    font-size: 50px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+/* イベント名 */
+.event-name {
+    font-size: 20px;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+/* メンバーリスト */
+.member-list {
+    list-style-type: none; /* リストのデフォルトの丸を削除 */
+    padding: 0;
+    margin: 0;
+    display: flex; /* 横並び */
+    gap: 15px; /* アイテム間のスペース */
+    flex-wrap: wrap; /* アイテムが収まりきらない場合、次の行に折り返す */
+    justify-content: center; /* アイテムを中央揃え */
+}
+
+/* メンバーアイテム */
+.member-item {
+    background-color: #f0f0f0; /* アイテムの背景色 */
+    padding: 5px 10px; /* アイテムの内側に余白 */
+    border-radius: 5px; /* アイテムに角丸を追加 */
+    font-size: 14px;
+    white-space: nowrap; /* メンバー名が長くても1行で表示 */
+    text-align: center; /* メンバー名を中央に配置 */
+    min-width: 80px; /* 最小幅 */
+    border: 3px solid rgb(151, 151, 201); /* 境界線を太くして確認 */
+}
+
+
+
+
+/* 出来事の追加ボタン */
+.add-event-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #607d8b;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+.add-event-button:hover {
+    background-color: #607d8b;
+}
+
+/* 各費用項目 */
+.expense-item {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.expense-title {
+    font-size: 18px;
+    color: #333333;
+    margin: 0 0 5px 0;
+}
+
+.payer {
+    font-size: 14px;
+    color: #666666;
+    margin: 0 0 10px 0;
+}
+
+/* ボタングループ */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.person-button {
+    flex: 1;
+    padding: 8px;
+    background-color: #f2f2f2;
+    color: #333333;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.person-button:hover {
+    background-color: #e6e6e6;
+}
+
+.edit-button {
+    width: 40px;
+    padding: 8px;
+    background-color: #cccccc;
+    color: #333333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: #b3b3b3;
+}
+
+/* 金額表示 */
+.amount {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+    text-align: right;
+}
+
+/* 割り勘総額ボタン */
+.summary-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #607d8b;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+}
+
+.summary-button:hover {
+    background-color: #607d8b;
+}
+
+/* イベント終了ボタン */
+.end-event-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #607d8b;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.end-event-button:hover {
+    background-color: #607d8b;
+}
+
+
+</style>
+
 <body>
     <div id="main-container">
         <!-- アプリタイトル -->

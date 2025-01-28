@@ -61,8 +61,9 @@ body {
     white-space: nowrap; /* メンバー名が長くても1行で表示 */
     text-align: center; /* メンバー名を中央に配置 */
     min-width: 80px; /* 最小幅 */
-    border: 1px solid blue; /* 境界線を追加して確認 */
+    border: 3px solid rgb(151, 151, 201); /* 境界線を太くして確認 */
 }
+
 
 
 
