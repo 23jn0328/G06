@@ -3,11 +3,12 @@
     require_once 'HappenDAO.php';
     require_once 'HappenDetailDAO.php';
     require_once 'DAO.php';
+    require_once 'MemberDAO.php';
 
     $eventMemberDAO = new EventMember();
     $happenDAO = new HappenDAO();
     $happenDetailDAO = new HappenDetailDAO();
-
+    $memberDAO = new MemberDAO();
     #支払者IDを取得してIDが設定されていなければエラー文
     $payer_id = $_GET['payer_id'] ?? null;
 
