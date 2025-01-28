@@ -2,7 +2,7 @@
 require_once 'DAO.php';  // DAOクラスの読み込み
 require_once 'HappenDao.php';  // HappenDaoクラスの読み込み
 
-// セッション開始とイベントIDの取得
+// セッション開始
 session_start();
 if (!isset($_SESSION['member_id'])) {
     // ログインしていない場合はログインページへリダイレクト
@@ -12,12 +12,14 @@ if (!isset($_SESSION['member_id'])) {
 
 $user_id = $_SESSION['member_id'];
 
-// URLからイベントIDを取得
+// URLからイベントIDを取得し、セッションに保存
 $eventID = $_GET['eventID'] ?? null;
 if (!$eventID) {
     echo "イベントIDが指定されていません。";
     exit;
 }
+
+$_SESSION['eventID'] = $eventID; // イベントIDをセッションに保存
 
 $happenDao = new HappenDao();
 $user_name = $happenDao->getEventHostName($eventID);

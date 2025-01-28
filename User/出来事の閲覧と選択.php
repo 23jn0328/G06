@@ -3,7 +3,7 @@ require_once 'DAO.php';  // DAOクラスの読み込み
 require_once 'HappenDao.php';  // HappenDaoクラスの読み込み
 require_once 'EventDAO.php';  // EventDAOクラスの読み込み
 
-// セッション開始とイベントIDの取得
+// セッション開始
 session_start();
 if (!isset($_SESSION['member_id'])) {
     // ログインしていない場合はログインページへリダイレクト
@@ -15,10 +15,10 @@ $happenDao = new HappenDao();
 
 $user_id = $_SESSION['member_id'];
 
-// URLからイベントIDを取得
-$eventID = $_GET['eventID'] ?? null;
+// セッションからイベントIDを取得
+$eventID = $_SESSION['eventID'] ?? null;
 if (!$eventID) {
-    echo "イベントIDが指定されていません。";
+    echo "イベントIDがセッションに保存されていません。";
     exit;
 }
 
@@ -45,7 +45,6 @@ try {
     $stmtCreator->execute();
     $creator = $stmtCreator->fetch(PDO::FETCH_ASSOC);
 
-    
     // イベントメンバー一覧の取得
     $members = $happenDao->get_member_list($eventID);
 
@@ -55,7 +54,6 @@ try {
     echo "エラー: " . $e->getMessage();
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
