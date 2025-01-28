@@ -21,52 +21,12 @@
         <div id="scrollable-content">
             <!-- メンバーごとの支払情報 -->
             <div class="payment-card">
-                <h2>ひかる ➡ はやと <span class="payment-amount">￥5000</span></h2>
+                <h2>ひかる ➡ はやと <span class="payment-amount">￥2000</span></h2>
                 <div class="event-item">
-                    <div class="event-name">レンタカー代</div>
+                    <div class="event-name">食事代</div>
                     <div class="event-amount">￥2000</div>
                 </div>
-                <div class="event-date">2024年10月15日 13時</div>
-
-                <div class="event-item">
-                    <div class="event-name">食事</div>
-                    <div class="event-amount">￥3000</div>
-                </div>
-                <div class="event-date">2024年10月15日 18時</div>
-            </div>
-
-            <div class="payment-card">
-                <h2>ひかる ➡ しゅうと <span class="payment-amount">￥10000</span></h2>
-                <div class="event-item">
-                    <div class="event-name">ホテル代</div>
-                    <div class="event-amount">￥10000</div>
-                </div>
-                <div class="event-date">2024年10月15日 11時</div>
-            </div>
-
-            <div class="payment-card">
-                <h2>ひかる ➡ れおん <span class="payment-amount">￥10000</span></h2>
-                <div class="event-item">
-                    <div class="event-name">タクシー代</div>
-                    <div class="event-amount">￥10000</div>
-                </div>
-                <div class="event-date">2024年10月15日 17時</div>
-            </div>
-
-            <!-- 新規追加データ -->
-            <div class="payment-card">
-                <h2>ひかる ➡ いくみ <span class="payment-amount">￥6000</span></h2>
-                <div class="event-item">
-                    <div class="event-name">食事</div>
-                    <div class="event-amount">￥3000</div>
-                </div>
-                <div class="event-date">2024年10月15日</div>
-
-                <div class="event-item">
-                    <div class="event-name">温泉代</div>
-                    <div class="event-amount">￥3000</div>
-                </div>
-                <div class="event-date">2024年10月16日</div>
+                <div class="event-date">2025年1月28日 14時</div>
             </div>
         </div>
 
