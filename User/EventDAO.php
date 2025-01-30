@@ -8,11 +8,11 @@ class Event
     public string $EventName; // イベント名
     public DateTime $EventDate; // イベント日時
     public DateTime $EventStart; // イベント開始日時
+    public int $is_completed; // イベント完了状態
 }
 
 class EventDAO
 {
-    
     // イベントの追加
     public function add_event(string $userID, string $eventName, DateTime $eventDate): string
     {
@@ -38,7 +38,7 @@ class EventDAO
         $eventStart = new DateTime();
 
         // データベースに挿入
-        $sql = "INSERT INTO イベント (EID, ID, EventName, EventDate, EventStart) VALUES (:EID, :ID, :EventName, :EventDate, :EventStart)";
+        $sql = "INSERT INTO イベント (EID, ID, EventName, EventDate, EventStart, is_completed) VALUES (:EID, :ID, :EventName, :EventDate, :EventStart, 0)";
         $stmt = $dbh->prepare($sql);
         $stmt->execute([
             ':EID' => $newID,
@@ -56,7 +56,7 @@ class EventDAO
     {
         $dbh = DAO::get_db_connect();
 
-        $sql = "UPDATE イベント SET EventName = :EventName, EventStart = :EventStart WHERE EID = :EID";
+        $sql = "UPDATE イベント SET EventName = :EventName, EventStart = :EventStart WHERE EID = :EID AND is_completed = 0";
         $stmt = $dbh->prepare($sql);
         $stmt->execute([
             ':EventName' => $eventName,
@@ -65,34 +65,15 @@ class EventDAO
         ]);
     }
 
-    // イベントの削除
-    public function delete_event(string $eventID)
+    // イベント完了設定
+    public function set_event_completed(string $eventID)
     {
         $dbh = DAO::get_db_connect();
-    
-        // トランザクション開始
-        $dbh->beginTransaction();
-    
-        try {
-            // 子テーブル（イベントメンバー）の関連データを削除
-            $sql = "DELETE FROM イベントメンバー WHERE EID = :EID";
-            $stmt = $dbh->prepare($sql);
-            $stmt->execute([':EID' => $eventID]);
-    
-            // イベントの削除
-            $sql = "DELETE FROM イベント WHERE EID = :EID";
-            $stmt = $dbh->prepare($sql);
-            $stmt->execute([':EID' => $eventID]);
-    
-            // トランザクションコミット
-            $dbh->commit();
-        } catch (Exception $e) {
-            // ロールバック
-            $dbh->rollBack();
-            throw $e;
-        }
+
+        $sql = "UPDATE イベント SET is_completed = 1 WHERE EID = :EID";
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute([':EID' => $eventID]);
     }
-    
 
     // イベントの取得
     public function get_event(string $eventID): ?Event
@@ -111,6 +92,7 @@ class EventDAO
             $event->EventName = $row['EventName'];
             $event->EventDate = new DateTime($row['EventDate']);
             $event->EventStart = new DateTime($row['EventStart']);
+            $event->is_completed = $row['is_completed'];
             return $event;
         }
 
