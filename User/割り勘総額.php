@@ -70,24 +70,53 @@
         <!-- メンバーリスト -->
         <ul class="member-list">
             <li class="member-item">
+                <a>ひかる</a>
+                <div>
+                <a href="割り勘明細受け取りhikaru.php"><span class="payment-amount">¥37,000</span></a>
+                <a href="割り勘明細hikaru.php"><span class="payment-amount2">¥2500</span></a>
+                </div>
+            </li>
+            <li class="member-item">
                 <a>はやと</a>
                 <div>
+<<<<<<< HEAD
                 <a href="割り勘明細受け取り.php"><span class="payment-amount">￥8000</span></a>
                 <a href="割り勘明細.php"><span class="payment-amount2">¥1000</span></a>
+=======
+                <a href="割り勘明細受け取りhayato.php"><span class="payment-amount">¥7000</span></a>
+                <a href="割り勘明細hayato.php"><span class="payment-amount3">¥2500</span></a>
+>>>>>>> 9f38369e4920582235dd38897da9c00aa65eb205
                 </div>
             </li>
             <li class="member-item">
                 <a>しゅうと</a>
                 <div>
+<<<<<<< HEAD
                 <a href="割り勘明細受け取り.php"><span class="payment-amount">￥0</span></a>
                 <a href="割り勘明細.php"><span class="payment-amount3">¥3000</span></a>
+=======
+                <a href="割り勘明細受け取りsyuuto.php"><span class="payment-amount">¥7000</span></a>
+                <a href="割り勘明細syuuto.php"><span class="payment-amount4">¥2500</span></a>
+                </div>
+            </li>
+            <li class="member-item">
+                <a>れおん</a>
+                <div>
+                <a href="割り勘明細受け取りreon.php"><span class="payment-amount">¥7000</span></a>
+                <a href="割り勘明細reon.php"><span class="payment-amount4">¥2500</span></a>
+>>>>>>> 9f38369e4920582235dd38897da9c00aa65eb205
                 </div>
             </li>
             <li class="member-item">
                 <a>いくみ</a>
                 <div>
+<<<<<<< HEAD
                 <a href="割り勘明細受け取り.php"><span class="payment-amount">￥0</span></a>
                 <a href="割り勘明細.php"><span class="payment-amount4">¥3000</span></a>
+=======
+                <a href="割り勘明細受け取りikumi.php"><span class="payment-amount">¥7000</span></a>
+                <a href="割り勘明細ikumi.php"><span class="payment-amount4">¥2500</span></a>
+>>>>>>> 9f38369e4920582235dd38897da9c00aa65eb205
                 </div>
             </li>
         
