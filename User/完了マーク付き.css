@@ -1,0 +1,120 @@
+/* ロゴのスタイル */
+#logo img {
+    max-width: 250px; /* ロゴの最大幅を少し小さく調整 */
+    height: auto; /* アスペクト比を維持 */
+    margin: 10px auto; /* 上下に少し余白を追加 */
+    display: block; /* 中央揃え */
+}
+
+/* ボディのスタイル */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* PC画面の背景を白に */
+    color: #333333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    padding: 20px 0;
+    height: 100%;
+    width: 100%;
+}
+
+/* コンテナ全体 */
+.container {
+    width: 90%; /* 幅をデバイス幅に合わせる */
+    max-width: 500px; /* 最大幅をスマホサイズに固定 */
+    background-color: #b0b0b0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* イベント作成ボタンのスタイル */
+.gradient-btn {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto 20px;
+    padding: 15px;
+    background-color: #607d8b;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* ボタンに影を追加 */
+}
+
+/* イベントアイテムのスタイル */
+.event-item {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 15px; /* 丸みを増加 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* アイテムに影を追加 */
+    text-align: left; /* 左寄せに変更 */
+}
+
+.event-item:hover {
+    background-color: #f1f1f1;
+}
+
+.event-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px; /* 下に少し余白を追加 */
+}
+
+.event-date {
+    font-size: 14px;
+    color: #555;
+}
+
+/* 終了ボタンのスタイル */
+.end-btn {
+    background-color: #f44336; /* 赤色 */
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 50%; /* 丸くする */
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    width: 50px; /* 横幅 */
+    height: 50px; /* 高さ */
+    line-height: 30px; /* テキストの縦位置を調整 */
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* ボタンに影を追加 */
+}
+
+.end-btn:hover {
+    background-color: #d32f2f; /* ホバー時に少し暗く */
+}
+
+/* メンバーリストのスタイル */
+.member-list {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.member-item {
+    background-color: #a8a3a3;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 480px) {
+    body {
+        background-color: #b0b0b0; /* スマホ画面の背景をさらに濃いグレーに設定 */
+    }
+}

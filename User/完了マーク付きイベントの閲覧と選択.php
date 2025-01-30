@@ -2,7 +2,6 @@
 // 必要なファイルの読み込み
 require_once 'DAO.php';
 
-
 // ユーザーIDの取得（ログイン後にセッションで保持していると仮定）
 session_start();
 if (!isset($_SESSION['member_id'])) {
@@ -41,7 +40,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>イベントリスト</title>
-    <link rel="stylesheet" href="イベントの閲覧と選択.css">
+    <link rel="stylesheet" href="完了マーク付き.css">
 </head>
 <body>
     <div class="container">
@@ -60,11 +59,13 @@ try {
         <div class="event-list">
             <?php if (!empty($events)): ?>
                 <?php foreach ($events as $event): ?>
-                    <div class="event-item" onclick=location.href="出来事の閲覧と選択.php?eventID=E000121" > 
+                    <div class="event-item" onclick="location.href='出来事の閲覧と選択.php?eventID=<?= htmlspecialchars($event['EID'], ENT_QUOTES, 'UTF-8') ?>'"> 
                         <div class="event-name"><?= htmlspecialchars($event['EventName'], ENT_QUOTES, 'UTF-8') ?></div>
                         <div class="event-date">開始日時: <?= htmlspecialchars($event['EventStart'], ENT_QUOTES, 'UTF-8') ?></div>
                         <button class="manage-btn" onclick="goManageEvent(event, '<?= htmlspecialchars($event['EID'], ENT_QUOTES, 'UTF-8') ?>')">管理</button>
                         <button class="share-btn" onclick="goShareEvent(event, '<?= htmlspecialchars($event['EID'], ENT_QUOTES, 'UTF-8') ?>')">共有</button>
+                        <!-- 終了ボタン -->
+                        <button class="end-btn">終</button>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -79,27 +80,26 @@ try {
         }
 
         function goShareEvent(event, EID) {
-        event.stopPropagation();
+            event.stopPropagation();
 
-        // 現在のページのURLを取得し、共有用に利用
-        const shareUrl = `${window.location.origin}/G06/G06/User/イベントの閲覧と選択share.php?eventID=${encodeURIComponent(EID)}`;
-        console.log("共有URL:", shareUrl); // デバッグ用: URLを確認
+            // 現在のページのURLを取得し、共有用に利用
+            const shareUrl = `${window.location.origin}/G06/G06/User/イベントの閲覧と選択share.php?eventID=${encodeURIComponent(EID)}`;
+            console.log("共有URL:", shareUrl); // デバッグ用: URLを確認
 
-    // Web Share APIのチェック
-    if (navigator.share) {
-        navigator.share({
-            title: "イベント共有",
-            text: "このイベントをチェックしてください！",
-            url: shareUrl
-        })
-        .then(() => console.log("シェア成功！"))
-        .catch((error) => console.error("シェア失敗", error));
-    } else {
-        // Web Share APIが利用できない場合
-        alert("このブラウザは共有機能をサポートしていません。リンクをコピーしてください: " + shareUrl);
-    }
-}
-
+            // Web Share APIのチェック
+            if (navigator.share) {
+                navigator.share({
+                    title: "イベント共有",
+                    text: "このイベントをチェックしてください！",
+                    url: shareUrl
+                })
+                .then(() => console.log("シェア成功！"))
+                .catch((error) => console.error("シェア失敗", error));
+            } else {
+                // Web Share APIが利用できない場合
+                alert("このブラウザは共有機能をサポートしていません。リンクをコピーしてください: " + shareUrl);
+            }
+        }
     </script>
 </body>
 </html>

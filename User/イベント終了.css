@@ -1,9 +1,3 @@
-#logo img {
-    max-width: 250px; /* ロゴの最大幅を少し小さく調整 */
-    height: auto; /* アスペクト比を維持 */
-    margin: 10px auto; /* 上下に少し余白を追加 */
-    display: block; /* 中央揃え */
-  }
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -16,21 +10,24 @@ body {
     min-height: 100vh;
 }
 
+.container {
+    width: 95%;
+    max-width: 500px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
 
 h2 {
     text-align: center;
-    margin-bottom: 50px;
-    font-size: 50px;
-    color: #ffffff;
+    margin-bottom: 30px;
+    font-size: 22px;
+    color: #444;
 }
 
 .transaction-list {
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 15px; /* 丸みを増加 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* アイテムに影を追加 */
     margin-bottom: 30px;
-    background-color: #ffffff;
 }
 
 .transaction {
@@ -55,7 +52,7 @@ h2 {
     text-align: right;
     font-size: 20px;
     font-weight: bold;
-    color: #000000;
+    color: #4caf50;
 }
 
 .transaction input[type="checkbox"] {
@@ -70,8 +67,8 @@ h2 {
     width: 100%;
     padding: 20px;
     font-size: 18px;
-    color: #000000;
-    background-color: #ffffff;
+    color: #fff;
+    background-color: #aaa;
     border: none;
     border-radius: 10px;
     cursor: not-allowed;
@@ -79,11 +76,12 @@ h2 {
 }
 
 .end-button.enabled {
-    background-color: #607d8b;
+    background-color: #4caf50;
     cursor: pointer;
 }
 
 .end-button.enabled:hover {
+<<<<<<< HEAD
     background-color: #607d8b;
 }
 #main-container{
@@ -104,3 +102,7 @@ h2 {
     font-weight: bold;
     margin-left: 10px;
 }
+=======
+    background-color: #45a049;
+}
+>>>>>>> 968aec9bf43f160acaadb3685e45833936322188

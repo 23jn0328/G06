@@ -66,19 +66,26 @@
         .payment-amount4:hover{
             text-decoration: underline;
         }
+        .member-item:nth-child(4) {
+         animation-delay: 0.4s;
+        }
+        .member-item:nth-child(5) {
+         animation-delay: 0.5s;
+        }
         </style>
         <!-- メンバーリスト -->
         <ul class="member-list">
             <li class="member-item">
                 <a>ひかる</a>
                 <div>
-                <a href="割り勘明細受け取りhikaru.php"><span class="payment-amount">¥37,000</span></a>
-                <a href="割り勘明細hikaru.php"><span class="payment-amount2">¥2500</span></a>
+                <a href="割り勘明細受け取りhikaru.php"><span class="payment-amount">¥4000</span></a>
+                <a href="割り勘明細hikaru.php"><span class="payment-amount2">¥2000</span></a>
                 </div>
             </li>
             <li class="member-item">
                 <a>はやと</a>
                 <div>
+<<<<<<< HEAD
 <<<<<<< HEAD
                 <a href="割り勘明細受け取り.php"><span class="payment-amount">￥8000</span></a>
                 <a href="割り勘明細.php"><span class="payment-amount2">¥1000</span></a>
@@ -86,30 +93,45 @@
                 <a href="割り勘明細受け取りhayato.php"><span class="payment-amount">¥7000</span></a>
                 <a href="割り勘明細hayato.php"><span class="payment-amount3">¥2500</span></a>
 >>>>>>> 9f38369e4920582235dd38897da9c00aa65eb205
+=======
+                <a href="割り勘明細受け取りhayato.php"><span class="payment-amount">¥8000</span></a>
+                <a href="割り勘明細hayato.php"><span class="payment-amount3">¥1000</span></a>
+>>>>>>> 968aec9bf43f160acaadb3685e45833936322188
                 </div>
             </li>
             <li class="member-item">
                 <a>しゅうと</a>
                 <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <a href="割り勘明細受け取り.php"><span class="payment-amount">￥0</span></a>
                 <a href="割り勘明細.php"><span class="payment-amount3">¥3000</span></a>
 =======
                 <a href="割り勘明細受け取りsyuuto.php"><span class="payment-amount">¥7000</span></a>
                 <a href="割り勘明細syuuto.php"><span class="payment-amount4">¥2500</span></a>
+=======
+                <a href="割り勘明細受け取りsyuuto.php"><span class="payment-amount">¥0</span></a>
+                <a href="割り勘明細syuuto.php"><span class="payment-amount4">¥3000</span></a>
+>>>>>>> 968aec9bf43f160acaadb3685e45833936322188
                 </div>
             </li>
             <li class="member-item">
                 <a>れおん</a>
                 <div>
+<<<<<<< HEAD
                 <a href="割り勘明細受け取りreon.php"><span class="payment-amount">¥7000</span></a>
                 <a href="割り勘明細reon.php"><span class="payment-amount4">¥2500</span></a>
 >>>>>>> 9f38369e4920582235dd38897da9c00aa65eb205
+=======
+                <a href="割り勘明細受け取りreon.php"><span class="payment-amount">¥0</span></a>
+                <a href="割り勘明細reon.php"><span class="payment-amount4">¥3000</span></a>
+>>>>>>> 968aec9bf43f160acaadb3685e45833936322188
                 </div>
             </li>
             <li class="member-item">
                 <a>いくみ</a>
                 <div>
+<<<<<<< HEAD
 <<<<<<< HEAD
                 <a href="割り勘明細受け取り.php"><span class="payment-amount">￥0</span></a>
                 <a href="割り勘明細.php"><span class="payment-amount4">¥3000</span></a>
@@ -117,6 +139,10 @@
                 <a href="割り勘明細受け取りikumi.php"><span class="payment-amount">¥7000</span></a>
                 <a href="割り勘明細ikumi.php"><span class="payment-amount4">¥2500</span></a>
 >>>>>>> 9f38369e4920582235dd38897da9c00aa65eb205
+=======
+                <a href="割り勘明細受け取りikumi.php"><span class="payment-amount">¥0</span></a>
+                <a href="割り勘明細ikumi.php"><span class="payment-amount4">¥3000</span></a>
+>>>>>>> 968aec9bf43f160acaadb3685e45833936322188
                 </div>
             </li>
         
@@ -136,7 +162,7 @@
             </li>
     </ul>
         <!-- 右下に配置された戻るボタン -->
-        <a id="return-link" href="出来事の閲覧と選択.php">戻る</a>
+        <a id="return-link" href="出来事の閲覧と選択.php?eventID=E000121">戻る</a>
     </div>
 
 </body>
