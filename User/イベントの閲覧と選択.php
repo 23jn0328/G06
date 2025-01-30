@@ -60,7 +60,7 @@ try {
         <div class="event-list">
             <?php if (!empty($events)): ?>
                 <?php foreach ($events as $event): ?>
-                    <div class="event-item" onclick=location.href="出来事の閲覧と選択.php?eventID=E000121" > 
+                    <div class="event-item" onclick="location.href='出来事の閲覧と選択.php?eventID=<?= htmlspecialchars($event['EID'], ENT_QUOTES, 'UTF-8') ?>'">
                         <div class="event-name"><?= htmlspecialchars($event['EventName'], ENT_QUOTES, 'UTF-8') ?></div>
                         <div class="event-date">開始日時: <?= htmlspecialchars($event['EventStart'], ENT_QUOTES, 'UTF-8') ?></div>
                         <button class="manage-btn" onclick="goManageEvent(event, '<?= htmlspecialchars($event['EID'], ENT_QUOTES, 'UTF-8') ?>')">管理</button>
