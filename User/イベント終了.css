@@ -81,5 +81,28 @@ h2 {
 }
 
 .end-button.enabled:hover {
+<<<<<<< HEAD
+    background-color: #607d8b;
+}
+#main-container{
+    width: 90%;
+    max-width: 500px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 30px;
+    background-color: #b0b0b0;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    
+}
+.settled-mark {
+    color: green;
+    font-weight: bold;
+    margin-left: 10px;
+}
+=======
     background-color: #45a049;
 }
+>>>>>>> 968aec9bf43f160acaadb3685e45833936322188

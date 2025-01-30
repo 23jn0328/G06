@@ -4,8 +4,13 @@ require_once 'HappenDetailDAO.php';
 session_start();
 
 // セッションから eventID を取得
+<<<<<<< HEAD
+$eventID = $_SESSION['eventID'] ?? null;
+var_dump($eventID);
+=======
 $eventID = $_POST['eventID'] ?? null;
 
+>>>>>>> 968aec9bf43f160acaadb3685e45833936322188
 if (!$eventID) {
     echo "イベントIDがセッションに保存されていません。";
     exit;
