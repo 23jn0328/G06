@@ -1,10 +1,13 @@
+/* ロゴのスタイル */
 #logo img {
-    max-width: 250px; /* ロゴの最大幅を少し小さく調整 */
+    max-width: 250px; /* ロゴの最大幅を調整 */
     height: auto; /* アスペクト比を維持 */
-    margin: 10px auto; /* 上下に少し余白を追加 */
+    margin: 10px auto; /* 上下に余白を追加 */
     display: block; /* 中央揃え */
-  }
-/* 基本スタイル */
+}
+
+/* 全体のスタイル */
+/* 全体のスタイル */
 body {
     font-family: Arial, sans-serif;
     background-color: #ffffff;
@@ -15,9 +18,9 @@ body {
     align-items: center;
     flex-direction: column;
     height: 100vh;
-
 }
 
+/* メインコンテナ */
 #main-container {
     width: 90%;
     max-width: 500px;
@@ -27,27 +30,41 @@ body {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    height: 100%;
-    position: relative; /* 戻るボタンの位置調整のために追加 */
+    height: 90vh;
+    overflow: hidden; /* 高さ固定だが、リスト部分はスクロール可能に */
 }
 
-h1 {
-    font-size: 50px;
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 20px;
+/* メンバーリストの親要素（スクロール可能にする） */
+.member-list-container {
+    flex-grow: 1;
+    overflow-y: auto; /* スクロール可能に */
+    max-height: 60vh;
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f0f0f0;
 }
 
-/* メンバーリストのスタイル */
+/* Webkit系ブラウザのスクロールバー設定 */
+.member-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+.member-list-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+.member-list-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+/* メンバーリスト */
 .member-list {
     list-style: none;
     padding: 0;
     margin: 0;
     width: 100%;
     text-align: center;
-    flex-grow: 1; /* リストを中央に寄せるためのスペースを確保 */
 }
 
+/* メンバー項目 */
 .member-item {
     display: flex;
     justify-content: space-between;
@@ -61,10 +78,12 @@ h1 {
     animation: slideIn 0.6s ease forwards;
 }
 
-.member-item:nth-child(1) { animation-delay: 0.1s; }
-.member-item:nth-child(2) { animation-delay: 0.2s; }
-.member-item:nth-child(3) { animation-delay: 0.3s; }
+/* すべてのメンバーにアニメーションを適用 */
+.member-item:nth-child(n) {
+    animation-delay: calc(0.1s * (n - 1));
+}
 
+/* アニメーション */
 @keyframes slideIn {
     to {
         opacity: 1;
@@ -72,48 +91,33 @@ h1 {
     }
 }
 
-.member-item a {
-    color: #0066cc;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 18px;
-}
-
+/* 支払金額のスタイル */
 .payment-amount,
-.payment-amount2,
-.payment-amount3,
-.payment-amount4 {
-    display: block; /* 要素を縦に並べる */
-    text-align: right; /* 右揃え */
+.payment-amount2 {
     font-weight: bold;
-    cursor: pointer; /* ポインタカーソルを表示 */
-    transition: transform 0.3s ease, color 0.3s ease;/* アニメーションの設定 */
     text-decoration: underline;
-}
-.payment-amount:hover,
-.payment-amount2:hover,
-.payment-amount3:hover,
-.payment-amount4:hover {
-    transform: scale(1.1); /* サイズを少し大きくする */
-    text-decoration: underline;
-    
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .payment-amount {
-    font-size: 18px;
     color: blue !important;
-    margin-bottom: 5px; /* 下に余白を追加 */
+    font-size: 18px;
+    margin-bottom: 5px;
 }
 
-.payment-amount2,
-.payment-amount3,
-.payment-amount4 {
-    font-size: 16px;
+.payment-amount2 {
     color: red;
+    font-size: 16px;
 }
 
+.payment-amount:hover,
+.payment-amount2:hover {
+    transform: scale(1.1);
+    text-decoration: underline;
+}
 
-/* 戻るボタンを右下に配置 */
+/* 戻るボタン */
 #return-link {
     position: absolute;
     bottom: 20px;
@@ -127,6 +131,15 @@ h1 {
     font-size: 14px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
+
+/* 説明テキストを中央配置 */
+#text-center {
+    text-align: center;
+    width: 100%;
+    margin: 10px 0;
+}
+
+/* テキストカラー */
 .text-blue {
     color: blue !important;
 }
