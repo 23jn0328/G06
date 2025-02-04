@@ -129,7 +129,7 @@ $_SESSION['is_event_completed'] = $is_event_completed;
                             <?php endforeach; ?>
                         <?php endif; ?>
 
-                        <button class="edit-button" onclick="location.href='出来事管理.php?happenID=<?= htmlspecialchars($happen['HID'], ENT_QUOTES, 'UTF-8') ?>'">🖊</button>
+                        <button class="edit-button" onclick="location.href='出来事管理.php?eventID=<?= htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8') ?>&happenID=<?= htmlspecialchars($happen['HID'], ENT_QUOTES, 'UTF-8') ?>'">🖊</button>
                     </div>
                     <div class="amount">￥<?= number_format($happen['TotalMoney']) ?></div>
                 </div>
