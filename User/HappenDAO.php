@@ -95,19 +95,18 @@ class HappenDao
         $stmt = $pdo->query($sql);
         $lastHappen = $stmt->fetch(PDO::FETCH_ASSOC);
          $lastID = $lastHappen ? (int)substr($lastHappen['HSID'], 2) : 0;
-        var_dump((int)substr($lastHappen['HSID'], 2));
         $newID = 'HS' . str_pad($lastID + 1, 6, '0', STR_PAD_LEFT);
-        if ($type === 'PayID') {
-            $sql = "INSERT INTO 出来事詳細 (HSID,HID, SakiKID, SMoney) VALUES (:hsID,:hID, :payer, :smoney)";
-        } else {
-            $sql = "INSERT INTO 出来事詳細 (HSID, HID, SakiEMID, SMoney) VALUES (:hsID,:hID, :payer, :smoney)";
-        }
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':hsID', $newID, PDO::PARAM_STR);
-        $stmt->bindParam(':hID', $happenID, PDO::PARAM_STR);
-        $stmt->bindParam(':payer', $payer, PDO::PARAM_STR);
-        $stmt->bindParam(':smoney', $smoney, PDO::PARAM_INT);
-        $stmt->execute();
+        // if ($type === 'PayID') {
+        //     $sql = "INSERT INTO 出来事詳細 (HSID,HID, SakiKID, SMoney) VALUES (:hsID,:hID, :payer, :smoney)";
+        // } else {
+        //     $sql = "INSERT INTO 出来事詳細 (HSID, HID, SakiEMID, SMoney) VALUES (:hsID,:hID, :payer, :smoney)";
+        // }
+        // $stmt = $pdo->prepare($sql);
+        // $stmt->bindParam(':hsID', $newID, PDO::PARAM_STR);
+        // $stmt->bindParam(':hID', $happenID, PDO::PARAM_STR);
+        // $stmt->bindParam(':payer', $payer, PDO::PARAM_STR);
+        // $stmt->bindParam(':smoney', $smoney, PDO::PARAM_INT);
+        // $stmt->execute();
     }
 
     // 出来事を追加
@@ -178,7 +177,6 @@ public function add_happen(
     return $newID;
 }
 
-    
 
         //出来事更新
         public function update_happen(

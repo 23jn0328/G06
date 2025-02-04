@@ -4,24 +4,27 @@ require_once 'HappenDetailDAO.php';
 session_start();
 
 // セッションから eventID を取得
-<<<<<<< HEAD
-$eventID = $_SESSION['eventID'] ?? null;
-var_dump($eventID);
-=======
 $eventID = $_POST['eventID'] ?? null;
 
->>>>>>> 968aec9bf43f160acaadb3685e45833936322188
 if (!$eventID) {
     echo "イベントIDがセッションに保存されていません。";
     exit;
 }
 
+// 支払者（誰かに払う）リスト
+$payertoPayIDList =  [];
+//　出来事参加全員
+$members = [];
+
+//$_POST['payertoPayID'] ?? null;
+$storePayerID = $_POST['payer'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // POSTデータの取得
-    $payer = $_POST['payer'];
+    $payer = $_POST['payer'];// 支払者（お店に払った人）
     $EventID = $eventID; // セッションから取得したeventIDを使用
     $HappenName = $_POST['happenName'];
     $SMoney = $_POST['smoney'];
+
 
     // 金額を数値に変換
     $TotalMoney = $_POST['totalMoney'];
@@ -39,18 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 支払者を解析
     $PayID = null;
     $PayEMID = null;
-    if (preg_match('/^EM(\d+)$/', $payer, $matches)) {
-        $PayEMID = $matches[1];
+
+    if (preg_match('/^EM\d+$/', $payer)) {
+        $PayEMID = $payer;  // 非メンバーの場合
     } else {
-        $PayEMID = null; 
-        $PayID = $payer;
+        $PayID = $payer;  // メンバーの場合
     }
 
-    if ($PayEMID === null) {
-        $PayID = $payer;
-    } else {
-        $PayEMID = $payer;
-    }
 
     // 日付の形式が正しいか確認
     $HappenDate = DateTime::createFromFormat('Y-m-d', $HappenDate);
@@ -70,12 +68,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $HappenDate->format('Y-m-d H:i:s'),
         $SMoney
     );
-
     $happenDetailDao = new HappenDetailDAO();
+
+    foreach($members as $member){
+        if($payer == $member) {
+            // お店に払った人だったら
+            // 追加しない
+        } else {
+            // 誰かに払う人リストに登録
+            $payertoPayIDList[] = $member;  // 配列に追加
+        }
+    }
+
     $happenDetailDao->Save_Or_Update_MemberPayment(
         $newHappenID, 
-        $members,  
-        $payer,     
+        $payertoPayIDList,   //　誰かに払う人リスト   
+        $storePayerID,// お店に支払う人
         $SMoney
     );
 
@@ -84,9 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    echo "受け取ったイベントID: " . htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8');
-    header('Location: 出来事の閲覧と選択.php?eventID=' . urlencode($eventID));
+    // echo "受け取ったイベントID: " . htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8');
+    // header('Location: 出来事の閲覧と選択.php?eventID=' . urlencode($eventID));
 
-    exit;
+    // exit;
 }
-?>

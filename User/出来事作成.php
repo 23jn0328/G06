@@ -19,7 +19,6 @@ if (!$eventID) {
     exit;
 }
 
-
 $happenDao = new HappenDao();
 $user_name = $happenDao->getEventHostName($eventID);
 $memberList = $happenDao->get_member_list($eventID);
@@ -52,12 +51,12 @@ $memberList = $happenDao->get_member_list($eventID);
             
             <label for="member-selection" class="bold-text">メンバー選択</label>
             <div class="checkbox-group" id="member-selection">
-            <input type="checkbox" name="members[]" value="<?= $user_id ?>" onclick="calculatePerPerson()">
-            <?= htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8') ?>
+                <input type="checkbox" name="members[]" value="<?= $user_id ?>" onclick="calculatePerPerson()">
+                <?= htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8') ?>
                 <?php foreach ($memberList as $member): ?>
                     <label>
                         <input type="checkbox" name="members[]" value="<?= $member['EMID'] ?>" onclick="calculatePerPerson()">
-                            <?= htmlspecialchars($member['EventMemberName'], ENT_QUOTES, 'UTF-8') ?>
+                        <?= htmlspecialchars($member['EventMemberName'], ENT_QUOTES, 'UTF-8') ?>
                     </label>
                 <?php endforeach; ?>
             </div>
