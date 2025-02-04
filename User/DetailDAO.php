@@ -144,8 +144,9 @@ class DetailDAO {
         $stmt->bindValue(':id', $id, PDO::PARAM_STR);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        var_dump($result); // デバッグ: SQLの実行結果を確認
 
-        return $result['UserName'] ?? "不明";
+        return $result ? ($result['UserName'] ?? $result['EventMemberName'] ?? "不明") : "不明";
     }
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-require_once 'detailDAO.php';
+require_once 'DetailDAO.php';
 
 $detailDAO = new DetailDAO();
 
