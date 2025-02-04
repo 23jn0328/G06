@@ -1,0 +1,151 @@
+#logo img {
+  max-width: 250px; /* ロゴの最大幅を少し小さく調整 */
+  height: auto; /* アスペクト比を維持 */
+  margin: 10px auto; /* 上下に少し余白を追加 */
+  display: block; /* 中央揃え */
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffffff; /* PC画面の背景を白に */
+  color: #333333;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0;
+  padding: 20px 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* コンテナ全体 */
+.container {
+  width: 90%; /* 幅をデバイス幅に合わせる */
+  max-width: 500px; /* 最大幅をスマホサイズに固定 */
+  background-color: #b0b0b0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+/* タイトルのスタイル */
+.main-title {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: white;
+}
+
+/* イベント作成ボタンのスタイル */
+.gradient-btn {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto 20px;
+  padding: 15px;
+  background-color: #607d8b;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* ボタンに影を追加 */
+}
+
+/* ボタンホバー時のスタイルを変更しない */
+.gradient-btn:hover {
+  background-color: #767f8d; /* ホバー時も色を変更しない */
+}
+
+/* イベントアイテムのスタイル */
+.event-item {
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 15px; /* 丸みを増加 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* アイテムに影を追加 */
+  text-align: left; /* 左寄せに変更 */
+}
+
+.event-item:hover {
+  background-color: #f1f1f1;
+}
+
+.event-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px; /* 下に少し余白を追加 */
+}
+h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: white; /* 見出し文字色を白に */
+}
+.event-date {
+  font-size: 14px;
+  color: #555;
+}
+
+.member-list {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.member-item {
+  background-color: #a8a3a3;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.action-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.button {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: white;
+  background-color: #555;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #333;
+}
+@media (max-width: 480px) {
+  body {
+      background-color: #b0b0b0; /* スマホ画面の背景をさらに濃いグレーに設定 */
+  }
+}
+
+#main-container{
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  height:auto;
+  background-color: white;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  border: 1px solid #ccc;
+  background-color: #d8f4fc;
+}
+/* メンバーの「×」を非表示にする */
+.member-item::after { 
+  content: none;  /* 疑似要素で「×」を消す */
+}
