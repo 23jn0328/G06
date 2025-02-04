@@ -98,22 +98,4 @@ class EventDAO
 
         return null;
     }
-
-    public function delete_event($eventID) {
-        // DB接続（接続設定が必要）
-       $dbh = DAO::get_db_connect();
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // イベント削除のSQLクエリ
-        $sql = "DELETE FROM イベント WHERE EID = :EID";
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindParam(':EID', $eventID, PDO::PARAM_INT);
-        
-        // クエリ実行
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
