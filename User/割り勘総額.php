@@ -93,7 +93,7 @@ if(!$creatorName) {
                 <a><?= htmlspecialchars($creatorName, ENT_QUOTES, 'UTF-8') ?></a>
                 <div>
                     <a href="割り勘明細受け取り.php"><span class="payment-amount">¥4000</span></a>
-                    <span class="payment-amount2">¥2000</span>
+                    <a href="割り勘明細.php"><span class="payment-amount2">¥2000</span></a>
                 </div>
             </li>
         <?php endif; ?>
