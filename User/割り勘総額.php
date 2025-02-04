@@ -5,27 +5,10 @@ session_start();
 $members = $_SESSION['event_members'] ?? [];
 $creatorName = $_SESSION['creatorName'] ?? null;
 
-if(!$creatorName) {
+if (!$creatorName) {
     echo "作成者名が見つかりません。";
     exit;
 }
-
-    /*require_once 'HappenDetailDAO.php';
-
-    // HIDを取得
-    $HID = $_GET['HID'];  // URLのパラメータやフォームからHIDを取得
-
-    // HappenDetailDAOインスタンスを作成
-    $happenDetailDAO = new HappenDetailDAO();
-
-    // 支払金額の詳細を取得
-    $paymentDetails = $happenDetailDAO->getPaymentDetails($HID);
-
-    // メンバー名を取得するためのメソッド
-    function getMemberName($EMID) {
-        global $happenDetailDAO;
-        return $happenDetailDAO->getMemberNameById($EMID);
-}*/
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -35,86 +18,107 @@ if(!$creatorName) {
     <title>割り勘総額 - わりペイ</title>
     <link rel="stylesheet" href="割り勘総額.css">
 </head>
+<style>
+    /* メンバーリストの親要素（スクロール可能にする） */
+.member-list-container {
+    flex-grow: 1;
+    overflow-y: auto !important; /* 強制的にスクロール可能にする */
+    height: 100%; /* 高さを明示的に設定 */
+    max-height: 73vh; /* 上限を設定 */
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f0f0f0;
+}
+
+/* Webkit系ブラウザのスクロールバー設定 */
+.member-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.member-list-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.member-list-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+</style>
 <body>
-    <!-- 全画面に広がるメインコンテナ -->
-    <div id="main-container">
+
+<div id="main-container">
+    <!-- ロゴ -->
     <div id="logo">
-            <a href="イベントの閲覧と選択.php">
-                <img src="img/image.png" alt="WARIPAYロゴ">
-            </a>
+        <a href="イベントの閲覧と選択.php">
+            <img src="img/image.png" alt="WARIPAYロゴ">
+        </a>
     </div>
+
+    <!-- 説明テキスト -->
     <div id="text-center">
-    <small>
-        <span class="text-blue">青字</span>は受け取り金額
-        <span class="mx-1">/</span>
-        <span class="text-red">赤字</span>は支払い金額
-    </small>
+        <small>
+            <span class="text-blue">青字</span>は受け取り金額
+            <span class="mx-1">/</span>
+            <span class="text-red">赤字</span>は支払い金額
+        </small>
     </div>
-    <style> /*cssファイルで適用されないから<style>タグで適用させてる*/
-                .text-blue {
-            color: blue !important;
-        }
 
-        .text-red {
-            color: red !important;
-        }
-        #text-center{
-            display: block;
-            text-align: center;
-        }
-        .member-list .payment-amount {
-            color: blue !important; /* 確実に青字にする */
-        }
-        .payment-amount,
-        .payment-amount2,
-        .payment-amount3,
-        .payment-amount4{
-            text-decoration: underline;
-        }
-        .payment-amount:hover,
-        .payment-amount2:hover,
-        .payment-amount3:hover,
-        .payment-amount4:hover{
-            text-decoration: underline;
-        }
-        .member-item:nth-child(4) {
-         animation-delay: 0.4s;
-        }
-        .member-item:nth-child(5) {
-         animation-delay: 0.5s;
-        }
-        </style>
-        <!-- メンバーリスト -->
-        
+    <!-- メンバーリスト（スクロール可能） -->
+    <div class="member-list-container">
         <ul class="member-list">
-        
-        <?php if ($creatorName): ?>
-            <li class="member-item">
-                <a><?= htmlspecialchars($creatorName, ENT_QUOTES, 'UTF-8') ?></a>
-                <div>
-                    <a href="割り勘明細受け取り.php"><span class="payment-amount">¥4000</span></a>
-                    <a href="割り勘明細.php"><span class="payment-amount2">¥2000</span></a>
-                </div>
-            </li>
-        <?php endif; ?>
+            <!-- 作成者 -->
+            <?php if ($creatorName): ?>
+                <li class="member-item">
+                    <a><?= htmlspecialchars($creatorName, ENT_QUOTES, 'UTF-8') ?></a>
+                    <div>
+                        <a href="割り勘明細受け取り.php">
+                            <span class="payment-amount">¥4000</span>
+                        </a>
+                        <a href="割り勘明細.php">
+                            <span class="payment-amount2">¥2000</span>
+                        </a>
+                    </div>
+                </li>
+            <?php endif; ?>
 
-        <?php if (!empty($members)): ?>
-        <?php foreach ($members as $member): ?>
-            <li class="member-item">
-                <a><?= htmlspecialchars($member['EventMemberName'] ?? '不明なメンバー', ENT_QUOTES, 'UTF-8') ?></a>
-                <div>
-                    <a href="割り勘明細受け取り.php"><span class="payment-amount">¥4000</span></a>
-                    <a href="割り勘明細.php"><span class="payment-amount2">¥2000</span></a>
-                </div>
-            </li>
-        <?php endforeach; ?>
-        <?php else: ?>
-        <li>メンバーが見つかりません。</li>
-        <?php endif; ?>
-    </ul>
-        <!-- 右下に配置された戻るボタン -->
-        <a id="return-link" href="出来事の閲覧と選択.php?eventID=E000121">戻る</a>
+            <!-- メンバーリスト -->
+            <?php if (!empty($members)): ?>
+                <?php foreach ($members as $member): ?>
+                    <li class="member-item">
+                        <a><?= htmlspecialchars($member['EventMemberName'] ?? '不明なメンバー', ENT_QUOTES, 'UTF-8') ?></a>
+                        <div>
+                            <a href="割り勘明細受け取り.php">
+                                <span class="payment-amount">¥4000</span>
+                            </a>
+                            <a href="割り勘明細.php">
+                                <span class="payment-amount2">¥2000</span>
+                            </a>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <li>メンバーが見つかりません。</li>
+            <?php endif; ?>
+        </ul>
     </div>
+
+    <!-- 戻るボタン -->
+    <a id="return-link" href="javascript:void(0);" onclick="history.back();">戻る</a>
+
+
+
+
+</div>
+
+<!-- JavaScript -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let members = document.querySelectorAll(".member-item");
+
+    members.forEach((member, index) => {
+        member.style.animationDelay = `${index * 0.1}s`; // 0.1秒ずつ遅らせる
+    });
+});
+</script>
 
 </body>
 </html>
