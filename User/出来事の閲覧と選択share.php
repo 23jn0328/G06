@@ -1,10 +1,10 @@
 <?php
+session_start();
 require_once 'DAO.php';  // DAOクラスの読み込み
 require_once 'HappenDao.php';  // HappenDaoクラスの読み込み
 require_once 'EventDAO.php';  // EventDAOクラスの読み込み
 
-// セッション開始とイベントIDの取得
-session_start();
+// セッションとログインチェック
 if (!isset($_SESSION['member_id'])) {
     // ログインしていない場合はログインページへリダイレクト
     header('Location: ログイン.php');
@@ -12,7 +12,6 @@ if (!isset($_SESSION['member_id'])) {
 }
 
 $happenDao = new HappenDao();
-
 $user_id = $_SESSION['member_id'];
 
 // URLからイベントIDを取得
@@ -26,8 +25,8 @@ try {
     // データベース接続
     $dbh = DAO::get_db_connect();
 
-    // イベント名と作成者IDを取得
-    $sql = "SELECT EventName, ID FROM イベント WHERE EID = :eventID";
+    // イベント名、作成者ID、イベント完了ステータスを取得
+    $sql = "SELECT EventName, ID, is_completed FROM イベント WHERE EID = :eventID";
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':eventID', $eventID, PDO::PARAM_STR);
     $stmt->execute();
@@ -45,18 +44,30 @@ try {
     $stmtCreator->execute();
     $creator = $stmtCreator->fetch(PDO::FETCH_ASSOC);
 
-    
     // イベントメンバー一覧の取得
     $members = $happenDao->get_member_list($eventID);
 
     // 出来事一覧の取得
     $happens = $happenDao->get_happen_details_by_event_id($eventID);
+
+    // イベントの完了状態をチェック
+    $is_event_completed = $event['is_completed'] == 1; // イベントが終了しているかどうか
+
 } catch (PDOException $e) {
     echo "エラー: " . $e->getMessage();
     exit;
 }
 
+// セッションにイベント詳細情報を格納
+$_SESSION['event_name'] = $event['EventName'];
+$_SESSION['creatorID'] = $event['ID'];
+$_SESSION['creatorName'] = $creator['UserName'];
+$_SESSION['event_members'] = $members;
+$_SESSION['event_happens'] = $happens;
+$_SESSION['is_event_completed'] = $is_event_completed;
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -66,6 +77,7 @@ try {
     <title>WARIPAY</title>
     <link rel="stylesheet" href="出来事の閲覧と選択style.css">
 </head>
+
 <body>
     <div id="main-container">
         <!-- アプリタイトル -->
@@ -95,7 +107,6 @@ try {
             <?php endif; ?>
         </ul>
 
-        <!-- 出来事の追加ボタン -->
         <!-- 各費用項目 -->
         <?php if (!empty($happens)): ?>
             <?php foreach ($happens as $happen): ?>
@@ -104,15 +115,13 @@ try {
 
                     <p class="payer"><?= htmlspecialchars($happen['PayerName'] ?? '', ENT_QUOTES, 'UTF-8') ?> が立て替え</p>
 
-
                     <div class="button-group">
-                <?php if (!empty($happen['members'])): ?>
-                    <?php foreach ($happen['members'] as $member_id): ?>         
-                        <li><?= htmlspecialchars($member[''], ENT_QUOTES, 'UTF-8') ?></li>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            
-                        
+                        <?php if (!empty($happen['members'])): ?>
+                            <?php foreach ($happen['members'] as $member_id): ?>         
+                                <li><?= htmlspecialchars($member[''], ENT_QUOTES, 'UTF-8') ?></li>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
                     </div>
                     <div class="amount">￥<?= number_format($happen['TotalMoney']) ?></div>
                 </div>
