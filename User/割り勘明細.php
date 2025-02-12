@@ -8,10 +8,6 @@ $eventId = $_GET['eventId'] ?? null;
 $motoEmid = $_GET['motoEmid'] ?? null;
 $motoKid = $_GET['sakiEmid'] ?? null;
 
-// 仮のデータ（実際は前ページから取得）
-$eventId = 'E000152';
-$motoEmid = 'EM000143'; // 仮のイベントメンバーID
-$motoKid = null; // 仮の会員ID（会員としての支払いがある場合）
 
 // 支払いコンテナを取得
 $containers = $detailDAO->getPaymentContainers($eventId);
