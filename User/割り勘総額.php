@@ -9,6 +9,7 @@ if (!$creatorName) {
     echo "作成者名が見つかりません。";
     exit;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -19,29 +20,132 @@ if (!$creatorName) {
     <link rel="stylesheet" href="割り勘総額.css">
 </head>
 <style>
-    /* メンバーリストの親要素（スクロール可能にする） */
+/* ======================================== */
+/* 🌟 基本スタイル */
+/* ======================================== */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff; /* 背景を白に */
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+}
+
+#logo img {
+    max-width: 200px; /* ロゴサイズを調整 */
+    height: auto;
+    margin: 20px auto;
+    display: block;
+}
+
+#main-container {
+    width: 90%;
+    max-width: 500px;
+    background-color: #b0b0b0; /* 明るいグレー */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ======================================== */
+/* 🌟 メンバーリスト（スクロールなし） */
+/* ======================================== */
+
 .member-list-container {
-    flex-grow: 1;
-    overflow-y: auto !important; /* 強制的にスクロール可能にする */
-    height: 100%; /* 高さを明示的に設定 */
-    max-height: 73vh; /* 上限を設定 */
-    scrollbar-width: thin;
-    scrollbar-color: #888 #f0f0f0;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    margin-top: 15px;
 }
 
-/* Webkit系ブラウザのスクロールバー設定 */
-.member-list-container::-webkit-scrollbar {
-    width: 8px;
+.member-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.member-list-container::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 4px;
+.member-item {
+    background: #ffffff;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.member-list-container::-webkit-scrollbar-track {
-    background-color: #f0f0f0;
+/* ======================================== */
+/* 🌟 チェックボックスのデザイン */
+/* ======================================== */
+
+.transaction-checkbox {
+    margin-right: 10px;
+    transform: scale(1.2);
+    accent-color: #0056b3; /* チェック時のカラーを統一 */
 }
+
+/* ======================================== */
+/* 🌟 イベント終了ボタン */
+/* ======================================== */
+
+#endButton {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #ccc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed;
+    transition: 0.3s;
+}
+
+#endButton:enabled {
+    background-color: #28a745;
+    cursor: pointer;
+}
+
+#endButton:enabled:hover {
+    background-color: #218838;
+}
+
+/* ======================================== */
+/* 🌟 PayPayリンク & 戻るボタン */
+/* ======================================== */
+
+#link-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+#paypay-link img {
+    width: 100px;
+    height: auto;
+}
+
+/* 戻るリンクのスタイル */
+#return-link {
+    color: #607d8b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 </style>
 <body>
 
@@ -62,19 +166,17 @@ if (!$creatorName) {
         </small>
     </div>
 
-    <!-- メンバーリスト（スクロール可能） -->
-    <div class="member-list-container">
         <ul class="member-list">
             <!-- 作成者 -->
             <?php if ($creatorName): ?>
                 <li class="member-item">
                     <a><?= htmlspecialchars($creatorName, ENT_QUOTES, 'UTF-8') ?></a>
                     <div>
-                    <a href="割り勘明細受け取り.php?eventId=<?php echo urlencode($eventId); ?>&motoId=<?php echo urlencode($motoEmid); ?>$sakiId=<?php echo urlencode($sakiid); ?>">
-                            <span class="payment-amount">¥4000</span>
+                    <a href="割り勘明細受け取り.php ?>">
+                            <span class="payment-amount">受け取り</span>
                         </a>
-                        <a href="割り勘明細.php?eventId=<?php echo urlencode($eventId); ?>&motoId=<?php echo urlencode($motoEmid); ?>$sakiId=<?php echo urlencode($sakiid); ?>">
-                            <span class="payment-amount2">¥2000</span>
+                        <a href="割り勘明細.php ?>">
+                            <span class="payment-amount2">支払い</span>
                         </a>
                     </div>
                 </li>
@@ -86,11 +188,11 @@ if (!$creatorName) {
                     <li class="member-item">
                         <a><?= htmlspecialchars($member['EventMemberName'] ?? '不明なメンバー', ENT_QUOTES, 'UTF-8') ?></a>
                         <div>
-                        <a href="割り勘明細受け取り.php?eventId=<?php echo urlencode($eventId); ?>&motoId=<?php echo urlencode($motoEmid); ?>$sakiId=<?php echo urlencode($sakiid); ?>">
-                                <span class="payment-amount">¥4000</span>
+                        <a href="割り勘明細受け取り.php ?>">
+                                <span class="payment-amount">受け取り</span>
                             </a>
-                            <a href="割り勘明細.php?eventId=<?php echo urlencode($eventId); ?>&motoId=<?php echo urlencode($motoEmid); ?>$sakiId=<?php echo urlencode($sakiid); ?>">
-                                <span class="payment-amount2">¥2000</span>
+                            <a href="割り勘明細.php ?>">
+                                <span class="payment-amount2">支払い</span>
                             </a>
                         </div>
                     </li>
@@ -105,20 +207,7 @@ if (!$creatorName) {
     <a id="return-link" href="javascript:void(0);" onclick="history.back();">戻る</a>
 
 
-
-
 </div>
-
-<!-- JavaScript -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    let members = document.querySelectorAll(".member-item");
-
-    members.forEach((member, index) => {
-        member.style.animationDelay = `${index * 0.1}s`; // 0.1秒ずつ遅らせる
-    });
-});
-</script>
 
 </body>
 </html>

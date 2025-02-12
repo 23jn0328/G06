@@ -1,149 +1,125 @@
-/* ロゴのスタイル */
-#logo img {
-    max-width: 250px; /* ロゴの最大幅を調整 */
-    height: auto; /* アスペクト比を維持 */
-    margin: 10px auto; /* 上下に余白を追加 */
-    display: block; /* 中央揃え */
-}
+/* ======================================== */
+/* 🌟 基本スタイル */
+/* ======================================== */
 
-/* 全体のスタイル */
-/* 全体のスタイル */
 body {
     font-family: Arial, sans-serif;
-    background-color: #ffffff;
-    color: #333333;
-    margin: 0;
+    background-color: #fff; /* 背景を白に */
+    color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     height: 100vh;
+    margin: 0;
 }
 
-/* メインコンテナ */
+#logo img {
+    max-width: 200px; /* ロゴサイズを調整 */
+    height: auto;
+    margin: 20px auto;
+    display: block;
+}
+
 #main-container {
     width: 90%;
     max-width: 500px;
-    background-color: #b0b0b0;
+    background-color: #b0b0b0; /* 明るいグレー */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    height: 90vh;
-    overflow: hidden; /* 高さ固定だが、リスト部分はスクロール可能に */
 }
 
-/* メンバーリストの親要素（スクロール可能にする） */
+/* ======================================== */
+/* 🌟 メンバーリスト（スクロールなし） */
+/* ======================================== */
+
 .member-list-container {
-    flex-grow: 1;
-    overflow-y: auto; /* スクロール可能に */
-    max-height: 60vh;
-    scrollbar-width: thin;
-    scrollbar-color: #888 #f0f0f0;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    margin-top: 15px;
 }
 
-/* Webkit系ブラウザのスクロールバー設定 */
-.member-list-container::-webkit-scrollbar {
-    width: 8px;
-}
-.member-list-container::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 4px;
-}
-.member-list-container::-webkit-scrollbar-track {
-    background-color: #f0f0f0;
-}
-
-/* メンバーリスト */
 .member-list {
     list-style: none;
     padding: 0;
     margin: 0;
-    width: 100%;
-    text-align: center;
 }
 
-/* メンバー項目 */
 .member-item {
+    background: #ffffff;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ======================================== */
+/* 🌟 チェックボックスのデザイン */
+/* ======================================== */
+
+.transaction-checkbox {
+    margin-right: 10px;
+    transform: scale(1.2);
+    accent-color: #0056b3; /* チェック時のカラーを統一 */
+}
+
+/* ======================================== */
+/* 🌟 イベント終了ボタン */
+/* ======================================== */
+
+#endButton {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #ccc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed;
+    transition: 0.3s;
+}
+
+#endButton:enabled {
+    background-color: #28a745;
+    cursor: pointer;
+}
+
+#endButton:enabled:hover {
+    background-color: #218838;
+}
+
+/* ======================================== */
+/* 🌟 PayPayリンク & 戻るボタン */
+/* ======================================== */
+
+#link-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    background-color: #ffffff;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    opacity: 0;
-    transform: translateX(100%);
-    animation: slideIn 0.6s ease forwards;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
 }
 
-/* すべてのメンバーにアニメーションを適用 */
-.member-item:nth-child(n) {
-    animation-delay: calc(0.1s * (n - 1));
+#paypay-link img {
+    width: 100px;
+    height: auto;
 }
 
-/* アニメーション */
-@keyframes slideIn {
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* 支払金額のスタイル */
-.payment-amount,
-.payment-amount2 {
-    font-weight: bold;
-    text-decoration: underline;
-    cursor: pointer;
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.payment-amount {
-    color: blue !important;
-    font-size: 18px;
-    margin-bottom: 5px;
-}
-
-.payment-amount2 {
-    color: red;
-    font-size: 16px;
-}
-
-.payment-amount:hover,
-.payment-amount2:hover {
-    transform: scale(1.1);
-    text-decoration: underline;
-}
-
-/* 戻るボタン */
+/* 戻るリンクのスタイル */
 #return-link {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background-color: #607d8b;
-    color: #ffffff;
-    padding: 10px 20px;
+    color: #607d8b;
     text-decoration: none;
     font-weight: bold;
-    border-radius: 5px;
-    font-size: 14px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* 説明テキストを中央配置 */
-#text-center {
-    text-align: center;
-    width: 100%;
-    margin: 10px 0;
-}
-
-/* テキストカラー */
-.text-blue {
-    color: blue !important;
-}
-
-.text-red {
-    color: red !important;
 }

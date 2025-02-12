@@ -15,6 +15,7 @@ $motoKid = null; // 仮の会員ID（会員としての支払いがある場合�
 
 // 支払いコンテナを取得
 $containers = $detailDAO->getPaymentContainers($eventId);
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -37,6 +38,7 @@ $containers = $detailDAO->getPaymentContainers($eventId);
             <?php
             // 表示済みのペアを格納する配列
             $displayedPairs = [];
+            $total = 0;
 
             foreach ($containers as $container) : 
                 // 受取者のIDを取得 (SakiEMIDが優先、なければSakiKID)
@@ -81,6 +83,9 @@ $containers = $detailDAO->getPaymentContainers($eventId);
                         continue;
                     }
 
+
+                    $total += $totalAmount;
+
                     // 表示済みとして登録
                     $displayedPairs[$pairKey] = true;
 
@@ -98,6 +103,8 @@ $containers = $detailDAO->getPaymentContainers($eventId);
                     <?php endforeach; ?>
                 </div>
             <?php endforeach; ?>
+
+            <h2>総額：<?php echo $total ?><h2>
         </div>
                 <!-- 固定されたPayPayリンクボタン -->
                 <div id="link-container">
@@ -107,6 +114,7 @@ $containers = $detailDAO->getPaymentContainers($eventId);
             </a>
             <!-- 右寄せの戻るリンク -->
             <a id="return-link" href="割り勘総額.php">戻る</a>
+            
         </div>
     </div>
 </body>
