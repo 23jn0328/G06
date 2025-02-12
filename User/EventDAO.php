@@ -69,7 +69,7 @@ class EventDAO
     public function set_event_completed(string $eventID)
     {
         $dbh = DAO::get_db_connect();
-
+    
         $sql = "UPDATE イベント SET is_completed = 1 WHERE EID = :EID";
         $stmt = $dbh->prepare($sql);
         $stmt->execute([':EID' => $eventID]);
