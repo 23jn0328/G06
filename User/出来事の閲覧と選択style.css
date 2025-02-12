@@ -133,17 +133,13 @@ body {
 .edit-button {
     width: 40px;
     padding: 8px;
-    background-color: #cccccc;
-    color: #333333;
+    background-color: #607d8b;
+    color: #ffffff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s;
-}
-
-.edit-button:hover {
-    background-color: #b3b3b3;
 }
 
 /* 金額表示 */

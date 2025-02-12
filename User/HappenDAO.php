@@ -185,7 +185,8 @@ public function add_happen(
             string $payEMID,
             int $totalMoney,
             string $happenName,
-            string $happenDate
+            string $happenDate,
+            int $smoney
         ): bool {
             try {
                 // データベース接続
@@ -197,8 +198,9 @@ public function add_happen(
                             PayEMID = :PayEMID, 
                             TotalMoney = :TotalMoney, 
                             HappenName = :HappenName,
-                            HappenDate = :HappenDate
-                        WHERE HID = :HID";
+                            HappenDate = :HappenDate,
+                            smoney = :smoney
+                        WHERE HID = :happenID";
         
                 $stmt = $dbh->prepare($sql);
         
@@ -208,17 +210,28 @@ public function add_happen(
                 $stmt->bindValue(':TotalMoney', $totalMoney, PDO::PARAM_INT);
                 $stmt->bindValue(':HappenName', $happenName, PDO::PARAM_STR);
                 $stmt->bindValue(':HappenDate', $happenDate, PDO::PARAM_STR);
+                $stmt->bindvalue(':smoney',$smoney,PDO::PARAM_INT);
                 $stmt->bindValue(':HID', $happenID, PDO::PARAM_STR);
         
                 // 実行して結果を返す
                 return $stmt->execute();
+
+
             } catch (PDOException $e) {
                 // エラーログを記録
                 error_log('Error in update_happen: ' . $e->getMessage());
                 return false;
             }
         }
-    
+        //削除
+        public function deleteHappen($happenID) {
+            $dbh = DAO::get_db_connect();
+            $sql = "DELETE FROM 出来事 WHERE HID = :happenID";
+            $stmt = $dbh->prepare($sql);
+            $stmt->bindParam(':happenID', $happenID, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+        
 }
 
 ?>

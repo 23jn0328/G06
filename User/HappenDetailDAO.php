@@ -191,4 +191,13 @@ class HappenDetailDAO
         $SakiEMID = null;
     }
 }
+    //削除
+public function deleteHappenDetailsByHID($happenID) {
+    $dbh = DAO::get_db_connect();
+    $sql = "DELETE FROM 出来事詳細 WHERE HID = :happenID";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':happenID', $happenID, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
 }
