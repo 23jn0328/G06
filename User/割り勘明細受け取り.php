@@ -3,12 +3,9 @@ require_once 'DetailrecDAO.php';
 
 $detailrecDAO = new DetailrecDAO();
 
-
-
-// 仮のデータ（実際は前ページから取得）
-$eventId = 'E000152';
-$sakiEmid = 'EM000143'; // 仮のイベントメンバーID
-$sakiKid = null; // 仮の会員ID（会員としての受け取りがある場合）
+$eventId = $_SESSION['eventID'] ?? null;
+$sakiEmid = $_GET['sakiEmid'] ?? null;
+$sakiKid = $_GET['sakiKid'] ?? null;
 
 // 支払いコンテナを取得
 $containers = $detailrecDAO->getPaymentContainers($eventId);

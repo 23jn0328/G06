@@ -1,9 +1,24 @@
 <?php
+require_once 'DAO.php';
 session_start();
 
 // セッションからメンバーリストを取得
 $members = $_SESSION['event_members'] ?? [];
 $creatorName = $_SESSION['creatorName'] ?? null;
+$eventId = $_SESSION['creatorID'] ?? null;
+
+$EID = $_SESSION['eventID'] ?? null;
+
+$motoKid = null;
+if ($creatorName) {
+    $dbh = DAO::get_db_connect();
+    $stmt = $dbh->prepare("SELECT ID FROM 会員 WHERE UserName = :creatorName");
+    $stmt->bindValue(':creatorName', $creatorName, PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $motoKid = $result['ID'] ?? null;  // IDがない場合は `null`
+    $sakiKid = $result['ID'] ?? null;  // IDがない場合は `null`
+}
 
 if (!$creatorName) {
     echo "作成者名が見つかりません。";
@@ -157,46 +172,53 @@ body {
         </a>
     </div>
 
-    <!-- 説明テキスト -->
+    <!-- 説明テキスト 
     <div id="text-center">
         <small>
             <span class="text-blue">青字</span>は受け取り金額
             <span class="mx-1">/</span>
             <span class="text-red">赤字</span>は支払い金額
         </small>
-    </div>
+    </div> -->
 
         <ul class="member-list">
-            <!-- 作成者 -->
-            <?php if ($creatorName): ?>
-                <li class="member-item">
-                    <a><?= htmlspecialchars($creatorName, ENT_QUOTES, 'UTF-8') ?></a>
-                    <div>
-                    <a href="割り勘明細受け取り.php ?>">
-                            <span class="payment-amount">受け取り</span>
-                        </a>
-                        <a href="割り勘明細.php ?>">
-                            <span class="payment-amount2">支払い</span>
-                        </a>
-                    </div>
-                </li>
-            <?php endif; ?>
+        <!-- 作成者 -->
+        <?php if ($creatorName && $motoKid): ?>
+            <li class="member-item">
+                <a><?= htmlspecialchars($creatorName, ENT_QUOTES, 'UTF-8') ?></a>
+                <div>
+                    <!-- 受け取りリンク 
+                    <a href="割り勘明細受け取り.php?eventId=<?= urlencode($eventId) ?>&sakiKid=<?= urlencode($sakiKid) ?>">
+                        <span class="payment-amount">受け取り</span>
+                    </a> -->
+                    <!-- 支払いリンク -->
+                    <a href="割り勘明細.php?eventId=<?= urlencode($eventId) ?>&motoKid=<?= urlencode($motoKid) ?>">
+                        <span class="payment-amount2">明細</span>
+                    </a>
+                </div>
+            </li>
+        <?php endif; ?>
 
-            <!-- メンバーリスト -->
-            <?php if (!empty($members)): ?>
-                <?php foreach ($members as $member): ?>
+ <!-- メンバーリスト -->
+ <?php if (!empty($members)): ?>
+            <?php foreach ($members as $member): ?>
+                <?php $motoEmid = $member['EMID'] ?? null; ?>
+                <?php if ($motoEmid): ?>
                     <li class="member-item">
                         <a><?= htmlspecialchars($member['EventMemberName'] ?? '不明なメンバー', ENT_QUOTES, 'UTF-8') ?></a>
                         <div>
-                        <a href="割り勘明細受け取り.php ?>">
+                            <!-- 受け取りリンク -->
+                            <!--<a href="割り勘明細受け取り.php?eventId=<?= urlencode($eventId) ?>&sakiEmid=<?= urlencode($sakiEmid) ?>">
                                 <span class="payment-amount">受け取り</span>
-                            </a>
-                            <a href="割り勘明細.php ?>">
-                                <span class="payment-amount2">支払い</span>
+                            </a> -->
+                            <!-- 支払いリンク -->
+                            <a href="割り勘明細.php?eventId=<?= urlencode($eventId) ?>&motoEmid=<?= urlencode($motoEmid) ?>">
+                                <span class="payment-amount2">明細</span>
                             </a>
                         </div>
                     </li>
-                <?php endforeach; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
             <?php else: ?>
                 <li>メンバーが見つかりません。</li>
             <?php endif; ?>

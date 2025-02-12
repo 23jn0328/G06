@@ -21,6 +21,8 @@ if (!$eventID) {
     exit;
 }
 
+$_SESSION['eventID'] = $eventID;
+
 try {
     // データベース接続
     $dbh = DAO::get_db_connect();

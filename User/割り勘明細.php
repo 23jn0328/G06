@@ -4,9 +4,13 @@ require_once 'DetailDAO.php';
 $detailDAO = new DetailDAO();
 
 session_start();
-$eventId = $_GET['eventId'] ?? null;
+$eventId = $_SESSION['eventID'] ?? null;
 $motoEmid = $_GET['motoEmid'] ?? null;
-$motoKid = $_GET['sakiEmid'] ?? null;
+$motoKid = $_GET['motoKid'] ?? null;
+
+var_dump($eventId);
+var_dump($motoEmid);
+var_dump($motoKid);
 
 
 // 支払いコンテナを取得
