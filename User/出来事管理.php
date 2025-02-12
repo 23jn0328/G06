@@ -83,8 +83,8 @@ $memberList = $happenDao->get_member_list($eventID);
             <input type="hidden" name="eventID" value="<?= htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8') ?>">
         </div>
         <div class="buttons">
-            <button type="submit" class="button button-create" id="add-button">作成</button>
-            <button type="button" class="button button-back" onclick="history.back()">戻る</button>
+        <button class="button button-create" id="create-button">更新</button>
+        <button class="button button-back" onclick="history.back()">戻る</button>
         </div>
     </form>
 
