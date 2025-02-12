@@ -92,8 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // echo "受け取ったイベントID: " . htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8');
-    // header('Location: 出来事の閲覧と選択.php?eventID=' . urlencode($eventID));
+     echo "受け取ったイベントID: " . htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8');
+     header('Location: 出来事の閲覧と選択.php?eventID=' . urlencode($eventID));
 
-    // exit;
+     exit;
 }

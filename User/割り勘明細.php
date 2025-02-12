@@ -3,10 +3,15 @@ require_once 'DetailDAO.php';
 
 $detailDAO = new DetailDAO();
 
+session_start();
+$eventId = $_GET['eventId'] ?? null;
+$motoEmid = $_GET['motoEmid'] ?? null;
+$motoKid = $_GET['sakiEmid'] ?? null;
+
 // 仮のデータ（実際は前ページから取得）
-$eventId = 'E000001';
-$motoEmid = 'EM000001'; // 仮のイベントメンバーID
-$motoKid = null; // 仮の会員ID（会員としての支払いがある場合）
+$eventId = 'E000152';
+$motoEmid = NULL; // 仮のイベントメンバーID
+$motoKid = 'M000040'; // 仮の会員ID（会員としての支払いがある場合）
 
 // 支払いコンテナを取得
 $containers = $detailDAO->getPaymentContainers($eventId);
@@ -30,53 +35,61 @@ $containers = $detailDAO->getPaymentContainers($eventId);
         </header>
         <div id="scrollable-content">
             <?php
-            // イベント内の支払者ごとの情報をまとめるために配列を準備
-            $paymentSummary = [];
+            // 表示済みのペアを格納する配列
+            $displayedPairs = [];
 
             foreach ($containers as $container) : 
                 // 受取者のIDを取得 (SakiEMIDが優先、なければSakiKID)
                 $sakiId = $container['SakiEMID'] ?? $container['SakiKID'];
+                $motoId = $container['MotoEMID'] ?? $container['MotoKID'];
 
-                if ($sakiId === null) {
-                    continue; // 受取者が NULL の場合スキップ
+                if($motoEmid === $sakiId){
+                    continue;
                 }
-
-                // 支払者と受取者のペアごとに金額を集計
-                if ($motoEmid !== null) {
-                    $totalAmount = $detailDAO->getTotalAmountByMotoEMID($motoEmid, $sakiId);
-                    $details = $detailDAO->getPaymentDetails($motoEmid, $sakiId);
-                } elseif ($motoKid !== null) {
-                    $totalAmount = $detailDAO->getTotalAmountByMotoKID($motoKid, $sakiId);
-                    $details = $detailDAO->getPaymentDetails($motoKid, $sakiId);
-                } else {
-                    continue; // NULL の場合、スキップ
+                if($motoKid === $sakiId){
+                    continue;
                 }
+                    if ($sakiId === null) {
+                        continue; // 受取者が NULL の場合スキップ
+                    }
 
-                // 支払者と受取者の名前を取得
-                $motoUserName = $detailDAO->getUserNameByID($motoEmid ?? $motoKid);
-                $sakiUserName = $detailDAO->getUserNameByID($sakiId);
+                    // 支払者と受取者のペアごとに金額を集計
+                    if ($motoEmid !== null) {
+                        if (strpos($sakiId, 'M') === 0) {
+                            $totalAmount = $detailDAO->getTotalAmountBySakiKID($motoEmid, $sakiId);
+                            $details = $detailDAO->getPaymentDetailsBySakiKID($motoEmid, $sakiId);
+                        }                    
+                        else{
+                            $totalAmount = $detailDAO->getTotalAmountByMotoEMID($motoEmid, $sakiId);
+                            $details = $detailDAO->getPaymentDetailsByMotoEMID($motoEmid, $sakiId);
+                        }
+                    } elseif ($motoKid !== null) {
+                        $totalAmount = $detailDAO->getTotalAmountByMotoKID($motoKid, $sakiId);
+                        $details = $detailDAO->getPaymentDetailsByMotoKID($motoKid, $sakiId);
+                    } else {
+                        continue; // NULL の場合、スキップ
+                    }
+                    
 
-                // 既に支払者-受取者ペアが配列に存在する場合、金額を足し合わせる
-                if (isset($paymentSummary[$motoUserName][$sakiUserName])) {
-                    $paymentSummary[$motoUserName][$sakiUserName]['totalAmount'] += $totalAmount;
-                } else {
-                    $paymentSummary[$motoUserName][$sakiUserName] = [
-                        'totalAmount' => $totalAmount,
-                        'details' => $details
-                    ];
-                }
+                    // 支払者と受取者の名前を取得
+                    $motoUserName = $detailDAO->getUserNameByID($motoEmid ?? $motoKid);
+                    $sakiUserName = $detailDAO->getUserNameByID($sakiId);
 
-            endforeach;
+                    // 既に同じ支払者 ➡ 受取者ペアが表示済みならスキップ
+                    $pairKey = "{$motoUserName}_{$sakiUserName}";
+                    if (isset($displayedPairs[$pairKey])) {
+                        continue;
+                    }
 
-            // 支払者-受取者ペアごとの金額を表示
-            foreach ($paymentSummary as $motoUserName => $sakiData) :
-                foreach ($sakiData as $sakiUserName => $data) :
+                    // 表示済みとして登録
+                    $displayedPairs[$pairKey] = true;
+
             ?>
                 <div class="payment-card">
                     <h2><?php echo htmlspecialchars($motoUserName); ?> ➡ <?php echo htmlspecialchars($sakiUserName); ?> 
-                        <span class="payment-amount">￥<?php echo number_format($data['totalAmount']); ?></span>
+                        <span class="payment-amount">￥<?php echo number_format($totalAmount); ?></span>
                     </h2>
-                    <?php foreach ($data['details'] as $detail) : ?>
+                    <?php foreach ($details as $detail) : ?>
                         <div class="event-item">
                             <div class="event-name"><?php echo htmlspecialchars($detail['HappenName']); ?></div>
                             <div class="event-amount">￥<?php echo number_format($detail['SMoney']); ?></div>
@@ -84,10 +97,7 @@ $containers = $detailDAO->getPaymentContainers($eventId);
                         </div>
                     <?php endforeach; ?>
                 </div>
-            <?php 
-                endforeach;
-            endforeach;
-            ?>
+            <?php endforeach; ?>
         </div>
     </div>
 </body>

@@ -70,10 +70,10 @@ if (!$creatorName) {
                 <li class="member-item">
                     <a><?= htmlspecialchars($creatorName, ENT_QUOTES, 'UTF-8') ?></a>
                     <div>
-                        <a href="割り勘明細受け取り.php">
+                    <a href="割り勘明細受け取り.php?eventId=<?php echo urlencode($eventId); ?>&motoId=<?php echo urlencode($motoEmid); ?>$sakiId=<?php echo urlencode($sakiid); ?>">
                             <span class="payment-amount">¥4000</span>
                         </a>
-                        <a href="割り勘明細.php">
+                        <a href="割り勘明細.php?eventId=<?php echo urlencode($eventId); ?>&motoId=<?php echo urlencode($motoEmid); ?>$sakiId=<?php echo urlencode($sakiid); ?>">
                             <span class="payment-amount2">¥2000</span>
                         </a>
                     </div>
@@ -86,10 +86,10 @@ if (!$creatorName) {
                     <li class="member-item">
                         <a><?= htmlspecialchars($member['EventMemberName'] ?? '不明なメンバー', ENT_QUOTES, 'UTF-8') ?></a>
                         <div>
-                            <a href="割り勘明細受け取り.php">
+                        <a href="割り勘明細受け取り.php?eventId=<?php echo urlencode($eventId); ?>&motoId=<?php echo urlencode($motoEmid); ?>$sakiId=<?php echo urlencode($sakiid); ?>">
                                 <span class="payment-amount">¥4000</span>
                             </a>
-                            <a href="割り勘明細.php">
+                            <a href="割り勘明細.php?eventId=<?php echo urlencode($eventId); ?>&motoId=<?php echo urlencode($motoEmid); ?>$sakiId=<?php echo urlencode($sakiid); ?>">
                                 <span class="payment-amount2">¥2000</span>
                             </a>
                         </div>
