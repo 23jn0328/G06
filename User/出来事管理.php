@@ -51,12 +51,12 @@ $memberList = $happenDao->get_member_list($eventID);
             
             <label for="member-selection" class="bold-text">メンバー選択</label>
             <div class="checkbox-group" id="member-selection">
-            <input type="checkbox" name="members[]" value="<?= $user_id ?>" onclick="calculatePerPerson()">
-            <?= htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8') ?>
+                <input type="checkbox" name="members[]" value="<?= $user_id ?>" onclick="calculatePerPerson()">
+                <?= htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8') ?>
                 <?php foreach ($memberList as $member): ?>
                     <label>
                         <input type="checkbox" name="members[]" value="<?= $member['EMID'] ?>" onclick="calculatePerPerson()">
-                            <?= htmlspecialchars($member['EventMemberName'], ENT_QUOTES, 'UTF-8') ?>
+                        <?= htmlspecialchars($member['EventMemberName'], ENT_QUOTES, 'UTF-8') ?>
                     </label>
                 <?php endforeach; ?>
             </div>
@@ -83,14 +83,15 @@ $memberList = $happenDao->get_member_list($eventID);
             <input type="hidden" name="eventID" value="<?= htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8') ?>">
         </div>
         <div class="buttons">
-        <button class="button button-create" id="create-button">更新</button>
-        <button class="button button-back" onclick="history.back()">戻る</button>
+            <!-- 修正：onclickのクオートの修正 -->
+            <button type="submit" class="button button-create" id="add-button" onclick="location.href='config_happen.php?eventID=<?= $eventID ?>'">更新</button>
+
+            <button type="button" class="button button-back" onclick="history.back()">戻る</button>
         </div>
     </form>
 
     <script>
         function calculatePerPerson() {
-            
             const amount = parseFloat(document.getElementById('amount').value);
             const checkboxes = document.querySelectorAll('#member-selection input[type="checkbox"]');
             let selectedCount = 0;

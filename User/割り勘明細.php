@@ -10,8 +10,8 @@ $motoKid = $_GET['sakiEmid'] ?? null;
 
 // 仮のデータ（実際は前ページから取得）
 $eventId = 'E000152';
-$motoEmid = NULL; // 仮のイベントメンバーID
-$motoKid = 'M000040'; // 仮の会員ID（会員としての支払いがある場合）
+$motoEmid = 'EM000143'; // 仮のイベントメンバーID
+$motoKid = null; // 仮の会員ID（会員としての支払いがある場合）
 
 // 支払いコンテナを取得
 $containers = $detailDAO->getPaymentContainers($eventId);
@@ -49,9 +49,9 @@ $containers = $detailDAO->getPaymentContainers($eventId);
                 if($motoKid === $sakiId){
                     continue;
                 }
-                    if ($sakiId === null) {
-                        continue; // 受取者が NULL の場合スキップ
-                    }
+                if ($sakiId === null) {
+                    continue; // 受取者が NULL の場合スキップ
+                }
 
                     // 支払者と受取者のペアごとに金額を集計
                     if ($motoEmid !== null) {
@@ -98,6 +98,15 @@ $containers = $detailDAO->getPaymentContainers($eventId);
                     <?php endforeach; ?>
                 </div>
             <?php endforeach; ?>
+        </div>
+                <!-- 固定されたPayPayリンクボタン -->
+                <div id="link-container">
+            <!-- 左寄せのPayPayリンク -->
+            <a id="paypay-link" href="https://paypay.ne.jp/" target="_blank">
+                <img src="https://image.paypay.ne.jp/page/notice-merchant/entry/20181016/159/img_logo_1.jpg" alt="PayPay">
+            </a>
+            <!-- 右寄せの戻るリンク -->
+            <a id="return-link" href="割り勘総額.php">戻る</a>
         </div>
     </div>
 </body>

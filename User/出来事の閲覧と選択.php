@@ -88,7 +88,6 @@ $_SESSION['is_event_completed'] = $is_event_completed;
                 </a>
             </div>
         </header>
-
         <!-- イベント名 -->
         <h2 class="event-name">イベント名: <?= htmlspecialchars($event['EventName'], ENT_QUOTES, 'UTF-8') ?></h2>
 
@@ -128,9 +127,17 @@ $_SESSION['is_event_completed'] = $is_event_completed;
                                 <li><?= htmlspecialchars($member[''], ENT_QUOTES, 'UTF-8') ?></li>
                             <?php endforeach; ?>
                         <?php endif; ?>
+                        <!-- フォーム内で削除処理 -->
+                    <form action="delete_happen.php" method="POST" onsubmit="return confirm('本当に削除しますか？');">
+                        <!-- hidden フィールドで happenID と eventID を送信 -->
+                        <input type="hidden" name="happenID" value="<?= htmlspecialchars($happen['HID'], ENT_QUOTES, 'UTF-8') ?>">
+                        <input type="hidden" name="eventID" value="<?= htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8') ?>">
 
-                        <button class="edit-button" onclick="location.href='出来事管理.php?eventID=<?= htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8') ?>&happenID=<?= htmlspecialchars($happen['HID'], ENT_QUOTES, 'UTF-8') ?>'">🖊</button>
-                    </div>
+                        <!-- ゴミ箱アイコン -->
+                        <button type="submit" class="edit-button" >🗑️</button>
+                    </form>
+
+                        </div>
                     <div class="amount">￥<?= number_format($happen['TotalMoney']) ?></div>
                 </div>
             <?php endforeach; ?>
@@ -145,6 +152,15 @@ $_SESSION['is_event_completed'] = $is_event_completed;
         <?php if (!$is_event_completed): ?>
             <button class="end-event-button" onclick="location.href='イベント終了.php?eventID=<?= htmlspecialchars($eventID, ENT_QUOTES, 'UTF-8') ?>'">イベント終了</button>
         <?php endif; ?>
+
+        <script>
+    function confirmDelete(happenid, eventID) {
+    if (confirm("本当に削除しますか？")) {
+        window.location.href = 'delete_happen.php?happenID=' + happenID + '&eventID=' + eventID;
+    }
+    }
+    </script>
+
     </div>
 </body>
 </html>
