@@ -1,13 +1,28 @@
 <?php
+require_once 'DetailDAO.php';
+require_once 'EventDAO.php';  // EventDAOの読み込み
+require_once 'HappenDAO.php';
+
+$detailDAO = new DetailDAO();
+$eventDAO = new EventDAO();  // EventDAOのインスタンス化
+
 session_start();
 
 // セッションからメンバーリストを取得
 $members = $_SESSION['event_members'] ?? [];
 $creatorName = $_SESSION['creatorName'] ?? null;
-
+$eventID = $_GET['eventID'] ?? null;  // セッションからイベントIDを取得
+var_dump($eventID);
 if (!$creatorName) {
     echo "作成者名が見つかりません。";
     exit;
+}
+
+// イベント終了処理
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $eventDAO->set_event_completed($eventID);  // set_event_completed関数を呼び出してイベントを完了にする
+    header('Location: イベントの閲覧と選択.php');  // イベント完了後、イベント閲覧ページにリダイレクト
+    exit();
 }
 
 ?>
@@ -166,71 +181,70 @@ body {
         </small>
     </div>
 
-        <ul class="member-list">
-            <!-- 作成者 -->
-            <?php if ($creatorName): ?>
-                
+    <ul class="member-list">
+        <!-- 作成者 -->
+        <?php if ($creatorName): ?>
+            <li class="member-item">
+                <!-- チェックボックスを追加 -->
+                <input type="checkbox" class="transaction-checkbox" data-amount="<?php echo htmlspecialchars($totalAmount); ?>">
+                <a><?= htmlspecialchars($creatorName, ENT_QUOTES, 'UTF-8') ?></a>
+                <div>
+                    <a href="割り勘明細受け取り.php">
+                        <span class="payment-amount">受け取り</span>
+                    </a>
+                    <a href="割り勘明細.php">
+                        <span class="payment-amount2">支払い</span>
+                    </a>
+                </div>
+            </li>
+        <?php endif; ?>
+
+        <!-- メンバーリスト -->
+        <?php if (!empty($members)): ?>
+            <?php foreach ($members as $member): ?>
                 <li class="member-item">
                     <!-- チェックボックスを追加 -->
                     <input type="checkbox" class="transaction-checkbox" data-amount="<?php echo htmlspecialchars($totalAmount); ?>">
-                    <a><?= htmlspecialchars($creatorName, ENT_QUOTES, 'UTF-8') ?></a>
+                    <a><?= htmlspecialchars($member['EventMemberName'] ?? '不明なメンバー', ENT_QUOTES, 'UTF-8') ?></a>
                     <div>
-                    <a href="割り勘明細受け取り.php ?>">
+                        <a href="割り勘明細受け取り.php">
                             <span class="payment-amount">受け取り</span>
                         </a>
-                        <a href="割り勘明細.php ?>">
+                        <a href="割り勘明細.php">
                             <span class="payment-amount2">支払い</span>
                         </a>
                     </div>
                 </li>
-            <?php endif; ?>
-
-            <!-- メンバーリスト -->
-            <?php if (!empty($members)): ?>
-                <?php foreach ($members as $member): ?>
-                    <li class="member-item">
-                        <!-- チェックボックスを追加 -->
-                    <input type="checkbox" class="transaction-checkbox" data-amount="<?php echo htmlspecialchars($totalAmount); ?>">
-                        <a><?= htmlspecialchars($member['EventMemberName'] ?? '不明なメンバー', ENT_QUOTES, 'UTF-8') ?></a>
-                        <div>
-                        <a href="割り勘明細受け取り.php ?>">
-                                <span class="payment-amount">受け取り</span>
-                            </a>
-                            <a href="割り勘明細.php ?>">
-                                <span class="payment-amount2">支払い</span>
-                            </a>
-                        </div>
-                    </li>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <li>メンバーが見つかりません。</li>
-            <?php endif; ?>
-        </ul>
-    <form method="POST" action="イベントの閲覧と選択.php">
-            <input type="hidden" name="eventId" value="<?php echo $eventId; ?>" />
-            <button type="submit" id="endButton" disabled>イベント終了</button>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <li>メンバーが見つかりません。</li>
+        <?php endif; ?>
+    </ul>
+    
+    <!-- イベント終了フォーム -->
+    <form method="POST" action="">
+    <input type="hidden" name="eventID" value="<?php echo $eventID; ?>" />
+        <button type="submit" id="endButton" disabled>イベント終了</button>
     </form>
-      <!-- 戻るボタン -->
-      <a id="return-link" href="javascript:void(0);" onclick="history.back();">戻る</a>
-    </div>
 
-    <script>
-        const checkboxes = document.querySelectorAll('.transaction-checkbox');
-        const endButton = document.getElementById('endButton');
-
-        function updateButtonState() {
-            // すべてのチェックボックスがチェックされている場合のみボタンを有効化
-            const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
-            endButton.disabled = !allChecked;
-        }
-
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', updateButtonState);
-        });
-    </script>
-
+    <!-- 戻るボタン -->
+    <a id="return-link" href="javascript:void(0);" onclick="history.back();">戻る</a>
 </div>
+
+
+<script>
+    const checkboxes = document.querySelectorAll('.transaction-checkbox');
+    const endButton = document.getElementById('endButton');
+
+    function updateButtonState() {
+        // すべてのチェックボックスがチェックされている場合のみボタンを有効化
+        const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+        endButton.disabled = !allChecked;
+    }
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateButtonState);
+    });
+</script>
 
 </body>
 </html>
-
