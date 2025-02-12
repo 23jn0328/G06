@@ -1,49 +1,133 @@
+/* グローバルスタイル */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f2f2f2;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
     color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
+    margin: 0;
 }
 
-.container {
-    width: 95%;
+/* メインコンテナ */
+#main-container {
+    width: 90%;
     max-width: 500px;
-    padding: 30px;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    border: 1px solid #ccc;
+    overflow-y: auto;
 }
 
-h2 {
+/* ヘッダー */
+header {
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 22px;
-    color: #444;
+    margin-bottom: 20px;
 }
 
-.transaction-list {
-    margin-bottom: 30px;
+#logo img {
+    max-width: 250px;
+    height: auto;
+    margin: 10px auto;
+    display: block;
 }
 
+/* 支払い内容のリスト */
+.payment-card {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment-card h2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.payment-amount {
+    font-size: 16px;
+    color: #4caf50;
+}
+
+/* チェックボックス */
+.transaction-checkbox {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* ボタン */
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: not-allowed;
+    background-color: #ccc;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+button:enabled {
+    cursor: pointer;
+    background-color: #4caf50;
+}
+
+button:enabled:hover {
+    background-color: #45a049;
+}
+
+/* ボタンが無効な場合 */
+button:disabled {
+    background-color: #aaa;
+}
+
+/* イベント終了ボタン */
+#endButton {
+    font-weight: bold;
+    font-size: 18px;
+    padding: 15px 30px;
+    background-color: #607d8b;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: not-allowed;
+    transition: background-color 0.3s;
+}
+
+#endButton:enabled {
+    background-color: #4caf50;
+    cursor: pointer;
+}
+
+#endButton:enabled:hover {
+    background-color: #45a049;
+}
+
+/* その他のスタイル */
 .transaction {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 0;
-    border-bottom: 2px solid #ddd;
-}
-
-.transaction:last-child {
-    border-bottom: none;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
 }
 
 .transaction span {
     font-size: 18px;
+    color: #333;
     flex: 2;
 }
 
@@ -53,56 +137,34 @@ h2 {
     font-size: 20px;
     font-weight: bold;
     color: #4caf50;
+    display: flex;
+    align-items: center;
 }
 
 .transaction input[type="checkbox"] {
-    flex: 0;
-    width: 25px;
-    height: 25px;
     margin-left: 15px;
-    cursor: pointer;
 }
 
-.end-button {
-    width: 100%;
-    padding: 20px;
-    font-size: 18px;
-    color: #fff;
-    background-color: #aaa;
-    border: none;
-    border-radius: 10px;
-    cursor: not-allowed;
-    transition: background-color 0.3s;
+#scrollable-content {
+    max-height: 400px;
+    overflow-y: auto;
 }
 
-.end-button.enabled {
-    background-color: #4caf50;
-    cursor: pointer;
-}
+/* メディアクエリ：レスポンシブ対応 */
+@media (max-width: 768px) {
+    #main-container {
+        width: 95%;
+    }
 
-.end-button.enabled:hover {
-<<<<<<< HEAD
-    background-color: #607d8b;
+    .payment-card h2 {
+        font-size: 16px;
+    }
+
+    .payment-amount {
+        font-size: 14px;
+    }
+
+    #endButton {
+        font-size: 16px;
+    }
 }
-#main-container{
-    width: 90%;
-    max-width: 500px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    padding: 30px;
-    background-color: #b0b0b0;
-    border-radius: 15px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    
-}
-.settled-mark {
-    color: green;
-    font-weight: bold;
-    margin-left: 10px;
-}
-=======
-    background-color: #45a049;
-}
->>>>>>> 968aec9bf43f160acaadb3685e45833936322188
