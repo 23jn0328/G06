@@ -16,8 +16,8 @@ if ($creatorName) {
     $stmt->bindValue(':creatorName', $creatorName, PDO::PARAM_STR);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    $motoKid = $result['ID'] ?? null;  // IDがない場合は `null`
-    $sakiKid = $result['ID'] ?? null;  // IDがない場合は `null`
+    $motoKid = $result['ID'] ?? null;  // IDがない場合は null
+    $sakiKid = $result['ID'] ?? null;  // IDがない場合は null
 }
 
 if (!$creatorName) {
@@ -232,4 +232,4 @@ body {
 </div>
 
 </body>
-</html>
+</html
